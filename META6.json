@@ -1,0 +1,11 @@
+{
+    "name": "Xapian",
+    "version": "0.1.0",
+    "description": "Bindings to Xapian search library",
+    "author": "Rob Hoelz",
+    "depends": ["LibraryMake"],
+    "source-url": "git://github.com/hoelzro/p6-xapian",
+    "provides": {
+        "Xapian": "lib/Xapian.pm"
+    }
+}
