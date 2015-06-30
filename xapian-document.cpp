@@ -10,77 +10,111 @@ typedef Xapian::Document *xapian_document;
 xapian_document
 xapian_document_new(void)
 {
+    return new Xapian::Document();
 }
 
 void
 xapian_document_free(xapian_document self)
 {
+    delete self;
 }
 
 const char *
-xapian_document_get_value(int slot)
+xapian_document_get_value(xapian_document self, int slot)
 {
+    std::string value = self->get_value(slot);
+    return strdup(value.c_str());
 }
 
 void
-xapian_document_add_value(int slot, const char *value)
+xapian_document_add_value(xapian_document self, int slot, const char *value)
 {
+    self->add_value(slot, std::string(value));
 }
 
 void
-xapian_document_remove_value(int slot)
+xapian_document_remove_value(xapian_document self, int slot)
 {
+    self->remove_value(slot);
 }
 
 void
-xapian_document_clear_values(void)
+xapian_document_clear_values(xapian_document self)
 {
+    self->clear_values();
 }
 
 const char *
-xapian_document_get_data(void)
+xapian_document_get_data(xapian_document self)
 {
+    std::string data = self->get_data();
+    return strdup(data.c_str());
 }
 
 void
-xapian_document_set_data(const char *data)
+xapian_document_set_data(xapian_document self, const char *data)
 {
-}
-
-// XXX optional argument?
-void
-xapian_document_add_posting(const char *term, unsigned int tpos, unsigned int wdfinc)
-{
+    self->set_data(std::string(data));
 }
 
 void
-xapian_document_add_term(const char *term, unsigned int wdfinc)
+xapian_document_add_posting(xapian_document self, const char *term, unsigned int tpos)
 {
+    self->add_posting(std::string(term), tpos);
 }
 
 void
-xapian_document_add_boolean_term(const char *term)
+xapian_document_add_posting2(xapian_document self, const char *term, unsigned int tpos, unsigned int wdfinc)
 {
+    self->add_posting(std::string(term), tpos, wdfinc);
 }
 
 void
-xapian_document_remove_posting(const char *term, unsigned int tpos, unsigned int wdfdec)
+xapian_document_add_term(xapian_document self, const char *term)
 {
+    self->add_term(std::string(term));
 }
 
 void
-xapian_document_remove_term(const char *term)
+xapian_document_add_term2(xapian_document self, const char *term, unsigned int wdfinc)
 {
+    self->add_term(std::string(term), wdfinc);
 }
 
 void
-xapian_document_clear_terms(void)
+xapian_document_add_boolean_term(xapian_document self, const char *term)
 {
+    self->add_boolean_term(std::string(term));
+}
+
+void
+xapian_document_remove_posting(xapian_document self, const char *term, unsigned int tpos)
+{
+    self->remove_posting(std::string(term), tpos);
+}
+
+void
+xapian_document_remove_posting2(xapian_document self, const char *term, unsigned int tpos, unsigned int wdfdec)
+{
+    self->remove_posting(std::string(term), tpos, wdfdec);
+}
+
+void
+xapian_document_remove_term(xapian_document self, const char *term)
+{
+    self->remove_term(std::string(term));
+}
+
+void
+xapian_document_clear_terms(xapian_document self)
+{
+    self->clear_values();
 }
 
 unsigned int
-xapian_document_termlist_count(void)
+xapian_document_termlist_count(xapian_document self)
 {
+    return self->termlist_count();
 }
 
 
@@ -90,8 +124,9 @@ termlist_end
 */
 
 unsigned int
-xapian_document_values_count(void)
+xapian_document_values_count(xapian_document self)
 {
+    return self->values_count();
 }
 
 /*
@@ -100,13 +135,16 @@ values_end
 */
 
 unsigned int
-xapian_document_get_docid(void)
+xapian_document_get_docid(xapian_document self)
 {
+    return self->get_docid();
 }
 
 const char *
-xapian_document_get_description(void)
+xapian_document_get_description(xapian_document self)
 {
+    std::string description = self->get_description();
+    return strdup(description.c_str());
 }
 
 }
