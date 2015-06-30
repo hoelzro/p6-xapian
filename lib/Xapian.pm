@@ -140,9 +140,9 @@ module Xapian {
         my sub xapian_term_generator_new() returns TermGenerator is native('xapian-helper') { * }
         my sub xapian_term_generator_free(TermGenerator $self) is native('xapian-helper') { * }
         my sub xapian_term_generator_set_stemmer(TermGenerator $self, Stem $stemmer) is native('xapian-helper') { * }
-        #my sub xapian_term_generator_set_stopper(TermGenerator $self, xapian_stopper stopper) is native('xapian-helper') { * }
+        #my sub xapian_term_generator_set_stopper(TermGenerator $self, xapian_stopper $stopper) is native('xapian-helper') { * }
         my sub xapian_term_generator_set_document(TermGenerator $self, Document $document) is native('xapian-helper') { * }
-        #my sub xapian_term_generator_set_database(TermGenerator $self, xapian_writable_database db) is native('xapian-helper') { * }
+        #my sub xapian_term_generator_set_database(TermGenerator $self, xapian_writable_database $db) is native('xapian-helper') { * }
         my sub xapian_term_generator_set_max_word_length(TermGenerator $self, uint $max-word-length) is native('xapian-helper') { * }
         my sub xapian_term_generator_index_text(TermGenerator $self, Str $text) is native('xapian-helper') { * }
         my sub xapian_term_generator_index_text2(TermGenerator $self, Str $text, uint $wdf_inc) is native('xapian-helper') { * }
@@ -155,5 +155,81 @@ module Xapian {
         my sub xapian_term_generator_get_termpos(TermGenerator $self)  returns uint  is native('xapian-helper') { * }
         my sub xapian_term_generator_set_termpos(TermGenerator $self, uint $termpos) is native('xapian-helper') { * }
         my sub xapian_term_generator_get_description(TermGenerator $self) returns Str is native('xapian-helper') { * }
+
+        method new() returns TermGenerator {
+            xapian_term_generator_new()
+        }
+
+        submethod DESTROY() {
+            xapian_term_generator_free(self)
+        }
+
+        method set_stemmer(TermGenerator $self, Stem $stemmer) {
+            xapian_term_generator_set_stemmer($self, $stemmer)
+        }
+
+        #`(
+        method set_stopper(TermGenerator $self, xapian_stopper $stopper) {
+            xapian_term_generator_set_stopper($self, $stopper)
+        }
+        )
+
+        method set_document(TermGenerator $self, Document $document) {
+            xapian_term_generator_set_document($self, $document)
+        }
+
+        #`(
+        method set_database(TermGenerator $self, xapian_writable_database $db) {
+            xapian_term_generator_set_database($self, $db)
+        }
+        )
+
+        method set_max_word_length(TermGenerator $self, uint $max-word-length) {
+            xapian_term_generator_set_max_word_length($self, $max-word-length);
+        }
+
+        multi method index_text(TermGenerator $self, Str $text) {
+            xapian_term_generator_index_text($self, $text)
+        }
+
+        multi method index_text(TermGenerator $self, Str $text, uint $wdf-inc) {
+            xapian_term_generator_index_text2($self, $text, $wdf-inc)
+        }
+
+        multi method index_text(TermGenerator $self, Str $text, uint $wdf-inc, Str $prefix) {
+            xapian_term_generator_index_text3($self, $text, $wdf-inc, $prefix)
+        }
+
+        multi method index_text_without_positions(TermGenerator $self, Str $text) {
+            xapian_term_generator_index_text_without_positions($self, $text)
+        }
+
+        multi method index_text_without_positions(TermGenerator $self, Str $text, uint $wdf-inc) {
+            xapian_term_generator_index_text_without_positions2($self, $text, $wdf-inc)
+        }
+
+        multi method index_text_without_positions(TermGenerator $self, Str $text, uint $wdf-inc, Str $prefix) {
+            xapian_term_generator_index_text_without_positions3($self, $text, $wdf-inc, $prefix)
+        }
+
+        multi method increase_termpos(TermGenerator $self) {
+            xapian_term_generator_increase_termpos($self)
+        }
+
+        multi method increase_termpos(TermGenerator $self, uint $delta) {
+            xapian_term_generator_increase_termpos2($self, $delta)
+        }
+
+        method get_termpos(TermGenerator $self) returns uint {
+            xapian_term_generator_get_termpos($self)
+        }
+
+        method set_termpos(TermGenerator $self, uint $termpos) {
+            xapian_term_generator_set_termpos($self, $termpos)
+        }
+
+        method get_description(TermGenerator $self) returns Str {
+            xapian_term_generator_get_description($self)
+        }
     }
 }
