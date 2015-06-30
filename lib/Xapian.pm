@@ -135,4 +135,25 @@ module Xapian {
             xapian_stem_description(self)
         }
     }
+
+    class TermGenerator is repr('CPointer') {
+        my sub xapian_term_generator_new() returns TermGenerator is native('xapian-helper') { * }
+        my sub xapian_term_generator_free(TermGenerator $self) is native('xapian-helper') { * }
+        my sub xapian_term_generator_set_stemmer(TermGenerator $self, Stem $stemmer) is native('xapian-helper') { * }
+        #my sub xapian_term_generator_set_stopper(TermGenerator $self, xapian_stopper stopper) is native('xapian-helper') { * }
+        my sub xapian_term_generator_set_document(TermGenerator $self, Document $document) is native('xapian-helper') { * }
+        #my sub xapian_term_generator_set_database(TermGenerator $self, xapian_writable_database db) is native('xapian-helper') { * }
+        my sub xapian_term_generator_set_max_word_length(TermGenerator $self, uint $max-word-length) is native('xapian-helper') { * }
+        my sub xapian_term_generator_index_text(TermGenerator $self, Str $text) is native('xapian-helper') { * }
+        my sub xapian_term_generator_index_text2(TermGenerator $self, Str $text, uint $wdf_inc) is native('xapian-helper') { * }
+        my sub xapian_term_generator_index_text3(TermGenerator $self, Str $text, uint $wdf_inc, Str $prefix) is native('xapian-helper') { * }
+        my sub xapian_term_generator_index_text_without_positions(TermGenerator $self, Str $text) is native('xapian-helper') { * }
+        my sub xapian_term_generator_index_text_without_positions2(TermGenerator $self, Str $text, uint $wdf_inc) is native('xapian-helper') { * }
+        my sub xapian_term_generator_index_text_without_positions3(TermGenerator $self, Str $text, uint $wdf_inc, Str $prefix) is native('xapian-helper') { * }
+        my sub xapian_term_generator_increase_termpos(TermGenerator $self) is native('xapian-helper') { * }
+        my sub xapian_term_generator_increase_termpos2(TermGenerator $self, uint $delta) is native('xapian-helper') { * }
+        my sub xapian_term_generator_get_termpos(TermGenerator $self)  returns uint  is native('xapian-helper') { * }
+        my sub xapian_term_generator_set_termpos(TermGenerator $self, uint $termpos) is native('xapian-helper') { * }
+        my sub xapian_term_generator_get_description(TermGenerator $self) returns Str is native('xapian-helper') { * }
+    }
 }
