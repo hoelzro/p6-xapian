@@ -259,8 +259,9 @@ module Xapian {
         my sub xapian_writable_database_get_description(WritableDatabase $self) returns Str is native('xapian-helper') { * }
 
         method DESTROY() { xapian_writable_database_free(self) }
+        proto method new(*@args) { * }
         multi method new() returns WritableDatabase { xapian_writable_database_new() }
-        multi method new(Str $path, int $action) returns WritableDatabase { xapian_writable_database_new2($path, $action) }
+        multi method new(Str $path, Int $action) returns WritableDatabase { xapian_writable_database_new2($path, $action) }
         method commit() { xapian_writable_database_commit(self) }
         method flush() { xapian_writable_database_flush(self) }
         multi method begin_transaction() { xapian_writable_database_begin_transaction(self) }
