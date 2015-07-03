@@ -1,12 +1,14 @@
 XAPIAN_SOURCES = 		\
     xapian-document.cpp 	\
     xapian-stem.cpp 		\
-    xapian-termgenerator.cpp
+    xapian-termgenerator.cpp	\
+    xapian-writable-database.cpp
 
 XAPIAN_OBJECTS = 		\
     xapian-document%O% 		\
     xapian-stem%O% 		\
-    xapian-termgenerator%O%
+    xapian-termgenerator%O%	\
+    xapian-writable-database%O%
 
 all: %DESTDIR%/xapian-helper%SO%
 

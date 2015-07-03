@@ -232,4 +232,54 @@ module Xapian {
             xapian_term_generator_get_description($self)
         }
     }
+
+    class WritableDatabase is repr('CPointer') {
+        my sub xapian_writable_database_free(WritableDatabase $self) is native('xapian-helper') { * }
+        my sub xapian_writable_database_new() returns WritableDatabase is native('xapian-helper') { * }
+        my sub xapian_writable_database_new2(Str $path, int $action) returns WritableDatabase is native('xapian-helper') { * }
+        my sub xapian_writable_database_commit(WritableDatabase $self) is native('xapian-helper') { * }
+        my sub xapian_writable_database_flush(WritableDatabase $self) is native('xapian-helper') { * }
+        my sub xapian_writable_database_begin_transaction(WritableDatabase $self) is native('xapian-helper') { * }
+        my sub xapian_writable_database_begin_transaction2(WritableDatabase $self, Bool $flushed) is native('xapian-helper') { * }
+        my sub xapian_writable_database_commit_transaction(WritableDatabase $self) is native('xapian-helper') { * }
+        my sub xapian_writable_database_cancel_transaction(WritableDatabase $self) is native('xapian-helper') { * }
+        my sub xapian_writable_database_add_document(WritableDatabase $self, Document $document) returns uint is native('xapian-helper') { * }
+        my sub xapian_writable_database_delete_document(WritableDatabase $self, uint $did) is native('xapian-helper') { * }
+        my sub xapian_writable_database_delete_document2(WritableDatabase $self, Str $unique_term) is native('xapian-helper') { * }
+        my sub xapian_writable_database_replace_document(WritableDatabase $self, uint $did, Document $document) is native('xapian-helper') { * }
+        my sub xapian_writable_database_replace_document2(WritableDatabase $self, Str $unique_term, Document $document) returns uint is native('xapian-helper') { * }
+        my sub xapian_writable_database_add_spelling(WritableDatabase $self, Str $word) is native('xapian-helper') { * }
+        my sub xapian_writable_database_add_spelling2(WritableDatabase $self, Str $word, uint $freqinc) is native('xapian-helper') { * }
+        my sub xapian_writable_database_remove_spelling(WritableDatabase $self, Str $word) is native('xapian-helper') { * }
+        my sub xapian_writable_database_remove_spelling2(WritableDatabase $self, Str $word, uint $freqdec) is native('xapian-helper') { * }
+        my sub xapian_writable_database_add_synonym(WritableDatabase $self, Str $term, Str $synonym) is native('xapian-helper') { * }
+        my sub xapian_writable_database_remove_synonym(WritableDatabase $self, Str $term, Str $synonym) is native('xapian-helper') { * }
+        my sub xapian_writable_database_clear_synonyms(WritableDatabase $self, Str $term) is native('xapian-helper') { * }
+        my sub xapian_writable_database_set_metadata(WritableDatabase $self, Str $key, Str $value) is native('xapian-helper') { * }
+        my sub xapian_writable_database_get_description(WritableDatabase $self) returns Str is native('xapian-helper') { * }
+
+        method DESTROY() { xapian_writable_database_free(self) }
+        multi method new() returns WritableDatabase { xapian_writable_database_new() }
+        multi method new(Str $path, int $action) returns WritableDatabase { xapian_writable_database_new2($path, $action) }
+        method commit() { xapian_writable_database_commit(self) }
+        method flush() { xapian_writable_database_flush(self) }
+        multi method begin_transaction() { xapian_writable_database_begin_transaction(self) }
+        multi method begin_transaction(Bool $flushed) { xapian_writable_database_begin_transaction2(self, $flushed) }
+        method commit_transaction() { xapian_writable_database_commit_transaction(self) }
+        method cancel_transaction() { xapian_writable_database_cancel_transaction(self) }
+        method add_document(Document $document) returns uint { xapian_writable_database_add_document(self, $document) }
+        multi method delete_document(uint $did) { xapian_writable_database_delete_document(self, $did) }
+        multi method delete_document(Str $unique_term) { xapian_writable_database_delete_document2(self, $unique_term) }
+        multi method replace_document(uint $did, Document $document) { xapian_writable_database_replace_document(self, $did, $document) }
+        multi method replace_document(Str $unique_term, Document $document) returns uint { xapian_writable_database_replace_document2(self, $unique_term, $document) }
+        multi method add_spelling(Str $word) { xapian_writable_database_add_spelling(self, $word) }
+        multi method add_spelling(Str $word, uint $freqinc) { xapian_writable_database_add_spelling2(self, $word, $freqinc) }
+        multi method remove_spelling(Str $word) { xapian_writable_database_remove_spelling(self, $word) }
+        multi method remove_spelling(Str $word, uint $freqdec) { xapian_writable_database_remove_spelling2(self, $word, $freqdec) }
+        method add_synonym(Str $term, Str $synonym) { xapian_writable_database_add_synonym(self, $term, $synonym) }
+        method remove_synonym(Str $term, Str $synonym) { xapian_writable_database_remove_synonym(self, $term, $synonym) }
+        method clear_synonyms(Str $term) { xapian_writable_database_clear_synonyms(self, $term) }
+        method set_metadata(Str $key, Str $value) { xapian_writable_database_set_metadata(self, $key, $value) }
+        method get_description() returns Str { xapian_writable_database_get_description(self) }
+    }
 }
