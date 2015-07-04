@@ -2,10 +2,16 @@
     "name": "Xapian",
     "version": "0.1.0",
     "description": "Bindings to Xapian search library",
-    "author": "Rob Hoelz",
+    "authors": ["Rob Hoelz"],
     "depends": ["LibraryMake"],
     "source-url": "git://github.com/hoelzro/p6-xapian",
     "provides": {
         "Xapian": "lib/Xapian.pm"
-    }
+    },
+    "support": {
+        "bugtracker": "https://github.com/hoelzro/p6-xapian/issues",
+        "source": "https://github.com/hoelzro/p6-xapian"
+    },
+    "license": "https://www.gnu.org/licenses/gpl-2.0.html",
+    "tags": ["xapian", "text", "search"]
 }
