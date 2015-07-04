@@ -60,6 +60,7 @@ END_TEXT
 my $term = Xapian::TermGenerator.new;
 $term.set_stemmer(Xapian::Stem.new('ru'));
 my $db = Xapian::WritableDatabase.new('test.db', 1);
+LEAVE $db.flush;
 
 my @paras = $text.split(/\n\n/);
 
@@ -69,4 +70,3 @@ for @paras -> $paragraph {
     $term.index_text($paragraph);
     $db.add_document($doc);
 }
-$db.flush;
