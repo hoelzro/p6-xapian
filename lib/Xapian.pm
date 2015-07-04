@@ -284,3 +284,55 @@ module Xapian {
         method get_description() returns Str { xapian_writable_database_get_description(self) }
     }
 }
+
+=begin pod
+
+=head1 NAME
+
+Xapian
+
+=head1 AUTHOR
+
+Rob Hoelz <rob AT hoelz.ro>
+
+=head1 SYNOPSIS
+
+    use Xapian;
+
+    my $db = Xapian::WritableDatabase.new('test.db', Xapian::DB_CREATE_OR_OPEN);
+    my $term = Xapian::TermGenerator.new;
+    $term.set_stemmer(Xapian::Stem.new('en'));
+    LEAVE $db.flush;
+
+    for @documents -> $text {
+        my $doc = Xapian::Document.new;
+        $term.set_document($doc);
+        $term.index_text($text);
+        $db.add_document
+    }
+
+=head1 DESCRIPTION
+
+This module provides bindings for (L<Xapian|http://xapian.org/>)
+for Perl 6 via NativeCall.
+
+=head1 LICENSE
+
+Perl 6 bindings for the Xapian library
+Copyright (C) 2015 Rob Hoelz (rob AT hoelz.ro)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+=end pod
