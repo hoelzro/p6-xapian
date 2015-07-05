@@ -1,8 +1,10 @@
+  - Database bindings (as a superclass of WritableDatabase)
+  - Check Xapian major version
   - Bindings int vs Int
   - kebab case forms
   - Exceptions (see what other bindings do)
   - Binding constants
   - Tests (look at xapian-bindings)
   - Binding more classes
-  - Docs (is there a way I can import them? improve generate c++?)
+  - Docs (is there a way I can import them? improve generate c++? https://getting-started-with-xapian.readthedocs.org/en/latest?)
   - Address issues in generate-binding.p6 header
