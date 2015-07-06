@@ -1,13 +1,15 @@
-  - Database bindings (as a superclass of WritableDatabase)
+  - Freak out on constructors with default values (so I don't miss them)
   - Check Xapian major version
   - Bindings int vs Int
-  - kebab case forms
+  - Database bindings (as a superclass of WritableDatabase)
   - Str (get-description)
-  - Exceptions (see what other bindings do)
-    - Pass a callback that takes an exception to handle it?
+  - kebab case forms
   - Binding constants
   - Tests (look at xapian-bindings)
-  - Binding more classes
+    - generate these too?
   - Docs (is there a way I can import them? improve generate c++? https://getting-started-with-xapian.readthedocs.org/en/latest?)
+  - Exceptions (see what other bindings do)
+    - Pass a callback that takes an exception to handle it?
   - Handle constructors with default values
+  - Binding more classes
   - generate alternates that use optional arguments instead of multis?
