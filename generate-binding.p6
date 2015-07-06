@@ -17,11 +17,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 =end LICENSE
 
-# XXX get-description, not get_description
-# XXX Str should call get-description
-# XXX EXCEPTIONS!
-# XXX constructors with default values
-# XXX generate alternates that use optional arguments instead of multis?
 my $*LIB-NAME = 'xapian-helper';
 
 sub camel-to-snake-case(Str $name) {

@@ -2,9 +2,12 @@
   - Check Xapian major version
   - Bindings int vs Int
   - kebab case forms
+  - Str (get-description)
   - Exceptions (see what other bindings do)
+    - Pass a callback that takes an exception to handle it?
   - Binding constants
   - Tests (look at xapian-bindings)
   - Binding more classes
   - Docs (is there a way I can import them? improve generate c++? https://getting-started-with-xapian.readthedocs.org/en/latest?)
-  - Address issues in generate-binding.p6 header
+  - Handle constructors with default values
+  - generate alternates that use optional arguments instead of multis?
