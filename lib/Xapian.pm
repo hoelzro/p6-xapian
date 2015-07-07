@@ -24,6 +24,21 @@ module Xapian {
     constant DB_CREATE_OR_OVERWRITE = 3;
     constant DB_OPEN                = 4;
 
+    class PositionIterator is repr('CPointer') {
+    }
+
+    class PostingIterator is repr('CPointer') {
+    }
+
+    class TermIterator is repr('CPointer') {
+    }
+
+    class ValueIterator is repr('CPointer') {
+    }
+
+    class ValueIteratorEnd_ is repr('CPointer') {
+    }
+
     class Document is repr('CPointer') {
         my sub xapian_document_new() returns Document is native('xapian-helper') { * } 
         my sub xapian_document_free(Document $self) is native('xapian-helper') { * }
