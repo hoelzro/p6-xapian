@@ -1,5 +1,3 @@
-  - Bindings int vs Int
-  - Database bindings (as a superclass of WritableDatabase)
   - Str (get-description)
   - kebab case forms
   - Binding constants
