@@ -386,7 +386,7 @@ Rob Hoelz <rob AT hoelz.ro>
         my $doc = Xapian::Document.new;
         $term.set_document($doc);
         $term.index_text($text);
-        $db.add_document
+        $db.add_document($doc);
     }
 
 =head1 DESCRIPTION
