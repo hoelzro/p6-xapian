@@ -1,5 +1,3 @@
-  - Freak out on constructors with default values (so I don't miss them)
-  - Check Xapian major version
   - Bindings int vs Int
   - Database bindings (as a superclass of WritableDatabase)
   - Str (get-description)
