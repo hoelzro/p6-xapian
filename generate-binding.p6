@@ -29,6 +29,7 @@ my %c-typemap = (
     'Xapian::doccount'  => 'unsigned int',
     'Xapian::doclength' => 'unsigned int',
     'Xapian::termcount' => 'unsigned int',
+    'Xapian::termpos'   => 'unsigned int',
     'Xapian::valueno'   => 'unsigned int',
     'unsigned'          => 'unsigned int',
 );
@@ -40,6 +41,7 @@ my %native-typemap = (
     'Xapian::doccount'  => 'uint',
     'Xapian::doclength' => 'uint',
     'Xapian::termcount' => 'uint',
+    'Xapian::termpos'   => 'uint',
     'Xapian::valueno'   => 'uint',
     'unsigned'          => 'uint',
 );
@@ -51,6 +53,7 @@ my %perl-typemap = (
     'Xapian::doccount'  => 'Int',
     'Xapian::doclength' => 'Int',
     'Xapian::termcount' => 'Int',
+    'Xapian::termpos'   => 'Int',
     'Xapian::valueno'   => 'Int',
     'unsigned'          => 'Int',
     'int'               => 'Int',
