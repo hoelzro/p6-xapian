@@ -380,7 +380,7 @@ Rob Hoelz <rob AT hoelz.ro>
     my $db = Xapian::WritableDatabase.new('test.db', Xapian::DB_CREATE_OR_OPEN);
     my $term = Xapian::TermGenerator.new;
     $term.set_stemmer(Xapian::Stem.new('en'));
-    LEAVE $db.flush;
+    LEAVE $db.close;
 
     for @documents -> $text {
         my $doc = Xapian::Document.new;

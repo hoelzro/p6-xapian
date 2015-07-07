@@ -60,7 +60,7 @@ END_TEXT
 my $term = Xapian::TermGenerator.new;
 $term.set_stemmer(Xapian::Stem.new('ru'));
 my $db = Xapian::WritableDatabase.new('test.db', Xapian::DB_CREATE_OR_OPEN);
-LEAVE $db.flush;
+LEAVE $db.close;
 
 my @paras = $text.split(/\n\n/);
 
