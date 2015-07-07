@@ -1,4 +1,6 @@
 language: perl6
+before_install:
+  - sudo apt-get install libxapian-dev
 install:
   - rakudobrew build-panda
 before_script:
