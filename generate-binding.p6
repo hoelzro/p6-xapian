@@ -440,7 +440,7 @@ grammar CppGrammar {
         <method-modifier>*
         $<return-type>=<.type>
         $<name>=[
-            'operator' .
+            'operator' ['()' || .]
             || <.identifier>
         ]
         '(' ~ ')' <arguments-declaration>
