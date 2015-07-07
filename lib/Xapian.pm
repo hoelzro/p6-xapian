@@ -286,7 +286,7 @@ module Xapian {
         method add_database(Database $database) { xapian_database_add_database(self, $database) }
         multi method new() returns Database { xapian_database_new() }
         multi method new(Str $path) returns Database { xapian_database_new2($path) }
-        method DESTROY() { xapian_database_free(self) }
+        submethod DESTROY() { xapian_database_free(self) }
         method reopen() { xapian_database_reopen(self) }
         method close() { xapian_database_close(self) }
         method get_description() returns Str { xapian_database_get_description(self) }
@@ -336,7 +336,7 @@ module Xapian {
         my sub xapian_writable_database_set_metadata(WritableDatabase $self, Str $key, Str $value) is native('xapian-helper') { * }
         my sub xapian_writable_database_get_description(WritableDatabase $self) returns Str is native('xapian-helper') { * }
 
-        method DESTROY() { xapian_writable_database_free(self) }
+        submethod DESTROY() { xapian_writable_database_free(self) }
         proto method new(*@args) { * }
         multi method new() returns WritableDatabase { xapian_writable_database_new() }
         multi method new(Str $path, Int $action) returns WritableDatabase { xapian_writable_database_new2($path, $action) }
