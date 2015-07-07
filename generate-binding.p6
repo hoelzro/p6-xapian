@@ -463,7 +463,7 @@ grammar CppGrammar {
     }
 
     token method-modifier {
-        'virtual' || 'explicit' # XXX explicit is technically only for constructors...
+        'virtual' || 'explicit' || 'static' # XXX explicit is technically only for constructors...
     }
 
     token method-post-modifier {
