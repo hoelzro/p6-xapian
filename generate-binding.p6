@@ -292,6 +292,7 @@ class CppMethod {
 
     has $.name;
     has CppType $.return-type;
+    has $.is-static;
 
     method c-name {
         my $suffix = $*COUNTER == 0 ?? '' !! $*COUNTER + 1;
@@ -551,7 +552,9 @@ class CppActions {
         if $*SCOPE ne 'public' {
             return;
         }
-        make CppMethod.new(:name(~$<name>), :arguments(make-args($<arguments-declaration>)), :return-type($<return-type>.made));
+        my @modifiers = @<method-modifier>.map(*.Str);
+        my $is-static = any(@modifiers) eq 'static';
+        make CppMethod.new(:name(~$<name>), :arguments(make-args($<arguments-declaration>)), :return-type($<return-type>.made), :$is-static);
     }
 
     method type:builtin ($/) {
