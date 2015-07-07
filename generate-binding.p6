@@ -394,6 +394,10 @@ class CppMethod {
 }
 
 grammar CppGrammar {
+    sub line-number($/) {
+        $/.orig.substr(0, $/.to).lines.elems
+    }
+
     rule TOP {
         :my $*SCOPE = 'private';
 
@@ -418,7 +422,7 @@ grammar CppGrammar {
     rule class-definition {
         'class' $<name>=<.identifier>
         <inheritance>?
-        '{' ~ '};' <class-thing>* % <.ws>
+        '{' ~ ['};' || { die "Couldn't parse class-thing at line {line-number($/)}"}] <class-thing>* % <.ws>
     }
 
     proto token class-thing { * }
@@ -691,7 +695,13 @@ sub MAIN(Str $header-file, Bool :$perl, Bool :$cpp) {
     }
 
     my $source     = slurp $header-file;
-    my $definition = CppGrammar.parse($source, :actions(CppActions)).made;
+    my $definition = CppGrammar.parse($source, :actions(CppActions));
+
+    unless $definition {
+        die "The parse of $header-file failed, and I don't know why =(";
+    }
+
+    $definition .= made;
 
     if $perl {
         say generate-perl6-binding($definition);
