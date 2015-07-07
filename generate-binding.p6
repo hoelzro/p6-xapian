@@ -59,6 +59,10 @@ class CppType {
             ?? %perl-typemap{$.Str}
             !! $.Str.subst(/^ 'Xapian::'/, '')
     }
+
+    method is-pointer {
+        False
+    }
 }
 
 class CppArgument {
@@ -318,6 +322,12 @@ class CppMethod {
         if $.return-type.Str ~~ /'::Internal'/ {
             # returns an internal type, skip it
             return 'it returns an internal type'
+        }
+
+        if $.return-type.Str ~~ /^ 'Xapian::' <[A..Z]> / {
+            unless $.return-type.is-pointer {
+                return "it is a struct type we can't handle";
+            }
         }
 
         return False
