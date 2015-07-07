@@ -289,8 +289,8 @@ class CppConstructor {
             return 'it is a copy constructor'
         }
 
-        if any(@arguments».type.Str) ~~ /'::Internal'/ {
-            return 'it takes an internal type as an argument'
+        if any(@arguments».type.Str) ~~ /'::Internal' || 'Implementation'/ {
+            return 'it takes an internal/implementation type as an argument'
         }
 
         return Str
