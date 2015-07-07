@@ -118,10 +118,12 @@ sub gather-typedefs($definition) {
             next;
         }
 
+        my @types = $method.?arguments.grep(*.defined).map(*.type);
+        @types.push: $method.return-type if $method.can('return-type');
 
-        for $method.?arguments.grep(*.defined) -> $arg {
-            if $arg.type.Str ~~ /^ 'Xapian::' <[A..Z]> / {
-                %types{$arg.type.Str} = $arg.type;
+        for @types -> $type {
+            if $type.Str ~~ /^ 'Xapian::' <[A..Z]> / {
+                %types{$type.Str} = $type;
             }
         }
     }
