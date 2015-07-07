@@ -509,7 +509,6 @@ grammar CppGrammar {
     }
 
     rule argument {
-        <type-modifier>*
         <type>
 
         $<name>=<.identifier>?
@@ -544,6 +543,8 @@ grammar CppGrammar {
     }
 
     token type:identifier {
+        <.type-modifier>*
+        <.ws>
         <identifier>
         <.ws>
         $<pointy>=[<[&*]>* % <.ws>]
