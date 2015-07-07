@@ -306,11 +306,38 @@ class CppMethod {
 
     method c-name {
         my $suffix = $*COUNTER == 0 ?? '' !! $*COUNTER + 1;
-        $*CPP-CLASS.c-type ~ '_' ~ $.name ~ $suffix
+
+        my $basename = $*CPP-CLASS.c-type ~ '_' ~
+            do if self!operator-name -> $operator {
+                given $operator {
+                    when '()' {
+                        'call'
+                    }
+
+                    default {
+                        die "Don't know what to call operator $operator in C"
+                    }
+                }
+            } else {
+                $.name
+            }
+        $basename ~ $suffix
     }
 
     method perl-name {
-        $.name
+        if self!operator-name -> $operator {
+            given $operator {
+                when '()' {
+                    'CALL-ME'
+                }
+
+                default {
+                    die "Don't know what to call operator $operator in Perl 6"
+                }
+            }
+        } else {
+            $.name
+        }
     }
 
     method arguments {
@@ -322,6 +349,30 @@ class CppMethod {
         @arguments
     }
 
+    method !operator-name {
+        if $.name ~~ /^ 'operator' (.*) / {
+            $0
+        } else {
+            Str
+        }
+    }
+
+    method !generate-call($arguments) {
+        if self!operator-name -> $operator {
+            given $operator {
+                when '()' {
+                    "(*self)($arguments)"
+                }
+
+                default {
+                    die "Don't know how to call operator $operator";
+                }
+            }
+        } else {
+            "self->{$.name}($arguments)"
+        }
+    }
+
     method generate-c-wrappers {
         my $is-void = $.return-type.Str eq 'void';
 
@@ -331,16 +382,16 @@ class CppMethod {
             my $call-arguments = generate-arguments-call(@arguments);
             my $body =
                 do if $.return-type.Str eq 'std::string' {
-                    "std::string value = self->{$.name}($call-arguments);\n    return strdup(value.c_str());"
+                    "std::string value = {self!generate-call($call-arguments)};\n    return strdup(value.c_str());"
                 } elsif $.return-type.Str ~~ /^ 'Xapian::' <[A..Z]> / {
-                    "$.return-type *value = new {$.return-type}();\n    *value = self->{$.name}($call-arguments);\n    return value;" 
+                    "$.return-type *value = new {$.return-type}();\n    *value = {self!generate-call($call-arguments)};\n    return value;"
                 } else {
-                    "{$is-void ?? '' !! 'return '}self->{$.name}($call-arguments);"
+                    "{$is-void ?? '' !! 'return '}{self!generate-call($call-arguments)};"
                 };
 
             take qq:to/END_CPP/;
             $.return-type().c-type()
-            $*CPP-CLASS.c-type()_{$.name}{$suffix}({generate-arguments-declaration(@arguments)}) throw ()
+            {$.c-name}({generate-arguments-declaration(@arguments)}) throw ()
             \{
                 $body
             \}
@@ -370,11 +421,10 @@ class CppMethod {
         my $returns = $.return-type.Str eq 'void' ?? '' !! ' returns ' ~ $.return-type.perl6-type;
 
         gather for self.argument-slices() -> @arguments {
-            my $suffix        = $*COUNTER == 0 ?? '' !! $*COUNTER + 1;
-            my $function-name = $*CPP-CLASS.c-type ~ '_' ~ $.name ~ $suffix;
-            my $arguments     = generate-perl6-arguments(@arguments);
+            my $suffix    = $*COUNTER == 0 ?? '' !! $*COUNTER + 1;
+            my $arguments = generate-perl6-arguments(@arguments);
 
-            take "my sub {$function-name}($arguments)$returns is native('$*LIB-NAME') \{ * \}"
+            take "my sub {$.c-name}($arguments)$returns is native('$*LIB-NAME') \{ * \}"
         }
     }
 
@@ -382,13 +432,12 @@ class CppMethod {
         my $returns = $.return-type.Str eq 'void' ?? '' !! ' returns ' ~ $.return-type.perl6-type(:!native);
 
         gather for self.argument-slices() -> @arguments {
-            my $suffix        = $*COUNTER == 0 ?? '' !! $*COUNTER + 1;
-            my $function-name = $*CPP-CLASS.c-type ~ '_' ~ $.name ~ $suffix;
-            my $method-name   = $.name;
-            my $arguments     = generate-perl6-arguments(@arguments[1..*], :!native);
-            my $call          = generate-perl6-call(@arguments);
+            my $suffix      = $*COUNTER == 0 ?? '' !! $*COUNTER + 1;
+            my $method-name = $.perl-name;
+            my $arguments   = generate-perl6-arguments(@arguments[1..*], :!native);
+            my $call        = generate-perl6-call(@arguments);
 
-            take "{$*MULTI}method {$method-name}($arguments)$returns \{ {$function-name}($call) \}"
+            take "{$*MULTI}method {$method-name}($arguments)$returns \{ {$.c-name}($call) \}"
         }
     }
 }
