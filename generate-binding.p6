@@ -450,7 +450,7 @@ class CppActions {
                 (~$<type><pointy> ~~ /'&'/).Bool
             };
             take CppArgument.new(
-                :type(CppType.new(~$<type>)),
+                :type($<type>.made),
                 :name(~$<name>),
                 :$is-reference,
                 :has-default-value($<default-value>.defined),
@@ -491,7 +491,15 @@ class CppActions {
         if $*SCOPE ne 'public' {
             return;
         }
-        make CppMethod.new(:name(~$<name>), :arguments(make-args($<arguments-declaration>)), :return-type(CppType.new(~$<return-type>)));
+        make CppMethod.new(:name(~$<name>), :arguments(make-args($<arguments-declaration>)), :return-type($<return-type>.made));
+    }
+
+    method type:builtin ($/) {
+        make CppType.new(~$/);
+    }
+
+    method type:identifier ($/) {
+        make CppType.new(~$<identifier>);
     }
 }
 
