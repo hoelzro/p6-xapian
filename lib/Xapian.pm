@@ -311,7 +311,7 @@ module Xapian {
         method get_uuid() returns Str { xapian_database_get_uuid(self) }
     }
 
-    class WritableDatabase is repr('CPointer') {
+    class WritableDatabase is repr('CPointer') is Database {
         my sub xapian_writable_database_free(WritableDatabase $self) is native('xapian-helper') { * }
         my sub xapian_writable_database_new() returns WritableDatabase is native('xapian-helper') { * }
         my sub xapian_writable_database_new2(Str $path, int $action) returns WritableDatabase is native('xapian-helper') { * }
