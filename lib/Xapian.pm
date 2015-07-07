@@ -255,6 +255,62 @@ module Xapian {
         }
     }
 
+    class Database is repr('CPointer') {
+        my sub xapian_database_add_database(Database $self, Database $database) is native('xapian-helper') { * }
+        my sub xapian_database_new() returns Database is native('xapian-helper') { * }
+        my sub xapian_database_new2(Str $path) returns Database is native('xapian-helper') { * }
+        my sub xapian_database_free(Database $self) is native('xapian-helper') { * }
+        my sub xapian_database_reopen(Database $self) is native('xapian-helper') { * }
+        my sub xapian_database_close(Database $self) is native('xapian-helper') { * }
+        my sub xapian_database_get_description(Database $self) returns Str is native('xapian-helper') { * }
+        my sub xapian_database_has_positions(Database $self) returns Bool is native('xapian-helper') { * }
+        my sub xapian_database_get_doccount(Database $self) returns uint is native('xapian-helper') { * }
+        my sub xapian_database_get_lastdocid(Database $self) returns uint is native('xapian-helper') { * }
+        my sub xapian_database_get_avlength(Database $self) returns uint is native('xapian-helper') { * }
+        my sub xapian_database_get_termfreq(Database $self, Str $tname) returns uint is native('xapian-helper') { * }
+        my sub xapian_database_term_exists(Database $self, Str $tname) returns Bool is native('xapian-helper') { * }
+        my sub xapian_database_get_collection_freq(Database $self, Str $tname) returns uint is native('xapian-helper') { * }
+        my sub xapian_database_get_value_freq(Database $self, uint $slot) returns uint is native('xapian-helper') { * }
+        my sub xapian_database_get_value_lower_bound(Database $self, uint $slot) returns Str is native('xapian-helper') { * }
+        my sub xapian_database_get_value_upper_bound(Database $self, uint $slot) returns Str is native('xapian-helper') { * }
+        my sub xapian_database_get_doclength_lower_bound(Database $self) returns uint is native('xapian-helper') { * }
+        my sub xapian_database_get_doclength_upper_bound(Database $self) returns uint is native('xapian-helper') { * }
+        my sub xapian_database_get_wdf_upper_bound(Database $self, Str $term) returns uint is native('xapian-helper') { * }
+        my sub xapian_database_get_doclength(Database $self, uint $did) returns uint is native('xapian-helper') { * }
+        my sub xapian_database_keep_alive(Database $self) is native('xapian-helper') { * }
+        my sub xapian_database_get_spelling_suggestion(Database $self, Str $word) returns Str is native('xapian-helper') { * }
+        my sub xapian_database_get_spelling_suggestion2(Database $self, Str $word, uint $max_edit_distance) returns Str is native('xapian-helper') { * }
+        my sub xapian_database_get_metadata(Database $self, Str $key) returns Str is native('xapian-helper') { * }
+        my sub xapian_database_get_uuid(Database $self) returns Str is native('xapian-helper') { * }
+
+        method add_database(Database $database) { xapian_database_add_database(self, $database) }
+        multi method new() returns Database { xapian_database_new() }
+        multi method new(Str $path) returns Database { xapian_database_new2($path) }
+        method DESTROY() { xapian_database_free(self) }
+        method reopen() { xapian_database_reopen(self) }
+        method close() { xapian_database_close(self) }
+        method get_description() returns Str { xapian_database_get_description(self) }
+        method has_positions() returns Bool { xapian_database_has_positions(self) }
+        method get_doccount() returns uint { xapian_database_get_doccount(self) }
+        method get_lastdocid() returns uint { xapian_database_get_lastdocid(self) }
+        method get_avlength() returns uint { xapian_database_get_avlength(self) }
+        method get_termfreq(Str $tname) returns uint { xapian_database_get_termfreq(self, $tname) }
+        method term_exists(Str $tname) returns Bool { xapian_database_term_exists(self, $tname) }
+        method get_collection_freq(Str $tname) returns uint { xapian_database_get_collection_freq(self, $tname) }
+        method get_value_freq(uint $slot) returns uint { xapian_database_get_value_freq(self, $slot) }
+        method get_value_lower_bound(uint $slot) returns Str { xapian_database_get_value_lower_bound(self, $slot) }
+        method get_value_upper_bound(uint $slot) returns Str { xapian_database_get_value_upper_bound(self, $slot) }
+        method get_doclength_lower_bound() returns uint { xapian_database_get_doclength_lower_bound(self) }
+        method get_doclength_upper_bound() returns uint { xapian_database_get_doclength_upper_bound(self) }
+        method get_wdf_upper_bound(Str $term) returns uint { xapian_database_get_wdf_upper_bound(self, $term) }
+        method get_doclength(uint $did) returns uint { xapian_database_get_doclength(self, $did) }
+        method keep_alive() { xapian_database_keep_alive(self) }
+        multi method get_spelling_suggestion(Str $word) returns Str { xapian_database_get_spelling_suggestion(self, $word) }
+        multi method get_spelling_suggestion(Str $word, uint $max_edit_distance) returns Str { xapian_database_get_spelling_suggestion2(self, $word, $max_edit_distance) }
+        method get_metadata(Str $key) returns Str { xapian_database_get_metadata(self, $key) }
+        method get_uuid() returns Str { xapian_database_get_uuid(self) }
+    }
+
     class WritableDatabase is repr('CPointer') {
         my sub xapian_writable_database_free(WritableDatabase $self) is native('xapian-helper') { * }
         my sub xapian_writable_database_new() returns WritableDatabase is native('xapian-helper') { * }
