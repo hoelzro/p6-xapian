@@ -387,8 +387,6 @@ grammar CppGrammar {
         <type-modifier>*
         <type>
 
-        $<pointy>=[<[&*]>*]
-
         $<name>=<.identifier>
 
         [
@@ -421,6 +419,9 @@ grammar CppGrammar {
 
     token type:identifier {
         <identifier>
+        <.ws>
+        $<pointy>=[<[&*]>* % <.ws>]
+
     }
 
     token identifier {
@@ -446,7 +447,7 @@ class CppActions {
         gather for $<argument>.list -> $/ {
             my $is-reference = do {
                 my $/ = OUTER::<$/>;
-                (~$<pointy> ~~ /'&'/).Bool
+                (~$<type><pointy> ~~ /'&'/).Bool
             };
             take CppArgument.new(
                 :type(CppType.new(~$<type>)),
