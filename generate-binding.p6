@@ -387,7 +387,7 @@ grammar CppGrammar {
         <type-modifier>*
         <type>
 
-        $<name>=<.identifier>
+        $<name>=<.identifier>?
 
         [
             '='
@@ -444,6 +444,8 @@ grammar CppGrammar {
 
 class CppActions {
     sub make-args($/) {
+        my @anon_names := (1..*).map: { "_anon_$_"};
+
         gather for $<argument>.list -> $/ {
             my $is-reference = do {
                 my $/ = OUTER::<$/>;
@@ -451,7 +453,7 @@ class CppActions {
             };
             take CppArgument.new(
                 :type($<type>.made),
-                :name(~$<name>),
+                :name($<name> ?? ~$<name> !! @anon_names.shift),
                 :$is-reference,
                 :has-default-value($<default-value>.defined),
             );
