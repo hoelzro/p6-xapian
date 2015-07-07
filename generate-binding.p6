@@ -112,7 +112,12 @@ sub gather-typedefs($definition) {
     %types{$definition<type>.Str} = $definition<type>;
 
     for $definition<methods>.list -> $method {
-        next if $method.should-skip;
+        my $skip-reason = $method.should-skip;
+        if $skip-reason {
+            note "skipping $method.name() because $skip-reason";
+            next;
+        }
+
 
         for $method.?arguments.grep(*.defined) -> $arg {
             if $arg.type.Str ~~ /^ 'Xapian::' <[A..Z]> / {
@@ -130,7 +135,11 @@ sub gather-multis($definition) {
     my %has-multi;
 
     for $definition<methods>.list -> $method {
-        next if $method.should-skip;
+        my $skip-reason = $method.should-skip;
+        if $skip-reason {
+            note "skipping $method.name() because $skip-reason";
+            next;
+        }
 
         %has-multi{$method.name}++;
         %has-multi{$method.name} = 2 if any($method.?arguments».has-default-value);
@@ -147,7 +156,7 @@ class CppDestructor {
     }
 
     method should-skip {
-        False
+        Str
     }
 
     method generate-c-wrappers {
@@ -219,15 +228,14 @@ class CppConstructor {
 
         if @arguments == 1 && @arguments[0].type eqv $*CPP-CLASS {
             # copy constructor, skip it
-            return True
+            return 'it is a copy constructor'
         }
 
         if any(@arguments».type.Str) ~~ /'::Internal'/ {
-            # uses an internal type, skip it
-            return True
+            return 'it takes an internal type as an argument'
         }
 
-        return False
+        return Str
     }
 }
 
@@ -280,12 +288,12 @@ class CppMethod {
     method should-skip {
         if $.name ~~ /^operator/ {
             # operator overload, skip it (for now)
-            return True
+            return 'it is an operator overload'
         }
 
         if $.return-type.Str ~~ /'::Internal'/ {
             # returns an internal type, skip it
-            return True
+            return 'it returns an internal type'
         }
 
         return False
@@ -520,7 +528,11 @@ sub generate-c-binding($definition) {
     my %method-counters;
 
     for $definition<methods>.list -> $method {
-        next if $method.should-skip;
+        my $skip-reason = $method.should-skip;
+        if $skip-reason {
+            note "skipping $method.name() because $skip-reason";
+            next;
+        }
 
         my $*COUNTER := %method-counters{$method.name};
         $*COUNTER //= 0;
@@ -559,7 +571,11 @@ sub generate-perl6-binding($definition) {
     my %has-multi = gather-multis($definition);
 
     for $definition<methods>.list -> $method {
-        next if $method.should-skip;
+        my $skip-reason = $method.should-skip;
+        if $skip-reason {
+            note "skipping $method.name() because $skip-reason";
+            next;
+        }
 
         my $*COUNTER := %method-counters{$method.name};
         $*COUNTER //= 0;
