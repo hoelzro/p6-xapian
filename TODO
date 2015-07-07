@@ -6,7 +6,5 @@
   - Docs (is there a way I can import them? improve generate c++? https://getting-started-with-xapian.readthedocs.org/en/latest?)
   - Exceptions (see what other bindings do)
     - Pass a callback that takes an exception to handle it?
-  - Handle constructors with default values
-  - Bind more Database methods
   - Binding more classes
   - generate alternates that use optional arguments instead of multis?
