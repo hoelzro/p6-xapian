@@ -185,44 +185,64 @@ class CppDestructor {
     }
 }
 
-class CppConstructor {
+role PolymorphicFunction {
     has @.arguments;
+
+    method argument-slices {
+        my @arguments = @.arguments;
+
+        my $first-optional-arg-index = @arguments.first-index(*.has-default-value) // +@arguments;
+
+        gather for ($first-optional-arg-index..+@arguments) -> $last-index {
+            take @arguments[0..^$last-index];
+        }
+    }
+
+}
+
+class CppConstructor {
+    also does PolymorphicFunction;
 
     method name {
         $*CPP-CLASS.Str
     }
 
     method generate-c-wrappers {
-        my @arguments = @.arguments;
-        my $suffix = $*COUNTER == 0 ?? '' !! $*COUNTER + 1;
+        gather for self.argument-slices() -> @arguments {
+            my $suffix = $*COUNTER == 0 ?? '' !! $*COUNTER + 1;
 
-        my $c-type = $*CPP-CLASS.c-type;
+            my $c-type = $*CPP-CLASS.c-type;
 
-        return qq:to/END_CPP/;
-        $c-type
-        {$c-type}_new{$suffix}({generate-arguments-declaration(@arguments)}) throw ()
-        \{
-            return new {$*CPP-CLASS}({generate-arguments-call(@arguments)});
-        \}
-        END_CPP
+            take qq:to/END_CPP/;
+            $c-type
+            {$c-type}_new{$suffix}({generate-arguments-declaration(@arguments)}) throw ()
+            \{
+                return new {$*CPP-CLASS}({generate-arguments-call(@arguments)});
+            \}
+            END_CPP
+        }
     }
 
     method generate-perl6-stubs {
-        my $arguments     = generate-perl6-arguments(@.arguments);
-        my $suffix        = $*COUNTER == 0 ?? '' !! $*COUNTER + 1;
-        my $function-name = $*CPP-CLASS.c-type ~ '_new' ~ $suffix;
+        gather for self.argument-slices() -> @arguments {
+            my $arguments     = generate-perl6-arguments(@arguments);
+            my $suffix        = $*COUNTER == 0 ?? '' !! $*COUNTER + 1;
+            my $function-name = $*CPP-CLASS.c-type ~ '_new' ~ $suffix;
 
-        "my sub {$function-name}($arguments) returns $*PERL6-CLASS is native('$*LIB-NAME') \{ * \}"
+            take "my sub {$function-name}($arguments) returns $*PERL6-CLASS is native('$*LIB-NAME') \{ * \}";
+        }
     }
 
     method generate-perl6-methods {
-        my $method-name   = 'new';
-        my $arguments     = generate-perl6-arguments(@.arguments);
-        my $call          = generate-perl6-call(@.arguments);
-        my $suffix        = $*COUNTER == 0 ?? '' !! $*COUNTER + 1;
-        my $function-name = $*CPP-CLASS.c-type ~ '_new' ~ $suffix;
+        gather for self.argument-slices() -> @arguments {
+            my $method-name   = 'new';
+            my $arguments     = generate-perl6-arguments(@arguments);
+            my $call          = generate-perl6-call(@arguments);
+            my $suffix        = $*COUNTER == 0 ?? '' !! $*COUNTER + 1;
+            my $function-name = $*CPP-CLASS.c-type ~ '_new' ~ $suffix;
 
-        "{$*MULTI}method {$method-name}($arguments) returns $*PERL6-CLASS \{ {$function-name}($call) \}"
+            take "{$*MULTI}method {$method-name}($arguments) returns $*PERL6-CLASS \{ {$function-name}($call) \}";
+        }
     }
 
     method should-skip {
@@ -242,7 +262,8 @@ class CppConstructor {
 }
 
 class CppMethod {
-    has @.arguments;
+    also does PolymorphicFunction;
+
     has $.name;
     has CppType $.return-type;
 
@@ -255,18 +276,13 @@ class CppMethod {
         $.name
     }
 
-    method argument-slices {
-        my @arguments = @.arguments;
+    method arguments {
+        my @arguments = @!arguments;
         @arguments.unshift: CppArgument.new(
             :type($*CPP-CLASS),
             :name<self>,
         );
-
-        my $first-optional-arg-index = @arguments.first-index(*.has-default-value) // +@arguments;
-
-        gather for ($first-optional-arg-index..+@arguments) -> $last-index {
-            take @arguments[0..^$last-index];
-        }
+        @arguments
     }
 
     method generate-c-wrappers {
