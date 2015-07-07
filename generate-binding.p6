@@ -74,7 +74,7 @@ class CppType {
             !! camel-to-snake-case($.Str.subst(/'::'/, '_', :g)).lc
     }
 
-    method perl6-type(Bool :$native) {
+    method perl6-type(Bool :$native = True) {
         my $typemap = $native ?? %native-typemap !! %perl-typemap;
 
         $typemap{$.Str}:exists
