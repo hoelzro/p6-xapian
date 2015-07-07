@@ -596,17 +596,3 @@ sub MAIN(Str $header-file, Bool :$perl, Bool :$cpp) {
         say generate-c-binding($definition);
     }
 }
-
-=begin pod
-
-Bad definitions
-
-	Document::Internal * get_document_lazily(Xapian::docid did) const;
-
-	PostingIterator postlist_end(const std::string &) const {
-	    return PostingIterator();
-	}
-
-	Xapian::TermIterator synonym_keys_begin(const std::string &prefix = std::string()) const;
-
-=end pod
