@@ -22,6 +22,8 @@
 
 #include <xapian.h>
 
+#include "version-check.h"
+
 extern "C" {
 
 typedef Xapian::TermGenerator *xapian_term_generator;

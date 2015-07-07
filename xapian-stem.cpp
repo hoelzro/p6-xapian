@@ -22,6 +22,8 @@
 
 #include <xapian.h>
 
+#include "version-check.h"
+
 extern "C" {
 
 typedef Xapian::Stem *xapian_stem;
