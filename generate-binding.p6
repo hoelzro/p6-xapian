@@ -33,7 +33,7 @@ my %c-typemap = (
     'unsigned'          => 'unsigned int',
 );
 
-my %perl-typemap = (
+my %native-typemap = (
     'std::string'       => 'Str',
     'bool'              => 'Bool',
     'Xapian::docid'     => 'uint',
@@ -42,6 +42,18 @@ my %perl-typemap = (
     'Xapian::termcount' => 'uint',
     'Xapian::valueno'   => 'uint',
     'unsigned'          => 'uint',
+);
+
+my %perl-typemap = (
+    'std::string'       => 'Str',
+    'bool'              => 'Bool',
+    'Xapian::docid'     => 'Int',
+    'Xapian::doccount'  => 'Int',
+    'Xapian::doclength' => 'Int',
+    'Xapian::termcount' => 'Int',
+    'Xapian::valueno'   => 'Int',
+    'unsigned'          => 'Int',
+    'int'               => 'Int',
 );
 
 class CppType {
@@ -62,9 +74,11 @@ class CppType {
             !! camel-to-snake-case($.Str.subst(/'::'/, '_', :g)).lc
     }
 
-    method perl6-type {
-        %perl-typemap{$.Str}:exists
-            ?? %perl-typemap{$.Str}
+    method perl6-type(Bool :$native) {
+        my $typemap = $native ?? %native-typemap !! %perl-typemap;
+
+        $typemap{$.Str}:exists
+            ?? $typemap{$.Str}
             !! $.Str.subst(/^ 'Xapian::'/, '')
     }
 
@@ -106,9 +120,9 @@ sub generate-arguments-call(@arguments is copy) {
     }
 }
 
-sub generate-perl6-arguments(@arguments is copy) {
+sub generate-perl6-arguments(@arguments is copy, Bool :$native = True) {
     @arguments.map({
-        $^arg.type.perl6-type ~ ' $' ~ $^arg.name
+        $^arg.type.perl6-type(:$native) ~ ' $' ~ $^arg.name
     }).join(', ')
 }
 
@@ -248,7 +262,7 @@ class CppConstructor {
     method generate-perl6-methods {
         gather for self.argument-slices() -> @arguments {
             my $method-name   = 'new';
-            my $arguments     = generate-perl6-arguments(@arguments);
+            my $arguments     = generate-perl6-arguments(@arguments, :!native);
             my $call          = generate-perl6-call(@arguments);
             my $suffix        = $*COUNTER == 0 ?? '' !! $*COUNTER + 1;
             my $function-name = $*CPP-CLASS.c-type ~ '_new' ~ $suffix;
@@ -354,13 +368,13 @@ class CppMethod {
     }
 
     method generate-perl6-methods {
-        my $returns = $.return-type.Str eq 'void' ?? '' !! ' returns ' ~ $.return-type.perl6-type;
+        my $returns = $.return-type.Str eq 'void' ?? '' !! ' returns ' ~ $.return-type.perl6-type(:!native);
 
         gather for self.argument-slices() -> @arguments {
             my $suffix        = $*COUNTER == 0 ?? '' !! $*COUNTER + 1;
             my $function-name = $*CPP-CLASS.c-type ~ '_' ~ $.name ~ $suffix;
             my $method-name   = $.name;
-            my $arguments     = generate-perl6-arguments(@arguments[1..*]);
+            my $arguments     = generate-perl6-arguments(@arguments[1..*], :!native);
             my $call          = generate-perl6-call(@arguments);
 
             take "{$*MULTI}method {$method-name}($arguments)$returns \{ {$function-name}($call) \}"
