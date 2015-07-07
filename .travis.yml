@@ -1,5 +1,7 @@
 language: perl6
 before_install:
+  - sudo add-apt-repository ppa:xapian-core/ppa -y
+  - sudo apt-get update -q
   - sudo apt-get install libxapian-dev
 install:
   - rakudobrew build-panda
