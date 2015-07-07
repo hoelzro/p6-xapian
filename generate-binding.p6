@@ -59,6 +59,13 @@ my %perl-typemap = (
     'int'               => 'Int',
 );
 
+for (%c-typemap.item, %native-typemap.item, %perl-typemap.item) -> $typemap {
+    for $typemap.kv -> $k, $v {
+        next unless $k ~~ /^ 'Xapian::' (.*) /;
+        $typemap{$0} = $v;
+    }
+}
+
 class CppType {
     has Str $.Str;
 
