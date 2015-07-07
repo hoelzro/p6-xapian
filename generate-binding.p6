@@ -568,11 +568,22 @@ sub generate-perl6-binding($definition) {
     END_PERL6
 }
 
-my $source = slurp 'database.h';
-my $definition = CppGrammar.parse($source, :actions(CppActions)).made;
+sub MAIN(Str $header-file, Bool :$perl, Bool :$cpp) {
+    if $perl && $cpp {
+        die "--perl and --cpp are mutually exclusive";
+    } elsif !$perl && !$cpp {
+        die "One of --perl or --cpp is required";
+    }
 
-#say generate-c-binding($definition);
-say generate-perl6-binding($definition);
+    my $source     = slurp $header-file;
+    my $definition = CppGrammar.parse($source, :actions(CppActions)).made;
+
+    if $perl {
+        say generate-perl6-binding($definition);
+    } elsif $cpp {
+        say generate-c-binding($definition);
+    }
+}
 
 =begin pod
 
