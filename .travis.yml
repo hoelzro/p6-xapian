@@ -1,6 +1,6 @@
 language: perl6
 before_install:
-  - sudo add-apt-repository ppa:xapian-core/ppa -y
+  - sudo add-apt-repository -y ppa:xapian-backports/ppa
   - sudo apt-get update -q
   - sudo apt-get install libxapian-dev
 install:
