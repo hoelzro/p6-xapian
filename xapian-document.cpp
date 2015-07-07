@@ -26,146 +26,177 @@
 
 extern "C" {
 
+typedef Xapian::TermIterator *xapian_term_iterator;
 typedef Xapian::Document *xapian_document;
+typedef Xapian::ValueIteratorEnd_ *xapian_value_iterator_end_;
+typedef Xapian::ValueIterator *xapian_value_iterator;
 
 xapian_document
-xapian_document_new(void)
+xapian_document_new(void) throw ()
 {
     return new Xapian::Document();
 }
 
 void
-xapian_document_free(xapian_document self)
+xapian_document_free(xapian_document self) throw ()
 {
     delete self;
 }
 
 const char *
-xapian_document_get_value(xapian_document self, int slot)
+xapian_document_get_value(xapian_document self, unsigned int slot) throw ()
 {
     std::string value = self->get_value(slot);
     return strdup(value.c_str());
 }
 
 void
-xapian_document_add_value(xapian_document self, int slot, const char *value)
+xapian_document_add_value(xapian_document self, unsigned int slot, const char * value) throw ()
 {
     self->add_value(slot, std::string(value));
 }
 
 void
-xapian_document_remove_value(xapian_document self, int slot)
+xapian_document_remove_value(xapian_document self, unsigned int slot) throw ()
 {
     self->remove_value(slot);
 }
 
 void
-xapian_document_clear_values(xapian_document self)
+xapian_document_clear_values(xapian_document self) throw ()
 {
     self->clear_values();
 }
 
 const char *
-xapian_document_get_data(xapian_document self)
+xapian_document_get_data(xapian_document self) throw ()
 {
-    std::string data = self->get_data();
-    return strdup(data.c_str());
+    std::string value = self->get_data();
+    return strdup(value.c_str());
 }
 
 void
-xapian_document_set_data(xapian_document self, const char *data)
+xapian_document_set_data(xapian_document self, const char * data) throw ()
 {
     self->set_data(std::string(data));
 }
 
 void
-xapian_document_add_posting(xapian_document self, const char *term, unsigned int tpos)
+xapian_document_add_posting(xapian_document self, const char * tname, unsigned int tpos) throw ()
 {
-    self->add_posting(std::string(term), tpos);
+    self->add_posting(std::string(tname), tpos);
 }
 
 void
-xapian_document_add_posting2(xapian_document self, const char *term, unsigned int tpos, unsigned int wdfinc)
+xapian_document_add_posting2(xapian_document self, const char * tname, unsigned int tpos, unsigned int wdfinc) throw ()
 {
-    self->add_posting(std::string(term), tpos, wdfinc);
+    self->add_posting(std::string(tname), tpos, wdfinc);
 }
 
 void
-xapian_document_add_term(xapian_document self, const char *term)
+xapian_document_add_term(xapian_document self, const char * tname) throw ()
 {
-    self->add_term(std::string(term));
+    self->add_term(std::string(tname));
 }
 
 void
-xapian_document_add_term2(xapian_document self, const char *term, unsigned int wdfinc)
+xapian_document_add_term2(xapian_document self, const char * tname, unsigned int wdfinc) throw ()
 {
-    self->add_term(std::string(term), wdfinc);
+    self->add_term(std::string(tname), wdfinc);
 }
 
 void
-xapian_document_add_boolean_term(xapian_document self, const char *term)
+xapian_document_add_boolean_term(xapian_document self, const char * term) throw ()
 {
     self->add_boolean_term(std::string(term));
 }
 
 void
-xapian_document_remove_posting(xapian_document self, const char *term, unsigned int tpos)
+xapian_document_remove_posting(xapian_document self, const char * tname, unsigned int tpos) throw ()
 {
-    self->remove_posting(std::string(term), tpos);
+    self->remove_posting(std::string(tname), tpos);
 }
 
 void
-xapian_document_remove_posting2(xapian_document self, const char *term, unsigned int tpos, unsigned int wdfdec)
+xapian_document_remove_posting2(xapian_document self, const char * tname, unsigned int tpos, unsigned int wdfdec) throw ()
 {
-    self->remove_posting(std::string(term), tpos, wdfdec);
+    self->remove_posting(std::string(tname), tpos, wdfdec);
 }
 
 void
-xapian_document_remove_term(xapian_document self, const char *term)
+xapian_document_remove_term(xapian_document self, const char * tname) throw ()
 {
-    self->remove_term(std::string(term));
+    self->remove_term(std::string(tname));
 }
 
 void
-xapian_document_clear_terms(xapian_document self)
+xapian_document_clear_terms(xapian_document self) throw ()
 {
-    self->clear_values();
+    self->clear_terms();
 }
 
 unsigned int
-xapian_document_termlist_count(xapian_document self)
+xapian_document_termlist_count(xapian_document self) throw ()
 {
     return self->termlist_count();
 }
 
+xapian_term_iterator
+xapian_document_termlist_begin(xapian_document self) throw ()
+{
+    Xapian::TermIterator *value = new Xapian::TermIterator();
+    *value = self->termlist_begin();
+    return value;
+}
 
-/*
-termlist_begin
-termlist_end
-*/
+xapian_term_iterator
+xapian_document_termlist_end(xapian_document self) throw ()
+{
+    Xapian::TermIterator *value = new Xapian::TermIterator();
+    *value = self->termlist_end();
+    return value;
+}
 
 unsigned int
-xapian_document_values_count(xapian_document self)
+xapian_document_values_count(xapian_document self) throw ()
 {
     return self->values_count();
 }
 
-/*
-values_begin
-values_end
-*/
+xapian_value_iterator
+xapian_document_values_begin(xapian_document self) throw ()
+{
+    Xapian::ValueIterator *value = new Xapian::ValueIterator();
+    *value = self->values_begin();
+    return value;
+}
+
+xapian_value_iterator_end_
+xapian_document_values_end(xapian_document self) throw ()
+{
+    Xapian::ValueIteratorEnd_ *value = new Xapian::ValueIteratorEnd_();
+    *value = self->values_end();
+    return value;
+}
 
 unsigned int
-xapian_document_get_docid(xapian_document self)
+xapian_document_get_docid(xapian_document self) throw ()
 {
     return self->get_docid();
 }
 
 const char *
-xapian_document_get_description(xapian_document self)
+xapian_document_serialise(xapian_document self) throw ()
 {
-    std::string description = self->get_description();
-    return strdup(description.c_str());
+    std::string value = self->serialise();
+    return strdup(value.c_str());
+}
+
+const char *
+xapian_document_get_description(xapian_document self) throw ()
+{
+    std::string value = self->get_description();
+    return strdup(value.c_str());
 }
 
 }

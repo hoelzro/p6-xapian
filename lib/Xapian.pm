@@ -40,111 +40,59 @@ module Xapian {
     }
 
     class Document is repr('CPointer') {
-        my sub xapian_document_new() returns Document is native('xapian-helper') { * } 
+        my sub xapian_document_new() returns Document is native('xapian-helper') { * }
         my sub xapian_document_free(Document $self) is native('xapian-helper') { * }
-        my sub xapian_document_get_value(Document $self, int $slot) returns Str is native('xapian-helper') { * }
-        my sub xapian_document_add_value(Document $self, int $slot, Str $value) is native('xapian-helper') { * }
-        my sub xapian_document_remove_value(Document $self, int $slot) is native('xapian-helper') { * }
+        my sub xapian_document_get_value(Document $self, uint $slot) returns Str is native('xapian-helper') { * }
+        my sub xapian_document_add_value(Document $self, uint $slot, Str $value) is native('xapian-helper') { * }
+        my sub xapian_document_remove_value(Document $self, uint $slot) is native('xapian-helper') { * }
         my sub xapian_document_clear_values(Document $self) is native('xapian-helper') { * }
         my sub xapian_document_get_data(Document $self) returns Str is native('xapian-helper') { * }
         my sub xapian_document_set_data(Document $self, Str $data) is native('xapian-helper') { * }
-        my sub xapian_document_add_posting(Document $self, Str $term, uint $tpos) is native('xapian-helper') { * }
-        my sub xapian_document_add_posting2(Document $self, Str $term, uint $tpos, uint $wdfinc) is native('xapian-helper') { * }
-        my sub xapian_document_add_term(Document $self, Str $term) is native('xapian-helper') { * }
-        my sub xapian_document_add_term2(Document $self, Str $term, uint $wdfinc) is native('xapian-helper') { * }
+        my sub xapian_document_add_posting(Document $self, Str $tname, uint $tpos) is native('xapian-helper') { * }
+        my sub xapian_document_add_posting2(Document $self, Str $tname, uint $tpos, uint $wdfinc) is native('xapian-helper') { * }
+        my sub xapian_document_add_term(Document $self, Str $tname) is native('xapian-helper') { * }
+        my sub xapian_document_add_term2(Document $self, Str $tname, uint $wdfinc) is native('xapian-helper') { * }
         my sub xapian_document_add_boolean_term(Document $self, Str $term) is native('xapian-helper') { * }
-        my sub xapian_document_remove_posting(Document $self, Str $term, uint $tpos) is native('xapian-helper') { * }
-        my sub xapian_document_remove_posting2(Document $self, Str $term, uint $tpos, uint $wdfdec) is native('xapian-helper') { * }
-        my sub xapian_document_remove_term(Document $self, Str $term) is native('xapian-helper') { * }
+        my sub xapian_document_remove_posting(Document $self, Str $tname, uint $tpos) is native('xapian-helper') { * }
+        my sub xapian_document_remove_posting2(Document $self, Str $tname, uint $tpos, uint $wdfdec) is native('xapian-helper') { * }
+        my sub xapian_document_remove_term(Document $self, Str $tname) is native('xapian-helper') { * }
         my sub xapian_document_clear_terms(Document $self) is native('xapian-helper') { * }
         my sub xapian_document_termlist_count(Document $self) returns uint is native('xapian-helper') { * }
+        my sub xapian_document_termlist_begin(Document $self) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_document_termlist_end(Document $self) returns TermIterator is native('xapian-helper') { * }
         my sub xapian_document_values_count(Document $self) returns uint is native('xapian-helper') { * }
+        my sub xapian_document_values_begin(Document $self) returns ValueIterator is native('xapian-helper') { * }
+        my sub xapian_document_values_end(Document $self) returns ValueIteratorEnd_ is native('xapian-helper') { * }
         my sub xapian_document_get_docid(Document $self) returns uint is native('xapian-helper') { * }
+        my sub xapian_document_serialise(Document $self) returns Str is native('xapian-helper') { * }
         my sub xapian_document_get_description(Document $self) returns Str is native('xapian-helper') { * }
 
-        method new {
-            xapian_document_new()
-        }
-
-        submethod DESTROY {
-            xapian_document_free(self)
-        }
-
-        method get_value(Int $slot) returns Str {
-            xapian_document_get_value(self, $slot)
-        }
-
-        method add_value(Int $slot, Str $value) {
-            xapian_document_add_value(self, $slot, $value)
-        }
-
-        method remove_value(Int $slot) {
-            xapian_document_remove_value(self, $slot)
-        }
-
-        method clear_values() {
-            xapian_document_clear_values(self)
-        }
-
-        method get_data() returns Str {
-            xapian_document_get_data(self)
-        }
-
-        method set_data(Str $data) {
-            xapian_document_set_data(self, $data)
-        }
-
-        multi method add_posting(Str $term, Int $tpos) {
-            xapian_document_add_posting(self, $term, $tpos)
-        }
-
-        multi method add_posting(Str $term, Int $tpos, Int $wdfinc) {
-            xapian_document_add_posting2(self, $term, $tpos, $wdfinc)
-        }
-
-        multi method add_term(Str $term) {
-            xapian_document_add_term(self, $term)
-        }
-
-        multi method add_term(Str $term, Int $wdfinc) {
-            xapian_document_add_term2(self, $term, $wdfinc)
-        }
-
-        method add_boolean_term(Str $term) {
-            xapian_document_add_boolean_term(self, $term)
-        }
-
-        multi method remove_posting(Str $term, Int $tpos) {
-            xapian_document_remove_posting(self, $term, $tpos)
-        }
-
-        multi method remove_posting(Str $term, Int $tpos, Int $wdfdec) {
-            xapian_document_remove_posting2(self, $term, $tpos, $wdfdec)
-        }
-
-        method remove_term(Str $term) {
-            xapian_document_remove_term(self, $term)
-        }
-
-        method clear_terms() {
-            xapian_document_clear_terms(self)
-        }
-
-        method termlist_count() returns Int {
-            xapian_document_termlist_count(self)
-        }
-
-        method values_count() returns Int {
-            xapian_document_values_count(self)
-        }
-
-        method get_docid() returns Int {
-            xapian_document_get_docid(self)
-        }
-
-        method get_description() returns Str {
-            xapian_document_get_description(self)
-        }
+        method new() returns Document { xapian_document_new() }
+        submethod DESTROY() { xapian_document_free(self) }
+        method get_value(Int $slot) returns Str { xapian_document_get_value(self, $slot) }
+        method add_value(Int $slot, Str $value) { xapian_document_add_value(self, $slot, $value) }
+        method remove_value(Int $slot) { xapian_document_remove_value(self, $slot) }
+        method clear_values() { xapian_document_clear_values(self) }
+        method get_data() returns Str { xapian_document_get_data(self) }
+        method set_data(Str $data) { xapian_document_set_data(self, $data) }
+        multi method add_posting(Str $tname, Int $tpos) { xapian_document_add_posting(self, $tname, $tpos) }
+        multi method add_posting(Str $tname, Int $tpos, Int $wdfinc) { xapian_document_add_posting2(self, $tname, $tpos, $wdfinc) }
+        multi method add_term(Str $tname) { xapian_document_add_term(self, $tname) }
+        multi method add_term(Str $tname, Int $wdfinc) { xapian_document_add_term2(self, $tname, $wdfinc) }
+        method add_boolean_term(Str $term) { xapian_document_add_boolean_term(self, $term) }
+        multi method remove_posting(Str $tname, Int $tpos) { xapian_document_remove_posting(self, $tname, $tpos) }
+        multi method remove_posting(Str $tname, Int $tpos, Int $wdfdec) { xapian_document_remove_posting2(self, $tname, $tpos, $wdfdec) }
+        method remove_term(Str $tname) { xapian_document_remove_term(self, $tname) }
+        method clear_terms() { xapian_document_clear_terms(self) }
+        method termlist_count() returns Int { xapian_document_termlist_count(self) }
+        method termlist_begin() returns TermIterator { xapian_document_termlist_begin(self) }
+        method termlist_end() returns TermIterator { xapian_document_termlist_end(self) }
+        method values_count() returns Int { xapian_document_values_count(self) }
+        method values_begin() returns ValueIterator { xapian_document_values_begin(self) }
+        method values_end() returns ValueIteratorEnd_ { xapian_document_values_end(self) }
+        method get_docid() returns Int { xapian_document_get_docid(self) }
+        method serialise() returns Str { xapian_document_serialise(self) }
+        method get_description() returns Str { xapian_document_get_description(self) }
     }
 
     class Stem is repr('CPointer') {
