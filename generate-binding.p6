@@ -325,7 +325,7 @@ class CppMethod {
                 } elsif $.return-type.Str ~~ /^ 'Xapian::' <[A..Z]> / {
                     "$.return-type *value = new {$.return-type}();\n    *value = self->{$.name}($call-arguments);\n    return value;" 
                 } else {
-                    "{$is-void ?? '' !! 'return'} self->{$.name}($call-arguments);"
+                    "{$is-void ?? '' !! 'return '}self->{$.name}($call-arguments);"
                 };
 
             take qq:to/END_CPP/;
