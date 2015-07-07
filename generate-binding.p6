@@ -659,7 +659,7 @@ sub generate-c-binding($definition) {
 
     my $function-definitions = @function-definitions.join("\n");
 
-    qq:!closure:to/END_CPP_TEMPLATE/;
+    qq:!closure:to/END_CPP_TEMPLATE/.trim;
     /*
      * Generate C wrapper and Perl 6 bindings for a C++ class
      * Copyright (C) 2015 Rob Hoelz (rob AT hoelz.ro)
