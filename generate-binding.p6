@@ -26,14 +26,22 @@ sub camel-to-snake-case(Str $name) {
 my %c-typemap = (
     'std::string'       => 'const char *',
     'Xapian::docid'     => 'unsigned int',
+    'Xapian::doccount'  => 'unsigned int',
+    'Xapian::doclength' => 'unsigned int',
     'Xapian::termcount' => 'unsigned int',
+    'Xapian::valueno'   => 'unsigned int',
+    'unsigned'          => 'unsigned int',
 );
 
 my %perl-typemap = (
     'std::string'       => 'Str',
     'bool'              => 'Bool',
     'Xapian::docid'     => 'uint',
+    'Xapian::doccount'  => 'uint',
+    'Xapian::doclength' => 'uint',
     'Xapian::termcount' => 'uint',
+    'Xapian::valueno'   => 'uint',
+    'unsigned'          => 'uint',
 );
 
 class CppType {
