@@ -55,15 +55,15 @@ module Xapian {
             xapian_document_free(self)
         }
 
-        method get_value(int $slot) returns Str {
+        method get_value(Int $slot) returns Str {
             xapian_document_get_value(self, $slot)
         }
 
-        method add_value(int $slot, Str $value) {
+        method add_value(Int $slot, Str $value) {
             xapian_document_add_value(self, $slot, $value)
         }
 
-        method remove_value(int $slot) {
+        method remove_value(Int $slot) {
             xapian_document_remove_value(self, $slot)
         }
 
@@ -79,11 +79,11 @@ module Xapian {
             xapian_document_set_data(self, $data)
         }
 
-        multi method add_posting(Str $term, uint $tpos) {
+        multi method add_posting(Str $term, Int $tpos) {
             xapian_document_add_posting(self, $term, $tpos)
         }
 
-        multi method add_posting(Str $term, uint $tpos, uint $wdfinc) {
+        multi method add_posting(Str $term, Int $tpos, Int $wdfinc) {
             xapian_document_add_posting2(self, $term, $tpos, $wdfinc)
         }
 
@@ -91,7 +91,7 @@ module Xapian {
             xapian_document_add_term(self, $term)
         }
 
-        multi method add_term(Str $term, uint $wdfinc) {
+        multi method add_term(Str $term, Int $wdfinc) {
             xapian_document_add_term2(self, $term, $wdfinc)
         }
 
@@ -99,11 +99,11 @@ module Xapian {
             xapian_document_add_boolean_term(self, $term)
         }
 
-        multi method remove_posting(Str $term, uint $tpos) {
+        multi method remove_posting(Str $term, Int $tpos) {
             xapian_document_remove_posting(self, $term, $tpos)
         }
 
-        multi method remove_posting(Str $term, uint $tpos, uint $wdfdec) {
+        multi method remove_posting(Str $term, Int $tpos, Int $wdfdec) {
             xapian_document_remove_posting2(self, $term, $tpos, $wdfdec)
         }
 
@@ -115,15 +115,15 @@ module Xapian {
             xapian_document_clear_terms(self)
         }
 
-        method termlist_count() returns uint {
+        method termlist_count() returns Int {
             xapian_document_termlist_count(self)
         }
 
-        method values_count() returns uint {
+        method values_count() returns Int {
             xapian_document_values_count(self)
         }
 
-        method get_docid() returns uint {
+        method get_docid() returns Int {
             xapian_document_get_docid(self)
         }
 
@@ -206,7 +206,7 @@ module Xapian {
         }
         )
 
-        method set_max_word_length(uint $max-word-length) {
+        method set_max_word_length(Int $max-word-length) {
             xapian_term_generator_set_max_word_length(self, $max-word-length);
         }
 
@@ -214,11 +214,11 @@ module Xapian {
             xapian_term_generator_index_text(self, $text)
         }
 
-        multi method index_text(Str $text, uint $wdf-inc) {
+        multi method index_text(Str $text, Int $wdf-inc) {
             xapian_term_generator_index_text2(self, $text, $wdf-inc)
         }
 
-        multi method index_text(Str $text, uint $wdf-inc, Str $prefix) {
+        multi method index_text(Str $text, Int $wdf-inc, Str $prefix) {
             xapian_term_generator_index_text3(self, $text, $wdf-inc, $prefix)
         }
 
@@ -226,11 +226,11 @@ module Xapian {
             xapian_term_generator_index_text_without_positions(self, $text)
         }
 
-        multi method index_text_without_positions(Str $text, uint $wdf-inc) {
+        multi method index_text_without_positions(Str $text, Int $wdf-inc) {
             xapian_term_generator_index_text_without_positions2(self, $text, $wdf-inc)
         }
 
-        multi method index_text_without_positions(Str $text, uint $wdf-inc, Str $prefix) {
+        multi method index_text_without_positions(Str $text, Int $wdf-inc, Str $prefix) {
             xapian_term_generator_index_text_without_positions3(self, $text, $wdf-inc, $prefix)
         }
 
@@ -238,15 +238,15 @@ module Xapian {
             xapian_term_generator_increase_termpos(self)
         }
 
-        multi method increase_termpos(uint $delta) {
+        multi method increase_termpos(Int $delta) {
             xapian_term_generator_increase_termpos2(self, $delta)
         }
 
-        method get_termpos() returns uint {
+        method get_termpos() returns Int {
             xapian_term_generator_get_termpos(self)
         }
 
-        method set_termpos(uint $termpos) {
+        method set_termpos(Int $termpos) {
             xapian_term_generator_set_termpos(self, $termpos)
         }
 
@@ -291,22 +291,22 @@ module Xapian {
         method close() { xapian_database_close(self) }
         method get_description() returns Str { xapian_database_get_description(self) }
         method has_positions() returns Bool { xapian_database_has_positions(self) }
-        method get_doccount() returns uint { xapian_database_get_doccount(self) }
-        method get_lastdocid() returns uint { xapian_database_get_lastdocid(self) }
-        method get_avlength() returns uint { xapian_database_get_avlength(self) }
-        method get_termfreq(Str $tname) returns uint { xapian_database_get_termfreq(self, $tname) }
+        method get_doccount() returns Int { xapian_database_get_doccount(self) }
+        method get_lastdocid() returns Int { xapian_database_get_lastdocid(self) }
+        method get_avlength() returns Int { xapian_database_get_avlength(self) }
+        method get_termfreq(Str $tname) returns Int { xapian_database_get_termfreq(self, $tname) }
         method term_exists(Str $tname) returns Bool { xapian_database_term_exists(self, $tname) }
-        method get_collection_freq(Str $tname) returns uint { xapian_database_get_collection_freq(self, $tname) }
-        method get_value_freq(uint $slot) returns uint { xapian_database_get_value_freq(self, $slot) }
-        method get_value_lower_bound(uint $slot) returns Str { xapian_database_get_value_lower_bound(self, $slot) }
-        method get_value_upper_bound(uint $slot) returns Str { xapian_database_get_value_upper_bound(self, $slot) }
-        method get_doclength_lower_bound() returns uint { xapian_database_get_doclength_lower_bound(self) }
-        method get_doclength_upper_bound() returns uint { xapian_database_get_doclength_upper_bound(self) }
-        method get_wdf_upper_bound(Str $term) returns uint { xapian_database_get_wdf_upper_bound(self, $term) }
-        method get_doclength(uint $did) returns uint { xapian_database_get_doclength(self, $did) }
+        method get_collection_freq(Str $tname) returns Int { xapian_database_get_collection_freq(self, $tname) }
+        method get_value_freq(Int $slot) returns Int { xapian_database_get_value_freq(self, $slot) }
+        method get_value_lower_bound(Int $slot) returns Str { xapian_database_get_value_lower_bound(self, $slot) }
+        method get_value_upper_bound(Int $slot) returns Str { xapian_database_get_value_upper_bound(self, $slot) }
+        method get_doclength_lower_bound() returns Int { xapian_database_get_doclength_lower_bound(self) }
+        method get_doclength_upper_bound() returns Int { xapian_database_get_doclength_upper_bound(self) }
+        method get_wdf_upper_bound(Str $term) returns Int { xapian_database_get_wdf_upper_bound(self, $term) }
+        method get_doclength(Int $did) returns Int { xapian_database_get_doclength(self, $did) }
         method keep_alive() { xapian_database_keep_alive(self) }
         multi method get_spelling_suggestion(Str $word) returns Str { xapian_database_get_spelling_suggestion(self, $word) }
-        multi method get_spelling_suggestion(Str $word, uint $max_edit_distance) returns Str { xapian_database_get_spelling_suggestion2(self, $word, $max_edit_distance) }
+        multi method get_spelling_suggestion(Str $word, Int $max_edit_distance) returns Str { xapian_database_get_spelling_suggestion2(self, $word, $max_edit_distance) }
         method get_metadata(Str $key) returns Str { xapian_database_get_metadata(self, $key) }
         method get_uuid() returns Str { xapian_database_get_uuid(self) }
     }
@@ -346,15 +346,15 @@ module Xapian {
         multi method begin_transaction(Bool $flushed) { xapian_writable_database_begin_transaction2(self, $flushed) }
         method commit_transaction() { xapian_writable_database_commit_transaction(self) }
         method cancel_transaction() { xapian_writable_database_cancel_transaction(self) }
-        method add_document(Document $document) returns uint { xapian_writable_database_add_document(self, $document) }
-        multi method delete_document(uint $did) { xapian_writable_database_delete_document(self, $did) }
+        method add_document(Document $document) returns Int { xapian_writable_database_add_document(self, $document) }
+        multi method delete_document(Int $did) { xapian_writable_database_delete_document(self, $did) }
         multi method delete_document(Str $unique_term) { xapian_writable_database_delete_document2(self, $unique_term) }
-        multi method replace_document(uint $did, Document $document) { xapian_writable_database_replace_document(self, $did, $document) }
-        multi method replace_document(Str $unique_term, Document $document) returns uint { xapian_writable_database_replace_document2(self, $unique_term, $document) }
+        multi method replace_document(Int $did, Document $document) { xapian_writable_database_replace_document(self, $did, $document) }
+        multi method replace_document(Str $unique_term, Document $document) returns Int { xapian_writable_database_replace_document2(self, $unique_term, $document) }
         multi method add_spelling(Str $word) { xapian_writable_database_add_spelling(self, $word) }
-        multi method add_spelling(Str $word, uint $freqinc) { xapian_writable_database_add_spelling2(self, $word, $freqinc) }
+        multi method add_spelling(Str $word, Int $freqinc) { xapian_writable_database_add_spelling2(self, $word, $freqinc) }
         multi method remove_spelling(Str $word) { xapian_writable_database_remove_spelling(self, $word) }
-        multi method remove_spelling(Str $word, uint $freqdec) { xapian_writable_database_remove_spelling2(self, $word, $freqdec) }
+        multi method remove_spelling(Str $word, Int $freqdec) { xapian_writable_database_remove_spelling2(self, $word, $freqdec) }
         method add_synonym(Str $term, Str $synonym) { xapian_writable_database_add_synonym(self, $term, $synonym) }
         method remove_synonym(Str $term, Str $synonym) { xapian_writable_database_remove_synonym(self, $term, $synonym) }
         method clear_synonyms(Str $term) { xapian_writable_database_clear_synonyms(self, $term) }
