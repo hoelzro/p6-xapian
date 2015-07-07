@@ -283,6 +283,11 @@ class CppMethod {
             return True
         }
 
+        if $.return-type.Str ~~ /'::Internal'/ {
+            # returns an internal type, skip it
+            return True
+        }
+
         return False
     }
 
