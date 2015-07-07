@@ -349,6 +349,10 @@ class CppMethod {
             return 'it returns an internal type'
         }
 
+        if $.is-static {
+            return 'it is static'
+        }
+
         return False
     }
 
