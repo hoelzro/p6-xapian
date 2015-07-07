@@ -193,7 +193,7 @@ class CppDestructor {
     method generate-perl6-methods {
         my $function-name = $*CPP-CLASS.c-type ~ '_free';
 
-        "method DESTROY() \{ {$function-name}(self) \}"
+        "submethod DESTROY() \{ {$function-name}(self) \}"
     }
 }
 
