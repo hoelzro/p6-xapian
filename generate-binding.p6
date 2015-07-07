@@ -400,9 +400,9 @@ class CppMethod {
     }
 
     method should-skip {
-        if $.name ~~ /^operator/ {
-            # operator overload, skip it (for now)
-            return 'it is an operator overload'
+        if $.name ~~ /^'operator='/ {
+            # assignment operator overload, skip it
+            return 'it is an assignment operator overload'
         }
 
         if $.return-type.Str ~~ /'::Internal'/ {
