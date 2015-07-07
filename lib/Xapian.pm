@@ -263,7 +263,17 @@ module Xapian {
         my sub xapian_database_reopen(Database $self) is native('xapian-helper') { * }
         my sub xapian_database_close(Database $self) is native('xapian-helper') { * }
         my sub xapian_database_get_description(Database $self) returns Str is native('xapian-helper') { * }
+        my sub xapian_database_postlist_begin(Database $self, Str $tname) returns PostingIterator is native('xapian-helper') { * }
+        my sub xapian_database_postlist_end(Database $self, Str $_anon_1) returns PostingIterator is native('xapian-helper') { * }
+        my sub xapian_database_termlist_begin(Database $self, uint $did) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_database_termlist_end(Database $self, uint $_anon_1) returns TermIterator is native('xapian-helper') { * }
         my sub xapian_database_has_positions(Database $self) returns Bool is native('xapian-helper') { * }
+        my sub xapian_database_positionlist_begin(Database $self, uint $did, Str $tname) returns PositionIterator is native('xapian-helper') { * }
+        my sub xapian_database_positionlist_end(Database $self, uint $_anon_1, Str $_anon_2) returns PositionIterator is native('xapian-helper') { * }
+        my sub xapian_database_allterms_begin(Database $self) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_database_allterms_end(Database $self) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_database_allterms_begin2(Database $self, Str $prefix) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_database_allterms_end2(Database $self, Str $_anon_1) returns TermIterator is native('xapian-helper') { * }
         my sub xapian_database_get_doccount(Database $self) returns uint is native('xapian-helper') { * }
         my sub xapian_database_get_lastdocid(Database $self) returns uint is native('xapian-helper') { * }
         my sub xapian_database_get_avlength(Database $self) returns uint is native('xapian-helper') { * }
@@ -276,11 +286,26 @@ module Xapian {
         my sub xapian_database_get_doclength_lower_bound(Database $self) returns uint is native('xapian-helper') { * }
         my sub xapian_database_get_doclength_upper_bound(Database $self) returns uint is native('xapian-helper') { * }
         my sub xapian_database_get_wdf_upper_bound(Database $self, Str $term) returns uint is native('xapian-helper') { * }
+        my sub xapian_database_valuestream_begin(Database $self, uint $slot) returns ValueIterator is native('xapian-helper') { * }
+        my sub xapian_database_valuestream_end(Database $self, uint $_anon_1) returns ValueIteratorEnd_ is native('xapian-helper') { * }
         my sub xapian_database_get_doclength(Database $self, uint $did) returns uint is native('xapian-helper') { * }
         my sub xapian_database_keep_alive(Database $self) is native('xapian-helper') { * }
+        my sub xapian_database_get_document(Database $self, uint $did) returns Document is native('xapian-helper') { * }
         my sub xapian_database_get_spelling_suggestion(Database $self, Str $word) returns Str is native('xapian-helper') { * }
         my sub xapian_database_get_spelling_suggestion2(Database $self, Str $word, uint $max_edit_distance) returns Str is native('xapian-helper') { * }
+        my sub xapian_database_spellings_begin(Database $self) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_database_spellings_end(Database $self) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_database_synonyms_begin(Database $self, Str $term) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_database_synonyms_end(Database $self, Str $_anon_1) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_database_synonym_keys_begin(Database $self) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_database_synonym_keys_begin2(Database $self, Str $prefix) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_database_synonym_keys_end(Database $self) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_database_synonym_keys_end2(Database $self, Str $_anon_1) returns TermIterator is native('xapian-helper') { * }
         my sub xapian_database_get_metadata(Database $self, Str $key) returns Str is native('xapian-helper') { * }
+        my sub xapian_database_metadata_keys_begin(Database $self) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_database_metadata_keys_begin2(Database $self, Str $prefix) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_database_metadata_keys_end(Database $self) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_database_metadata_keys_end2(Database $self, Str $_anon_1) returns TermIterator is native('xapian-helper') { * }
         my sub xapian_database_get_uuid(Database $self) returns Str is native('xapian-helper') { * }
 
         method add_database(Database $database) { xapian_database_add_database(self, $database) }
@@ -290,7 +315,17 @@ module Xapian {
         method reopen() { xapian_database_reopen(self) }
         method close() { xapian_database_close(self) }
         method get_description() returns Str { xapian_database_get_description(self) }
+        method postlist_begin(Str $tname) returns PostingIterator { xapian_database_postlist_begin(self, $tname) }
+        method postlist_end(Str $_anon_1) returns PostingIterator { xapian_database_postlist_end(self, $_anon_1) }
+        method termlist_begin(Int $did) returns TermIterator { xapian_database_termlist_begin(self, $did) }
+        method termlist_end(Int $_anon_1) returns TermIterator { xapian_database_termlist_end(self, $_anon_1) }
         method has_positions() returns Bool { xapian_database_has_positions(self) }
+        method positionlist_begin(Int $did, Str $tname) returns PositionIterator { xapian_database_positionlist_begin(self, $did, $tname) }
+        method positionlist_end(Int $_anon_1, Str $_anon_2) returns PositionIterator { xapian_database_positionlist_end(self, $_anon_1, $_anon_2) }
+        multi method allterms_begin() returns TermIterator { xapian_database_allterms_begin(self) }
+        multi method allterms_end() returns TermIterator { xapian_database_allterms_end(self) }
+        multi method allterms_begin(Str $prefix) returns TermIterator { xapian_database_allterms_begin2(self, $prefix) }
+        multi method allterms_end(Str $_anon_1) returns TermIterator { xapian_database_allterms_end2(self, $_anon_1) }
         method get_doccount() returns Int { xapian_database_get_doccount(self) }
         method get_lastdocid() returns Int { xapian_database_get_lastdocid(self) }
         method get_avlength() returns Int { xapian_database_get_avlength(self) }
@@ -303,11 +338,26 @@ module Xapian {
         method get_doclength_lower_bound() returns Int { xapian_database_get_doclength_lower_bound(self) }
         method get_doclength_upper_bound() returns Int { xapian_database_get_doclength_upper_bound(self) }
         method get_wdf_upper_bound(Str $term) returns Int { xapian_database_get_wdf_upper_bound(self, $term) }
+        method valuestream_begin(Int $slot) returns ValueIterator { xapian_database_valuestream_begin(self, $slot) }
+        method valuestream_end(Int $_anon_1) returns ValueIteratorEnd_ { xapian_database_valuestream_end(self, $_anon_1) }
         method get_doclength(Int $did) returns Int { xapian_database_get_doclength(self, $did) }
         method keep_alive() { xapian_database_keep_alive(self) }
+        method get_document(Int $did) returns Document { xapian_database_get_document(self, $did) }
         multi method get_spelling_suggestion(Str $word) returns Str { xapian_database_get_spelling_suggestion(self, $word) }
         multi method get_spelling_suggestion(Str $word, Int $max_edit_distance) returns Str { xapian_database_get_spelling_suggestion2(self, $word, $max_edit_distance) }
+        method spellings_begin() returns TermIterator { xapian_database_spellings_begin(self) }
+        method spellings_end() returns TermIterator { xapian_database_spellings_end(self) }
+        method synonyms_begin(Str $term) returns TermIterator { xapian_database_synonyms_begin(self, $term) }
+        method synonyms_end(Str $_anon_1) returns TermIterator { xapian_database_synonyms_end(self, $_anon_1) }
+        multi method synonym_keys_begin() returns TermIterator { xapian_database_synonym_keys_begin(self) }
+        multi method synonym_keys_begin(Str $prefix) returns TermIterator { xapian_database_synonym_keys_begin2(self, $prefix) }
+        multi method synonym_keys_end() returns TermIterator { xapian_database_synonym_keys_end(self) }
+        multi method synonym_keys_end(Str $_anon_1) returns TermIterator { xapian_database_synonym_keys_end2(self, $_anon_1) }
         method get_metadata(Str $key) returns Str { xapian_database_get_metadata(self, $key) }
+        multi method metadata_keys_begin() returns TermIterator { xapian_database_metadata_keys_begin(self) }
+        multi method metadata_keys_begin(Str $prefix) returns TermIterator { xapian_database_metadata_keys_begin2(self, $prefix) }
+        multi method metadata_keys_end() returns TermIterator { xapian_database_metadata_keys_end(self) }
+        multi method metadata_keys_end(Str $_anon_1) returns TermIterator { xapian_database_metadata_keys_end2(self, $_anon_1) }
         method get_uuid() returns Str { xapian_database_get_uuid(self) }
     }
 
