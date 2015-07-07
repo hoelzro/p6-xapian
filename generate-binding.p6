@@ -523,6 +523,7 @@ grammar CppGrammar {
 
     token literal:integer { \d+ }
     token literal:boolean { 'true' || 'false' }
+    token literal:null { 'NULL' }
     token literal:std_string { 'std::string()' }
 
     token type-modifier {
