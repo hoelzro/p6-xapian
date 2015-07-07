@@ -567,6 +567,8 @@ sub generate-c-binding($definition) {
 
     #include <xapian.h>
 
+    #include "version-check.h"
+
     extern "C" {
 
     $typedefs
