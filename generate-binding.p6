@@ -321,6 +321,8 @@ class CppMethod {
             my $body =
                 do if $.return-type.Str eq 'std::string' {
                     "std::string value = self->{$.name}($call-arguments);\n    return strdup(value.c_str());"
+                } elsif $.return-type.Str ~~ /^ 'Xapian::' <[A..Z]> / {
+                    "$.return-type *value = new {$.return-type}();\n    *value = self->{$.name}($call-arguments);\n    return value;" 
                 } else {
                     "{$is-void ?? '' !! 'return'} self->{$.name}($call-arguments);"
                 };
@@ -344,12 +346,6 @@ class CppMethod {
         if $.return-type.Str ~~ /'::Internal'/ {
             # returns an internal type, skip it
             return 'it returns an internal type'
-        }
-
-        if $.return-type.Str ~~ /^ 'Xapian::' <[A..Z]> / {
-            unless $.return-type.is-pointer {
-                return "it is a struct type we can't handle";
-            }
         }
 
         return False
