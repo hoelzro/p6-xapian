@@ -24,6 +24,8 @@ module Xapian {
     constant DB_CREATE_OR_OVERWRITE = 3;
     constant DB_OPEN                = 4;
 
+    constant BAD_VALUENO = -1;
+
     class PositionIterator is repr('CPointer') {
     }
 
