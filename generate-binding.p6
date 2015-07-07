@@ -255,21 +255,27 @@ class CppMethod {
         $.name
     }
 
-    method generate-c-wrappers {
+    method argument-slices {
         my @arguments = @.arguments;
         @arguments.unshift: CppArgument.new(
             :type($*CPP-CLASS),
             :name<self>,
         );
 
-        my $is-void = $.return-type.Str eq 'void';
-
         my $first-optional-arg-index = @arguments.first-index(*.has-default-value) // +@arguments;
 
         gather for ($first-optional-arg-index..+@arguments) -> $last-index {
+            take @arguments[0..^$last-index];
+        }
+    }
+
+    method generate-c-wrappers {
+        my $is-void = $.return-type.Str eq 'void';
+
+        gather for self.argument-slices() -> @arguments {
             my $suffix = ($*COUNTER // 0) == 0 ?? '' !! $*COUNTER + 1;
 
-            my $call-arguments = generate-arguments-call(@arguments[0..^$last-index]);
+            my $call-arguments = generate-arguments-call(@arguments);
             my $body =
                 do if $.return-type.Str eq 'std::string' {
                     "std::string value = self->{$.name}($call-arguments);\n    return strdup(value.c_str());"
@@ -279,7 +285,7 @@ class CppMethod {
 
             take qq:to/END_CPP/;
             $.return-type().c-type()
-            $*CPP-CLASS.c-type()_{$.name}{$suffix}({generate-arguments-declaration(@arguments[0..^$last-index])}) throw ()
+            $*CPP-CLASS.c-type()_{$.name}{$suffix}({generate-arguments-declaration(@arguments)}) throw ()
             \{
                 $body
             \}
@@ -302,34 +308,26 @@ class CppMethod {
     }
 
     method generate-perl6-stubs {
-        my @arguments = @.arguments;
-        @arguments.unshift: CppArgument.new(:type($*CPP-CLASS), :name<self>);
+        my $returns = $.return-type.Str eq 'void' ?? '' !! ' returns ' ~ $.return-type.perl6-type;
 
-        my $first-optional-arg-index = @arguments.first-index(*.has-default-value) // +@arguments;
-        my $returns                  = $.return-type.Str eq 'void' ?? '' !! ' returns ' ~ $.return-type.perl6-type;
-
-        gather for ($first-optional-arg-index .. +@arguments) -> $last-index {
+        gather for self.argument-slices() -> @arguments {
             my $suffix        = $*COUNTER == 0 ?? '' !! $*COUNTER + 1;
             my $function-name = $*CPP-CLASS.c-type ~ '_' ~ $.name ~ $suffix;
-            my $arguments     = generate-perl6-arguments(@arguments[0..^$last-index]);
+            my $arguments     = generate-perl6-arguments(@arguments);
 
             take "my sub {$function-name}($arguments)$returns is native('$*LIB-NAME') \{ * \}"
         }
     }
 
     method generate-perl6-methods {
-        my @arguments = @.arguments;
-        @arguments.unshift: CppArgument.new(:type($*CPP-CLASS), :name<self>);
+        my $returns = $.return-type.Str eq 'void' ?? '' !! ' returns ' ~ $.return-type.perl6-type;
 
-        my $first-optional-arg-index = @arguments.first-index(*.has-default-value) // +@arguments;
-        my $returns                  = $.return-type.Str eq 'void' ?? '' !! ' returns ' ~ $.return-type.perl6-type;
-
-        gather for ($first-optional-arg-index .. +@arguments) -> $last-index {
+        gather for self.argument-slices() -> @arguments {
             my $suffix        = $*COUNTER == 0 ?? '' !! $*COUNTER + 1;
             my $function-name = $*CPP-CLASS.c-type ~ '_' ~ $.name ~ $suffix;
             my $method-name   = $.name;
-            my $arguments     = generate-perl6-arguments(@arguments[1..^$last-index]);
-            my $call          = generate-perl6-call(@arguments[0..^$last-index]);
+            my $arguments     = generate-perl6-arguments(@arguments[1..*]);
+            my $call          = generate-perl6-call(@arguments);
 
             take "{$*MULTI}method {$method-name}($arguments)$returns \{ {$function-name}($call) \}"
         }
