@@ -8,5 +8,9 @@ install:
 before_script:
   - panda installdeps .
   - panda-build
+
+env:
+  - PERL6LIB=blib/lib LD_LIBRARY_PATH=blib/lib
+
 script:
   - panda-test
