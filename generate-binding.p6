@@ -97,6 +97,11 @@ class CppType {
     }
 }
 
+class CppEnum {
+    has $.name;
+    has %.values;
+}
+
 class CppArgument {
     has CppType $.type;
     has $.name;
@@ -636,6 +641,27 @@ class CppActions {
         my @modifiers = @<method-modifier>.map(*.Str);
         my $is-static = any(@modifiers) eq 'static';
         make CppMethod.new(:name(~$<name>), :arguments(make-args($<arguments-declaration>)), :return-type($<return-type>.made), :$is-static);
+    }
+
+    method class-thing:enum ($/) {
+        my $name = $<name> ?? ~$<name> !! Str;
+
+        my %names-to-values;
+
+        my $current-value = 0;
+        for @<enum-value> -> $/ {
+            my $name  = $<identifier>;
+            my $value = $<value> ?? +$<value> !! $current-value;
+
+            $current-value = $value + 1;
+
+            %names-to-values{$name} = $value;
+        }
+
+        make CppEnum.new(
+            :$name,
+            :values(%names-to-values),
+        );
     }
 
     method type:builtin ($/) {
