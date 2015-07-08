@@ -98,7 +98,7 @@ class CppType {
 }
 
 class CppEnum {
-    has $.name;
+    has $.name is rw;
     has %.values;
 
     method should-skip {
@@ -525,7 +525,7 @@ grammar CppGrammar {
     }
 
     rule class-thing:typedef {
-        'typedef' <class-thing> # this allows typedef public:, but that's ok for now
+        'typedef' <class-thing> # this allows typedef public: and methods, but that's ok for now
         $<name>=<identifier>
         ';'
     }
@@ -672,6 +672,13 @@ class CppActions {
             :$name,
             :values(%names-to-values),
         );
+    }
+
+    method class-thing:typedef ($/) {
+        my $class-thing = $<class-thing>.made;
+        $class-thing.name = ~$<name>;
+
+        make $class-thing;
     }
 
     method type:builtin ($/) {
