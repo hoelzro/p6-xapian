@@ -29,35 +29,35 @@ extern "C" {
 typedef Xapian::Stem *xapian_stem;
 
 xapian_stem
-xapian_stem_new(void)
+xapian_stem_new(void) throw ()
 {
     return new Xapian::Stem();
 }
 
 xapian_stem
-xapian_stem_new_language(const char *language)
+xapian_stem_new2(const char * language) throw ()
 {
     return new Xapian::Stem(std::string(language));
 }
 
 void
-xapian_stem_free(xapian_stem self)
+xapian_stem_free(xapian_stem self) throw ()
 {
     delete self;
 }
 
 const char *
-xapian_stem_call(xapian_stem self, const char *word)
+xapian_stem_call(xapian_stem self, const char * word) throw ()
 {
-    std::string stemmed = (*self)(std::string(word));
-    return strdup(stemmed.c_str());
+    std::string value = (*self)(std::string(word));
+    return strdup(value.c_str());
 }
 
 const char *
-xapian_stem_description(xapian_stem self)
+xapian_stem_get_description(xapian_stem self) throw ()
 {
-    std::string description = self->get_description();
-    return strdup(description.c_str());
+    std::string value = self->get_description();
+    return strdup(value.c_str());
 }
 
 }
