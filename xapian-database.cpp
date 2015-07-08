@@ -37,7 +37,7 @@ typedef Xapian::ValueIterator *xapian_value_iterator;
 void
 xapian_database_add_database(xapian_database self, xapian_database database) throw ()
 {
-     self->add_database(*database);
+    self->add_database(*database);
 }
 
 xapian_database
@@ -61,13 +61,13 @@ xapian_database_free(xapian_database self) throw ()
 void
 xapian_database_reopen(xapian_database self) throw ()
 {
-     self->reopen();
+    self->reopen();
 }
 
 void
 xapian_database_close(xapian_database self) throw ()
 {
-     self->close();
+    self->close();
 }
 
 const char *
@@ -262,7 +262,7 @@ xapian_database_get_doclength(xapian_database self, unsigned int did) throw ()
 void
 xapian_database_keep_alive(xapian_database self) throw ()
 {
-     self->keep_alive();
+    self->keep_alive();
 }
 
 xapian_document
@@ -398,4 +398,3 @@ xapian_database_get_uuid(xapian_database self) throw ()
 }
 
 }
-
