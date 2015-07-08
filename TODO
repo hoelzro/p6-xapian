@@ -1,9 +1,11 @@
+  - Handle enums
+    - Casting integers into them in the C call
+    - Generating them in Perl 6 land
   - Handle static methods
   - Str (get-description)
   - kebab case forms
   - Tests (look at xapian-bindings)
     - generate these too?
-  - Handle enums
   - Docs (is there a way I can import them? improve generate c++? https://getting-started-with-xapian.readthedocs.org/en/latest?)
   - Exceptions (see what other bindings do)
     - Pass a callback that takes an exception to handle it?
