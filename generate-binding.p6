@@ -504,6 +504,17 @@ grammar CppGrammar {
         '(' ');'
     }
 
+    rule class-thing:enum {
+        'enum' $<name>=<.identifier>?
+        '{' ~ '}' <enum-value>+ % ','
+
+        ';'?
+    }
+
+    rule enum-value {
+        <identifier> [ '=' $<value>=\d+ ]?
+    }
+
     rule arguments-declaration {
         <argument>* % ','
     }
