@@ -423,6 +423,10 @@ class CppMethod {
             return 'it is static'
         }
 
+        if any(@.arguments».type».Str) eq 'Xapian::Utf8Iterator' {
+            return 'it uses Utf8Iterator'
+        }
+
         return False
     }
 

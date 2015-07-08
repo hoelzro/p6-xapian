@@ -9,3 +9,4 @@
     - Pass a callback that takes an exception to handle it?
   - Binding more classes
   - generate alternates that use optional arguments instead of multis?
+  - Support Utf8Iterator
