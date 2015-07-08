@@ -525,6 +525,7 @@ grammar CppGrammar {
     token literal:boolean { 'true' || 'false' }
     token literal:null { 'NULL' }
     token literal:std_string { 'std::string()' }
+    token literal:flags { 'flags(' <.ws> \d+ <.ws> ')' }
 
     token type-modifier {
         'const'
