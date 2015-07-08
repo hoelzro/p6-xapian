@@ -41,6 +41,11 @@ module Xapian {
     class ValueIteratorEnd_ is repr('CPointer') {
     }
 
+    class Stopper is repr('CPointer') {
+    }
+
+    class WritableDatabase is repr('CPointer') { ... }
+
     class Document is repr('CPointer') {
         my sub xapian_document_new() returns Document is native('xapian-helper') { * }
         my sub xapian_document_free(Document $self) is native('xapian-helper') { * }
