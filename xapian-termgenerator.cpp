@@ -85,19 +85,19 @@ xapian_term_generator_set_database(xapian_term_generator self, xapian_writable_d
 unsigned int
 xapian_term_generator_set_flags(xapian_term_generator self, unsigned int toggle) throw ()
 {
-    return self->set_flags(toggle);
+    return self->set_flags((Xapian::TermGenerator::flags) toggle);
 }
 
 unsigned int
 xapian_term_generator_set_flags2(xapian_term_generator self, unsigned int toggle, unsigned int mask) throw ()
 {
-    return self->set_flags(toggle, mask);
+    return self->set_flags((Xapian::TermGenerator::flags) toggle, (Xapian::TermGenerator::flags) mask);
 }
 
 void
 xapian_term_generator_set_stemming_strategy(xapian_term_generator self, unsigned int strategy) throw ()
 {
-    self->set_stemming_strategy(strategy);
+    self->set_stemming_strategy((Xapian::TermGenerator::stem_strategy) strategy);
 }
 
 void
