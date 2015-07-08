@@ -100,6 +100,10 @@ class CppType {
 class CppEnum {
     has $.name;
     has %.values;
+
+    method should-skip {
+        'it is an enum'
+    }
 }
 
 class CppArgument {
