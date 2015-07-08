@@ -12,3 +12,4 @@
   - Binding more classes
   - generate alternates that use optional arguments instead of multis?
   - Support Utf8Iterator
+  - Examples (see examples in Search::Xapian)
