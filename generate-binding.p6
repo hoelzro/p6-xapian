@@ -524,6 +524,12 @@ grammar CppGrammar {
         <identifier> [ '=' $<value>=\d+ ]?
     }
 
+    rule class-thing:typedef {
+        'typedef' <class-thing> # this allows typedef public:, but that's ok for now
+        $<name>=<identifier>
+        ';'
+    }
+
     rule arguments-declaration {
         <argument>* % ','
     }
