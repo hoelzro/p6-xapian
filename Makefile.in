@@ -22,4 +22,5 @@ all: %DESTDIR%/xapian-helper%SO%
 
 clean:
 	rm -rf blib
-	rm *%O%
+	rm -f *%O%
+	rm Makefile
