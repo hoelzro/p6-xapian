@@ -15,7 +15,7 @@ XAPIAN_OBJECTS = 		\
 all: %DESTDIR%/xapian-helper%SO%
 
 %DESTDIR%/xapian-helper%SO%: $(XAPIAN_OBJECTS)
-	$(CXX) %LDSHARED% %LDFLAGS% %LIBS% %LDUSR%xapian %LDOUT%%DESTDIR%/xapian-helper%SO% $(XAPIAN_OBJECTS)
+	$(CXX) %LDSHARED% %LDFLAGS% %LDOUT%%DESTDIR%/xapian-helper%SO% $(XAPIAN_OBJECTS) %LIBS% %LDUSR%xapian
 
 %%O%: %.cpp
 	$(CXX) -c %CCSHARED% %CCFLAGS% $^
