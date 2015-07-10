@@ -1,15 +1,15 @@
-  - Handle enums
-    - Casting integers into them in the C call
-    - Generating them in Perl 6 land
-  - Handle static methods
   - Str (get-description)
   - kebab case forms
-  - Tests (look at xapian-bindings)
-    - generate these too?
-  - Docs (is there a way I can import them? improve generate c++? https://getting-started-with-xapian.readthedocs.org/en/latest?)
   - Exceptions (see what other bindings do)
     - Pass a callback that takes an exception to handle it?
-  - Binding more classes
-  - generate alternates that use optional arguments instead of multis?
   - Support Utf8Iterator
+  - Docs (is there a way I can import them? improve generate c++? https://getting-started-with-xapian.readthedocs.org/en/latest?)
+  - Binding more classes
+  - Handle enums
+    - Casting integers into them in the C call (actually, no; this happens rarely enough that it's not a problem to fix by hand)
+    - Generating them in Perl 6 land (there are nine enums, do it by hand)
+  - Handle static methods (there are six; do it by hand)
+  - static const int (there are about four of these)
+  - Tests (look at xapian-bindings)
+    - generate these too?
   - Examples (see examples in Search::Xapian)
