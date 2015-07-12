@@ -23,6 +23,10 @@ sub camel-to-snake-case(Str $name) {
     $name.subst(/(<[a..z]>)(<[A..Z]>)/, { "$0_$1" }, :g)
 }
 
+sub snake-to-kebab-case(Str $name) {
+    $name.subst(/'_'/, '-', :g)
+}
+
 my %c-typemap = (
     'std::string'           => 'const char *',
     'Xapian::docid'         => 'unsigned int',
@@ -458,6 +462,10 @@ class CppMethod {
                 my $call        = generate-perl6-call(@arguments);
 
                 my @methods = "{$*MULTI}method {$method-name}($arguments)$returns \{ {$.c-name}($call) \}";
+
+                if $method-name ~~ /'_'/ {
+                    @methods.push: "{$*MULTI}method {snake-to-kebab-case($method-name)}($arguments)$returns \{ {$.c-name}($call) \}";
+                }
 
                 if $method-name eq 'get_description' {
                     @methods.push: "method gist() returns Str \{ {$.c-name}(self) \}";
