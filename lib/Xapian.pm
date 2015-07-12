@@ -272,6 +272,26 @@ module Xapian {
         method get_uuid() returns Str { xapian_database_get_uuid(self) }
     }
 
+    class Error is repr('CPointer') {
+        my sub xapian_error_get_type(Error $self) returns Str is native('xapian-helper') { * }
+        my sub xapian_error_get_msg(Error $self) returns Str is native('xapian-helper') { * }
+        my sub xapian_error_get_context(Error $self) returns Str is native('xapian-helper') { * }
+        my sub xapian_error_get_error_string(Error $self) returns Str is native('xapian-helper') { * }
+        my sub xapian_error_get_description(Error $self) returns Str is native('xapian-helper') { * }
+
+        method get_type() returns Str { xapian_error_get_type(self) }
+        method get-type() returns Str { xapian_error_get_type(self) }
+        method get_msg() returns Str { xapian_error_get_msg(self) }
+        method get-msg() returns Str { xapian_error_get_msg(self) }
+        method get_context() returns Str { xapian_error_get_context(self) }
+        method get-context() returns Str { xapian_error_get_context(self) }
+        method get_error_string() returns Str { xapian_error_get_error_string(self) }
+        method get-error-string() returns Str { xapian_error_get_error_string(self) }
+        method get_description() returns Str { xapian_error_get_description(self) }
+        method get-description() returns Str { xapian_error_get_description(self) }
+        method gist() returns Str { xapian_error_get_description(self) }
+    }
+
     class WritableDatabase is Database {
         my sub xapian_writable_database_free(WritableDatabase $self) is native('xapian-helper') { * }
         my sub xapian_writable_database_new() returns WritableDatabase is native('xapian-helper') { * }
