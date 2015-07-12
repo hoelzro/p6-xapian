@@ -450,13 +450,21 @@ class CppMethod {
     method generate-perl6-methods {
         my $returns = $.return-type.Str eq 'void' ?? '' !! ' returns ' ~ $.return-type.perl6-type(:!native);
 
-        gather for self.argument-slices() -> @arguments {
-            my $suffix      = $*COUNTER == 0 ?? '' !! $*COUNTER + 1;
-            my $method-name = $.perl-name;
-            my $arguments   = generate-perl6-arguments(@arguments[1..*], :!native);
-            my $call        = generate-perl6-call(@arguments);
+        gather {
+            for self.argument-slices() -> @arguments {
+                my $suffix      = $*COUNTER == 0 ?? '' !! $*COUNTER + 1;
+                my $method-name = $.perl-name;
+                my $arguments   = generate-perl6-arguments(@arguments[1..*], :!native);
+                my $call        = generate-perl6-call(@arguments);
 
-            take "{$*MULTI}method {$method-name}($arguments)$returns \{ {$.c-name}($call) \}"
+                my @methods = "{$*MULTI}method {$method-name}($arguments)$returns \{ {$.c-name}($call) \}";
+
+                if $method-name eq 'get_description' {
+                    @methods.push: "method gist() returns Str \{ {$.c-name}(self) \}";
+                }
+
+                take @methods.item; # XXX without .item?
+            }
         }
     }
 }
@@ -784,9 +792,10 @@ sub generate-perl6-binding($definition) {
 
         my $*MULTI = %has-multi{$method.name} ?? 'multi ' !! '';
 
-        for $method.generate-perl6-stubs Z $method.generate-perl6-methods -> [$stub, $method] {
+        # XXX I expected to be able to use [ $stub, @methods ]
+        for $method.generate-perl6-stubs Z $method.generate-perl6-methods -> ( $stub, $methods ) {
             @plumbing.push("    $stub");
-            @porcelain.push("    $method");
+            @porcelain.push("    $_") for @($methods);
             $*COUNTER++;
         }
     }
