@@ -52,6 +52,7 @@ my %native-typemap = (
     'Xapian::termpos'       => 'uint',
     'Xapian::valueno'       => 'uint',
     'unsigned'              => 'uint',
+    'const char *'          => 'Str',
 );
 
 my %perl-typemap = (
@@ -67,6 +68,7 @@ my %perl-typemap = (
     'Xapian::valueno'       => 'Int',
     'unsigned'              => 'Int',
     'int'                   => 'Int',
+    'const char *'          => 'Str',
 );
 
 for (%c-typemap.item, %native-typemap.item, %perl-typemap.item) -> $typemap {
@@ -593,13 +595,16 @@ grammar CppGrammar {
 
     proto token type { * }
     token type:builtin {
-        'void'
+        [
+            || 'void'
+            || [ 'const'? <.ws> 'char' <.ws> '*' ]
+        ]
     }
 
     token type:identifier {
         <.type-modifier>*
         <.ws>
-        <identifier>
+        <identifier> <!{ $<identifier> eq 'char' }>
         <.ws>
         $<pointy>=[<[&*]>* % <.ws>]
 
