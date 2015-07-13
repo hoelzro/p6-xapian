@@ -1,8 +1,9 @@
-  - Str (get-description)
-  - kebab case forms
+  - Don't generate exception logic for Error methods
   - Exceptions (see what other bindings do)
     - Pass a callback that takes an exception to handle it?
-  - Support Utf8Iterator
+  - Add headers to revision control, and sanity check generated output?
+  - Cast errors into proper error types
+  - Fix license headers and further generated ones
   - Docs (is there a way I can import them? improve generate c++? https://getting-started-with-xapian.readthedocs.org/en/latest?)
   - Binding more classes
   - Handle enums
