@@ -26,6 +26,44 @@ module Xapian {
 
     constant BAD_VALUENO = -1;
 
+    class NativeError is repr('CPointer') {
+        my sub xapian_error_get_type(NativeError $self) returns Str is native('xapian-helper') { * }
+        my sub xapian_error_get_msg(NativeError $self) returns Str is native('xapian-helper') { * }
+        my sub xapian_error_get_context(NativeError $self) returns Str is native('xapian-helper') { * }
+        my sub xapian_error_get_error_string(NativeError $self) returns Str is native('xapian-helper') { * }
+        my sub xapian_error_get_description(NativeError $self) returns Str is native('xapian-helper') { * }
+
+        method get_type() returns Str { xapian_error_get_type(self) }
+        method get-type() returns Str { xapian_error_get_type(self) }
+        method get_msg() returns Str { xapian_error_get_msg(self) }
+        method get-msg() returns Str { xapian_error_get_msg(self) }
+        method get_context() returns Str { xapian_error_get_context(self) }
+        method get-context() returns Str { xapian_error_get_context(self) }
+        method get_error_string() returns Str { xapian_error_get_error_string(self) }
+        method get-error-string() returns Str { xapian_error_get_error_string(self) }
+        method get_description() returns Str { xapian_error_get_description(self) }
+        method get-description() returns Str { xapian_error_get_description(self) }
+        method gist() returns Str { xapian_error_get_description(self) }
+    }
+
+    class Error is Exception {
+        has Str $.type;
+        has Str $.message;
+        has Str $.context;
+        has Str $.error-string;
+        has Str $.description;
+
+        method new(NativeError $native) {
+            self.bless(
+                :type($native.get_type),
+                :message($native.get_msg),
+                :context($native.get_context),
+                :error-string($native.get_error_string),
+                :description($native.get_description),
+            )
+        }
+    }
+
     class PositionIterator is repr('CPointer') {
     }
 
@@ -270,26 +308,6 @@ module Xapian {
         multi method metadata_keys_end() returns TermIterator { xapian_database_metadata_keys_end(self) }
         multi method metadata_keys_end(Str $_anon_1) returns TermIterator { xapian_database_metadata_keys_end2(self, $_anon_1) }
         method get_uuid() returns Str { xapian_database_get_uuid(self) }
-    }
-
-    class Error is repr('CPointer') {
-        my sub xapian_error_get_type(Error $self) returns Str is native('xapian-helper') { * }
-        my sub xapian_error_get_msg(Error $self) returns Str is native('xapian-helper') { * }
-        my sub xapian_error_get_context(Error $self) returns Str is native('xapian-helper') { * }
-        my sub xapian_error_get_error_string(Error $self) returns Str is native('xapian-helper') { * }
-        my sub xapian_error_get_description(Error $self) returns Str is native('xapian-helper') { * }
-
-        method get_type() returns Str { xapian_error_get_type(self) }
-        method get-type() returns Str { xapian_error_get_type(self) }
-        method get_msg() returns Str { xapian_error_get_msg(self) }
-        method get-msg() returns Str { xapian_error_get_msg(self) }
-        method get_context() returns Str { xapian_error_get_context(self) }
-        method get-context() returns Str { xapian_error_get_context(self) }
-        method get_error_string() returns Str { xapian_error_get_error_string(self) }
-        method get-error-string() returns Str { xapian_error_get_error_string(self) }
-        method get_description() returns Str { xapian_error_get_description(self) }
-        method get-description() returns Str { xapian_error_get_description(self) }
-        method gist() returns Str { xapian_error_get_description(self) }
     }
 
     class WritableDatabase is Database {
