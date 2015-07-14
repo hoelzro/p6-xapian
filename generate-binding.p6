@@ -819,7 +819,7 @@ sub generate-c-binding($definition) {
 
     qq:!closure:to/END_CPP_TEMPLATE/.trim;
     /*
-     * Generate C wrapper and Perl 6 bindings for a C++ class
+     * Generated C wrapper for $*CPP-CLASS.Str()
      * Copyright (C) 2015 Rob Hoelz (rob AT hoelz.ro)
      *
      * This program is free software; you can redistribute it and/or
