@@ -82,4 +82,16 @@ xapian_stem_get_description(xapian_stem self, void (*handle_exception)(const Xap
 
 }
 
+const char *
+xapian_stem_get_available_languages(void (*handle_exception)(const Xapian::Error *)) throw ()
+{
+    try {
+        std::string value = Xapian::Stem::get_available_languages();
+        return strdup(value.c_str());
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        return NULL;
+    }
+}
+
 }

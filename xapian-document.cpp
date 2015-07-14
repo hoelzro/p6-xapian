@@ -348,4 +348,17 @@ xapian_document_get_description(xapian_document self, void (*handle_exception)(c
 
 }
 
+xapian_document
+xapian_document_unserialise(const char *s, void (*handle_exception)(const Xapian::Error *)) throw ()
+{
+    try {
+        Xapian::Document *value = new Xapian::Document();
+        *value = Xapian::Document::unserialise(std::string(s));
+        return value;
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        return NULL;
+    }
+}
+
 }

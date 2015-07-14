@@ -111,6 +111,7 @@ module Xapian {
         my sub xapian_document_get_docid(Document $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
         my sub xapian_document_serialise(Document $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
         my sub xapian_document_get_description(Document $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+        my sub xapian_document_unserialise(Str $s, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
 
         method new() returns Document {
             my $ex;
@@ -456,6 +457,13 @@ module Xapian {
             $ex.throw if $ex;
             $result
         }
+
+        method unserialise(Str $s) returns Document {
+            my $ex;
+            my $result = xapian_document_unserialise($s, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
     }
 
     class Stem is repr('CPointer') {
@@ -464,6 +472,7 @@ module Xapian {
         my sub xapian_stem_free(Stem $self) is native('xapian-helper') { * }
         my sub xapian_stem_call(Stem $self, Str $word, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
         my sub xapian_stem_get_description(Stem $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+        my sub xapian_stem_get_available_languages(&handle-error (NativeError)) returns Str is native('xapian-helper') { * }
 
         multi method new() returns Stem {
             my $ex;
@@ -507,6 +516,17 @@ module Xapian {
             my $result = xapian_stem_get_description(self, -> NativeError $error { $ex = Error.new($error) });
             $ex.throw if $ex;
             $result
+        }
+
+        method get_available_languages() returns Str {
+            my $ex;
+            my $result = xapian_stem_get_available_languages(-> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-available-languages() returns Str {
+            self.get_available_languages
         }
     }
 
