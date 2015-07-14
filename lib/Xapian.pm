@@ -1961,6 +1961,8 @@ module Xapian {
     }
 
     class Enquire is repr('CPointer') {
+        constant INCLUDE_QUERY_TERMS = 1;
+        constant USE_EXACT_TERMFREQ  = 2;
         enum docid_order <Ascending Descending Dont-Care>;
     }
 
