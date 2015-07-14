@@ -1,5 +1,5 @@
 /*
- * Generate C wrapper and Perl 6 bindings for a C++ class
+ * Generated C wrapper for Xapian::Document
  * Copyright (C) 2015 Rob Hoelz (rob AT hoelz.ro)
  *
  * This program is free software; you can redistribute it and/or
@@ -32,9 +32,14 @@ typedef Xapian::ValueIteratorEnd_ *xapian_value_iterator_end_;
 typedef Xapian::ValueIterator *xapian_value_iterator;
 
 xapian_document
-xapian_document_new(void) throw ()
+xapian_document_new(void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    return new Xapian::Document();
+    try {
+        return new Xapian::Document();
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        return NULL;
+    }
 }
 
 void
@@ -44,159 +49,303 @@ xapian_document_free(xapian_document self) throw ()
 }
 
 const char *
-xapian_document_get_value(xapian_document self, unsigned int slot) throw ()
+xapian_document_get_value(xapian_document self, unsigned int slot, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    std::string value = self->get_value(slot);
-    return strdup(value.c_str());
+    try {
+        std::string value = self->get_value(slot);
+        return strdup(value.c_str());
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        return NULL;
+    }
+
 }
 
 void
-xapian_document_add_value(xapian_document self, unsigned int slot, const char * value) throw ()
+xapian_document_add_value(xapian_document self, unsigned int slot, const char * value, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    self->add_value(slot, std::string(value));
+    try {
+        self->add_value(slot, std::string(value));
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        
+    }
+
 }
 
 void
-xapian_document_remove_value(xapian_document self, unsigned int slot) throw ()
+xapian_document_remove_value(xapian_document self, unsigned int slot, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    self->remove_value(slot);
+    try {
+        self->remove_value(slot);
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        
+    }
+
 }
 
 void
-xapian_document_clear_values(xapian_document self) throw ()
+xapian_document_clear_values(xapian_document self, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    self->clear_values();
+    try {
+        self->clear_values();
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        
+    }
+
 }
 
 const char *
-xapian_document_get_data(xapian_document self) throw ()
+xapian_document_get_data(xapian_document self, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    std::string value = self->get_data();
-    return strdup(value.c_str());
+    try {
+        std::string value = self->get_data();
+        return strdup(value.c_str());
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        return NULL;
+    }
+
 }
 
 void
-xapian_document_set_data(xapian_document self, const char * data) throw ()
+xapian_document_set_data(xapian_document self, const char * data, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    self->set_data(std::string(data));
+    try {
+        self->set_data(std::string(data));
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        
+    }
+
 }
 
 void
-xapian_document_add_posting(xapian_document self, const char * tname, unsigned int tpos) throw ()
+xapian_document_add_posting(xapian_document self, const char * tname, unsigned int tpos, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    self->add_posting(std::string(tname), tpos);
+    try {
+        self->add_posting(std::string(tname), tpos);
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        
+    }
+
 }
 
 void
-xapian_document_add_posting2(xapian_document self, const char * tname, unsigned int tpos, unsigned int wdfinc) throw ()
+xapian_document_add_posting2(xapian_document self, const char * tname, unsigned int tpos, unsigned int wdfinc, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    self->add_posting(std::string(tname), tpos, wdfinc);
+    try {
+        self->add_posting(std::string(tname), tpos, wdfinc);
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        
+    }
+
 }
 
 void
-xapian_document_add_term(xapian_document self, const char * tname) throw ()
+xapian_document_add_term(xapian_document self, const char * tname, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    self->add_term(std::string(tname));
+    try {
+        self->add_term(std::string(tname));
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        
+    }
+
 }
 
 void
-xapian_document_add_term2(xapian_document self, const char * tname, unsigned int wdfinc) throw ()
+xapian_document_add_term2(xapian_document self, const char * tname, unsigned int wdfinc, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    self->add_term(std::string(tname), wdfinc);
+    try {
+        self->add_term(std::string(tname), wdfinc);
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        
+    }
+
 }
 
 void
-xapian_document_add_boolean_term(xapian_document self, const char * term) throw ()
+xapian_document_add_boolean_term(xapian_document self, const char * term, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    self->add_boolean_term(std::string(term));
+    try {
+        self->add_boolean_term(std::string(term));
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        
+    }
+
 }
 
 void
-xapian_document_remove_posting(xapian_document self, const char * tname, unsigned int tpos) throw ()
+xapian_document_remove_posting(xapian_document self, const char * tname, unsigned int tpos, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    self->remove_posting(std::string(tname), tpos);
+    try {
+        self->remove_posting(std::string(tname), tpos);
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        
+    }
+
 }
 
 void
-xapian_document_remove_posting2(xapian_document self, const char * tname, unsigned int tpos, unsigned int wdfdec) throw ()
+xapian_document_remove_posting2(xapian_document self, const char * tname, unsigned int tpos, unsigned int wdfdec, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    self->remove_posting(std::string(tname), tpos, wdfdec);
+    try {
+        self->remove_posting(std::string(tname), tpos, wdfdec);
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        
+    }
+
 }
 
 void
-xapian_document_remove_term(xapian_document self, const char * tname) throw ()
+xapian_document_remove_term(xapian_document self, const char * tname, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    self->remove_term(std::string(tname));
+    try {
+        self->remove_term(std::string(tname));
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        
+    }
+
 }
 
 void
-xapian_document_clear_terms(xapian_document self) throw ()
+xapian_document_clear_terms(xapian_document self, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    self->clear_terms();
+    try {
+        self->clear_terms();
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        
+    }
+
 }
 
 unsigned int
-xapian_document_termlist_count(xapian_document self) throw ()
+xapian_document_termlist_count(xapian_document self, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    return self->termlist_count();
+    try {
+        return self->termlist_count();
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        return 0;
+    }
+
 }
 
 xapian_term_iterator
-xapian_document_termlist_begin(xapian_document self) throw ()
+xapian_document_termlist_begin(xapian_document self, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    Xapian::TermIterator *value = new Xapian::TermIterator();
-    *value = self->termlist_begin();
-    return value;
+    try {
+        Xapian::TermIterator *value = new Xapian::TermIterator();
+        *value = self->termlist_begin();
+        return value;
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        return NULL;
+    }
+
 }
 
 xapian_term_iterator
-xapian_document_termlist_end(xapian_document self) throw ()
+xapian_document_termlist_end(xapian_document self, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    Xapian::TermIterator *value = new Xapian::TermIterator();
-    *value = self->termlist_end();
-    return value;
+    try {
+        Xapian::TermIterator *value = new Xapian::TermIterator();
+        *value = self->termlist_end();
+        return value;
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        return NULL;
+    }
+
 }
 
 unsigned int
-xapian_document_values_count(xapian_document self) throw ()
+xapian_document_values_count(xapian_document self, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    return self->values_count();
+    try {
+        return self->values_count();
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        return 0;
+    }
+
 }
 
 xapian_value_iterator
-xapian_document_values_begin(xapian_document self) throw ()
+xapian_document_values_begin(xapian_document self, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    Xapian::ValueIterator *value = new Xapian::ValueIterator();
-    *value = self->values_begin();
-    return value;
+    try {
+        Xapian::ValueIterator *value = new Xapian::ValueIterator();
+        *value = self->values_begin();
+        return value;
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        return NULL;
+    }
+
 }
 
 xapian_value_iterator_end_
-xapian_document_values_end(xapian_document self) throw ()
+xapian_document_values_end(xapian_document self, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    Xapian::ValueIteratorEnd_ *value = new Xapian::ValueIteratorEnd_();
-    *value = self->values_end();
-    return value;
+    try {
+        Xapian::ValueIteratorEnd_ *value = new Xapian::ValueIteratorEnd_();
+        *value = self->values_end();
+        return value;
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        return NULL;
+    }
+
 }
 
 unsigned int
-xapian_document_get_docid(xapian_document self) throw ()
+xapian_document_get_docid(xapian_document self, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    return self->get_docid();
+    try {
+        return self->get_docid();
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        return 0;
+    }
+
 }
 
 const char *
-xapian_document_serialise(xapian_document self) throw ()
+xapian_document_serialise(xapian_document self, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    std::string value = self->serialise();
-    return strdup(value.c_str());
+    try {
+        std::string value = self->serialise();
+        return strdup(value.c_str());
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        return NULL;
+    }
+
 }
 
 const char *
-xapian_document_get_description(xapian_document self) throw ()
+xapian_document_get_description(xapian_document self, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    std::string value = self->get_description();
-    return strdup(value.c_str());
+    try {
+        std::string value = self->get_description();
+        return strdup(value.c_str());
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        return NULL;
+    }
+
 }
 
 }

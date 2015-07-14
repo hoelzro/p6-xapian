@@ -1,5 +1,5 @@
 /*
- * Generate C wrapper and Perl 6 bindings for a C++ class
+ * Generated C wrapper for Xapian::Stem
  * Copyright (C) 2015 Rob Hoelz (rob AT hoelz.ro)
  *
  * This program is free software; you can redistribute it and/or
@@ -29,15 +29,25 @@ extern "C" {
 typedef Xapian::Stem *xapian_stem;
 
 xapian_stem
-xapian_stem_new(void) throw ()
+xapian_stem_new(void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    return new Xapian::Stem();
+    try {
+        return new Xapian::Stem();
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        return NULL;
+    }
 }
 
 xapian_stem
-xapian_stem_new2(const char * language) throw ()
+xapian_stem_new2(const char * language, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    return new Xapian::Stem(std::string(language));
+    try {
+        return new Xapian::Stem(std::string(language));
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        return NULL;
+    }
 }
 
 void
@@ -47,17 +57,29 @@ xapian_stem_free(xapian_stem self) throw ()
 }
 
 const char *
-xapian_stem_call(xapian_stem self, const char * word) throw ()
+xapian_stem_call(xapian_stem self, const char * word, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    std::string value = (*self)(std::string(word));
-    return strdup(value.c_str());
+    try {
+        std::string value = (*self)(std::string(word));
+        return strdup(value.c_str());
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        return NULL;
+    }
+
 }
 
 const char *
-xapian_stem_get_description(xapian_stem self) throw ()
+xapian_stem_get_description(xapian_stem self, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    std::string value = self->get_description();
-    return strdup(value.c_str());
+    try {
+        std::string value = self->get_description();
+        return strdup(value.c_str());
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        return NULL;
+    }
+
 }
 
 }

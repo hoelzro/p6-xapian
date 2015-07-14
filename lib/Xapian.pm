@@ -85,280 +85,1817 @@ module Xapian {
     class WritableDatabase is repr('CPointer') { ... }
 
     class Document is repr('CPointer') {
-        my sub xapian_document_new() returns Document is native('xapian-helper') { * }
+        my sub xapian_document_new(&handle-error (NativeError)) returns Document is native('xapian-helper') { * }
         my sub xapian_document_free(Document $self) is native('xapian-helper') { * }
-        my sub xapian_document_get_value(Document $self, uint $slot) returns Str is native('xapian-helper') { * }
-        my sub xapian_document_add_value(Document $self, uint $slot, Str $value) is native('xapian-helper') { * }
-        my sub xapian_document_remove_value(Document $self, uint $slot) is native('xapian-helper') { * }
-        my sub xapian_document_clear_values(Document $self) is native('xapian-helper') { * }
-        my sub xapian_document_get_data(Document $self) returns Str is native('xapian-helper') { * }
-        my sub xapian_document_set_data(Document $self, Str $data) is native('xapian-helper') { * }
-        my sub xapian_document_add_posting(Document $self, Str $tname, uint $tpos) is native('xapian-helper') { * }
-        my sub xapian_document_add_posting2(Document $self, Str $tname, uint $tpos, uint $wdfinc) is native('xapian-helper') { * }
-        my sub xapian_document_add_term(Document $self, Str $tname) is native('xapian-helper') { * }
-        my sub xapian_document_add_term2(Document $self, Str $tname, uint $wdfinc) is native('xapian-helper') { * }
-        my sub xapian_document_add_boolean_term(Document $self, Str $term) is native('xapian-helper') { * }
-        my sub xapian_document_remove_posting(Document $self, Str $tname, uint $tpos) is native('xapian-helper') { * }
-        my sub xapian_document_remove_posting2(Document $self, Str $tname, uint $tpos, uint $wdfdec) is native('xapian-helper') { * }
-        my sub xapian_document_remove_term(Document $self, Str $tname) is native('xapian-helper') { * }
-        my sub xapian_document_clear_terms(Document $self) is native('xapian-helper') { * }
-        my sub xapian_document_termlist_count(Document $self) returns uint is native('xapian-helper') { * }
-        my sub xapian_document_termlist_begin(Document $self) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_document_termlist_end(Document $self) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_document_values_count(Document $self) returns uint is native('xapian-helper') { * }
-        my sub xapian_document_values_begin(Document $self) returns ValueIterator is native('xapian-helper') { * }
-        my sub xapian_document_values_end(Document $self) returns ValueIteratorEnd_ is native('xapian-helper') { * }
-        my sub xapian_document_get_docid(Document $self) returns uint is native('xapian-helper') { * }
-        my sub xapian_document_serialise(Document $self) returns Str is native('xapian-helper') { * }
-        my sub xapian_document_get_description(Document $self) returns Str is native('xapian-helper') { * }
+        my sub xapian_document_get_value(Document $self, uint $slot, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+        my sub xapian_document_add_value(Document $self, uint $slot, Str $value, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_document_remove_value(Document $self, uint $slot, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_document_clear_values(Document $self, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_document_get_data(Document $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+        my sub xapian_document_set_data(Document $self, Str $data, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_document_add_posting(Document $self, Str $tname, uint $tpos, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_document_add_posting2(Document $self, Str $tname, uint $tpos, uint $wdfinc, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_document_add_term(Document $self, Str $tname, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_document_add_term2(Document $self, Str $tname, uint $wdfinc, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_document_add_boolean_term(Document $self, Str $term, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_document_remove_posting(Document $self, Str $tname, uint $tpos, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_document_remove_posting2(Document $self, Str $tname, uint $tpos, uint $wdfdec, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_document_remove_term(Document $self, Str $tname, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_document_clear_terms(Document $self, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_document_termlist_count(Document $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
+        my sub xapian_document_termlist_begin(Document $self, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_document_termlist_end(Document $self, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_document_values_count(Document $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
+        my sub xapian_document_values_begin(Document $self, &handle-error (NativeError)) returns ValueIterator is native('xapian-helper') { * }
+        my sub xapian_document_values_end(Document $self, &handle-error (NativeError)) returns ValueIteratorEnd_ is native('xapian-helper') { * }
+        my sub xapian_document_get_docid(Document $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
+        my sub xapian_document_serialise(Document $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+        my sub xapian_document_get_description(Document $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
 
-        method new() returns Document { xapian_document_new() }
+        method new() returns Document {
+            my $ex;
+            my $result = xapian_document_new(-> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
         submethod DESTROY() { xapian_document_free(self) }
-        method get_value(Int $slot) returns Str { xapian_document_get_value(self, $slot) }
-        method add_value(Int $slot, Str $value) { xapian_document_add_value(self, $slot, $value) }
-        method remove_value(Int $slot) { xapian_document_remove_value(self, $slot) }
-        method clear_values() { xapian_document_clear_values(self) }
-        method get_data() returns Str { xapian_document_get_data(self) }
-        method set_data(Str $data) { xapian_document_set_data(self, $data) }
-        multi method add_posting(Str $tname, Int $tpos) { xapian_document_add_posting(self, $tname, $tpos) }
-        multi method add_posting(Str $tname, Int $tpos, Int $wdfinc) { xapian_document_add_posting2(self, $tname, $tpos, $wdfinc) }
-        multi method add_term(Str $tname) { xapian_document_add_term(self, $tname) }
-        multi method add_term(Str $tname, Int $wdfinc) { xapian_document_add_term2(self, $tname, $wdfinc) }
-        method add_boolean_term(Str $term) { xapian_document_add_boolean_term(self, $term) }
-        multi method remove_posting(Str $tname, Int $tpos) { xapian_document_remove_posting(self, $tname, $tpos) }
-        multi method remove_posting(Str $tname, Int $tpos, Int $wdfdec) { xapian_document_remove_posting2(self, $tname, $tpos, $wdfdec) }
-        method remove_term(Str $tname) { xapian_document_remove_term(self, $tname) }
-        method clear_terms() { xapian_document_clear_terms(self) }
-        method termlist_count() returns Int { xapian_document_termlist_count(self) }
-        method termlist_begin() returns TermIterator { xapian_document_termlist_begin(self) }
-        method termlist_end() returns TermIterator { xapian_document_termlist_end(self) }
-        method values_count() returns Int { xapian_document_values_count(self) }
-        method values_begin() returns ValueIterator { xapian_document_values_begin(self) }
-        method values_end() returns ValueIteratorEnd_ { xapian_document_values_end(self) }
-        method get_docid() returns Int { xapian_document_get_docid(self) }
-        method serialise() returns Str { xapian_document_serialise(self) }
-        method get_description() returns Str { xapian_document_get_description(self) }
+
+        method get_value(Int $slot) returns Str {
+            my $ex;
+            my $result = xapian_document_get_value(self, $slot, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-value(Int $slot) returns Str {
+            my $ex;
+            my $result = xapian_document_get_value(self, $slot, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method add_value(Int $slot, Str $value) {
+            my $ex;
+            my $result = xapian_document_add_value(self, $slot, $value, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method add-value(Int $slot, Str $value) {
+            my $ex;
+            my $result = xapian_document_add_value(self, $slot, $value, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method remove_value(Int $slot) {
+            my $ex;
+            my $result = xapian_document_remove_value(self, $slot, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method remove-value(Int $slot) {
+            my $ex;
+            my $result = xapian_document_remove_value(self, $slot, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method clear_values() {
+            my $ex;
+            my $result = xapian_document_clear_values(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method clear-values() {
+            my $ex;
+            my $result = xapian_document_clear_values(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_data() returns Str {
+            my $ex;
+            my $result = xapian_document_get_data(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-data() returns Str {
+            my $ex;
+            my $result = xapian_document_get_data(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set_data(Str $data) {
+            my $ex;
+            my $result = xapian_document_set_data(self, $data, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set-data(Str $data) {
+            my $ex;
+            my $result = xapian_document_set_data(self, $data, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method add_posting(Str $tname, Int $tpos) {
+            my $ex;
+            my $result = xapian_document_add_posting(self, $tname, $tpos, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method add-posting(Str $tname, Int $tpos) {
+            my $ex;
+            my $result = xapian_document_add_posting(self, $tname, $tpos, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method add_posting(Str $tname, Int $tpos, Int $wdfinc) {
+            my $ex;
+            my $result = xapian_document_add_posting2(self, $tname, $tpos, $wdfinc, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method add-posting(Str $tname, Int $tpos, Int $wdfinc) {
+            my $ex;
+            my $result = xapian_document_add_posting2(self, $tname, $tpos, $wdfinc, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method add_term(Str $tname) {
+            my $ex;
+            my $result = xapian_document_add_term(self, $tname, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method add-term(Str $tname) {
+            my $ex;
+            my $result = xapian_document_add_term(self, $tname, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method add_term(Str $tname, Int $wdfinc) {
+            my $ex;
+            my $result = xapian_document_add_term2(self, $tname, $wdfinc, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method add-term(Str $tname, Int $wdfinc) {
+            my $ex;
+            my $result = xapian_document_add_term2(self, $tname, $wdfinc, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method add_boolean_term(Str $term) {
+            my $ex;
+            my $result = xapian_document_add_boolean_term(self, $term, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method add-boolean-term(Str $term) {
+            my $ex;
+            my $result = xapian_document_add_boolean_term(self, $term, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method remove_posting(Str $tname, Int $tpos) {
+            my $ex;
+            my $result = xapian_document_remove_posting(self, $tname, $tpos, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method remove-posting(Str $tname, Int $tpos) {
+            my $ex;
+            my $result = xapian_document_remove_posting(self, $tname, $tpos, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method remove_posting(Str $tname, Int $tpos, Int $wdfdec) {
+            my $ex;
+            my $result = xapian_document_remove_posting2(self, $tname, $tpos, $wdfdec, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method remove-posting(Str $tname, Int $tpos, Int $wdfdec) {
+            my $ex;
+            my $result = xapian_document_remove_posting2(self, $tname, $tpos, $wdfdec, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method remove_term(Str $tname) {
+            my $ex;
+            my $result = xapian_document_remove_term(self, $tname, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method remove-term(Str $tname) {
+            my $ex;
+            my $result = xapian_document_remove_term(self, $tname, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method clear_terms() {
+            my $ex;
+            my $result = xapian_document_clear_terms(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method clear-terms() {
+            my $ex;
+            my $result = xapian_document_clear_terms(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method termlist_count() returns Int {
+            my $ex;
+            my $result = xapian_document_termlist_count(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method termlist-count() returns Int {
+            my $ex;
+            my $result = xapian_document_termlist_count(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method termlist_begin() returns TermIterator {
+            my $ex;
+            my $result = xapian_document_termlist_begin(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method termlist-begin() returns TermIterator {
+            my $ex;
+            my $result = xapian_document_termlist_begin(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method termlist_end() returns TermIterator {
+            my $ex;
+            my $result = xapian_document_termlist_end(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method termlist-end() returns TermIterator {
+            my $ex;
+            my $result = xapian_document_termlist_end(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method values_count() returns Int {
+            my $ex;
+            my $result = xapian_document_values_count(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method values-count() returns Int {
+            my $ex;
+            my $result = xapian_document_values_count(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method values_begin() returns ValueIterator {
+            my $ex;
+            my $result = xapian_document_values_begin(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method values-begin() returns ValueIterator {
+            my $ex;
+            my $result = xapian_document_values_begin(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method values_end() returns ValueIteratorEnd_ {
+            my $ex;
+            my $result = xapian_document_values_end(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method values-end() returns ValueIteratorEnd_ {
+            my $ex;
+            my $result = xapian_document_values_end(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_docid() returns Int {
+            my $ex;
+            my $result = xapian_document_get_docid(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-docid() returns Int {
+            my $ex;
+            my $result = xapian_document_get_docid(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method serialise() returns Str {
+            my $ex;
+            my $result = xapian_document_serialise(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_description() returns Str {
+            my $ex;
+            my $result = xapian_document_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-description() returns Str {
+            my $ex;
+            my $result = xapian_document_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method gist() returns Str {
+            my $ex;
+            my $result = xapian_document_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
     }
 
     class Stem is repr('CPointer') {
-        my sub xapian_stem_new() returns Stem is native('xapian-helper') { * }
-        my sub xapian_stem_new2(Str $language) returns Stem is native('xapian-helper') { * }
+        my sub xapian_stem_new(&handle-error (NativeError)) returns Stem is native('xapian-helper') { * }
+        my sub xapian_stem_new2(Str $language, &handle-error (NativeError)) returns Stem is native('xapian-helper') { * }
         my sub xapian_stem_free(Stem $self) is native('xapian-helper') { * }
-        my sub xapian_stem_call(Stem $self, Str $word) returns Str is native('xapian-helper') { * }
-        my sub xapian_stem_get_description(Stem $self) returns Str is native('xapian-helper') { * }
+        my sub xapian_stem_call(Stem $self, Str $word, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+        my sub xapian_stem_get_description(Stem $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
 
-        multi method new() returns Stem { xapian_stem_new() }
-        multi method new(Str $language) returns Stem { xapian_stem_new2($language) }
+        multi method new() returns Stem {
+            my $ex;
+            my $result = xapian_stem_new(-> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method new(Str $language) returns Stem {
+            my $ex;
+            my $result = xapian_stem_new2($language, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
         submethod DESTROY() { xapian_stem_free(self) }
-        method CALL-ME(Str $word) returns Str { xapian_stem_call(self, $word) }
-        method get_description() returns Str { xapian_stem_get_description(self) }
+
+        method CALL-ME(Str $word) returns Str {
+            my $ex;
+            my $result = xapian_stem_call(self, $word, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_description() returns Str {
+            my $ex;
+            my $result = xapian_stem_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-description() returns Str {
+            my $ex;
+            my $result = xapian_stem_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method gist() returns Str {
+            my $ex;
+            my $result = xapian_stem_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
     }
 
     class TermGenerator is repr('CPointer') {
-        my sub xapian_term_generator_new() returns TermGenerator is native('xapian-helper') { * }
+        my sub xapian_term_generator_new(&handle-error (NativeError)) returns TermGenerator is native('xapian-helper') { * }
         my sub xapian_term_generator_free(TermGenerator $self) is native('xapian-helper') { * }
-        my sub xapian_term_generator_set_stemmer(TermGenerator $self, Stem $stemmer) is native('xapian-helper') { * }
-        my sub xapian_term_generator_set_stopper(TermGenerator $self) is native('xapian-helper') { * }
-        my sub xapian_term_generator_set_stopper2(TermGenerator $self, Stopper $stop) is native('xapian-helper') { * }
-        my sub xapian_term_generator_set_document(TermGenerator $self, Document $doc) is native('xapian-helper') { * }
-        my sub xapian_term_generator_get_document(TermGenerator $self) returns Document is native('xapian-helper') { * }
-        my sub xapian_term_generator_set_database(TermGenerator $self, WritableDatabase $db) is native('xapian-helper') { * }
-        my sub xapian_term_generator_set_flags(TermGenerator $self, uint $toggle) returns uint is native('xapian-helper') { * }
-        my sub xapian_term_generator_set_flags2(TermGenerator $self, uint $toggle, uint $mask) returns uint is native('xapian-helper') { * }
-        my sub xapian_term_generator_set_stemming_strategy(TermGenerator $self, uint $strategy) is native('xapian-helper') { * }
-        my sub xapian_term_generator_set_max_word_length(TermGenerator $self, uint $max_word_length) is native('xapian-helper') { * }
-        my sub xapian_term_generator_index_text(TermGenerator $self, Str $text) is native('xapian-helper') { * }
-        my sub xapian_term_generator_index_text2(TermGenerator $self, Str $text, uint $wdf_inc) is native('xapian-helper') { * }
-        my sub xapian_term_generator_index_text3(TermGenerator $self, Str $text, uint $wdf_inc, Str $prefix) is native('xapian-helper') { * }
-        my sub xapian_term_generator_index_text_without_positions(TermGenerator $self, Str $text) is native('xapian-helper') { * }
-        my sub xapian_term_generator_index_text_without_positions2(TermGenerator $self, Str $text, uint $wdf_inc) is native('xapian-helper') { * }
-        my sub xapian_term_generator_index_text_without_positions3(TermGenerator $self, Str $text, uint $wdf_inc, Str $prefix) is native('xapian-helper') { * }
-        my sub xapian_term_generator_increase_termpos(TermGenerator $self) is native('xapian-helper') { * }
-        my sub xapian_term_generator_increase_termpos2(TermGenerator $self, uint $delta) is native('xapian-helper') { * }
-        my sub xapian_term_generator_get_termpos(TermGenerator $self) returns uint is native('xapian-helper') { * }
-        my sub xapian_term_generator_set_termpos(TermGenerator $self, uint $termpos) is native('xapian-helper') { * }
-        my sub xapian_term_generator_get_description(TermGenerator $self) returns Str is native('xapian-helper') { * }
+        my sub xapian_term_generator_set_stemmer(TermGenerator $self, Stem $stemmer, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_term_generator_set_stopper(TermGenerator $self, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_term_generator_set_stopper2(TermGenerator $self, Stopper $stop, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_term_generator_set_document(TermGenerator $self, Document $doc, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_term_generator_get_document(TermGenerator $self, &handle-error (NativeError)) returns Document is native('xapian-helper') { * }
+        my sub xapian_term_generator_set_database(TermGenerator $self, WritableDatabase $db, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_term_generator_set_flags(TermGenerator $self, uint $toggle, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
+        my sub xapian_term_generator_set_flags2(TermGenerator $self, uint $toggle, uint $mask, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
+        my sub xapian_term_generator_set_stemming_strategy(TermGenerator $self, uint $strategy, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_term_generator_set_max_word_length(TermGenerator $self, uint $max_word_length, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_term_generator_index_text(TermGenerator $self, Str $text, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_term_generator_index_text2(TermGenerator $self, Str $text, uint $wdf_inc, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_term_generator_index_text3(TermGenerator $self, Str $text, uint $wdf_inc, Str $prefix, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_term_generator_index_text_without_positions(TermGenerator $self, Str $text, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_term_generator_index_text_without_positions2(TermGenerator $self, Str $text, uint $wdf_inc, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_term_generator_index_text_without_positions3(TermGenerator $self, Str $text, uint $wdf_inc, Str $prefix, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_term_generator_increase_termpos(TermGenerator $self, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_term_generator_increase_termpos2(TermGenerator $self, uint $delta, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_term_generator_get_termpos(TermGenerator $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
+        my sub xapian_term_generator_set_termpos(TermGenerator $self, uint $termpos, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_term_generator_get_description(TermGenerator $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
 
-        method new() returns TermGenerator { xapian_term_generator_new() }
+        method new() returns TermGenerator {
+            my $ex;
+            my $result = xapian_term_generator_new(-> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
         submethod DESTROY() { xapian_term_generator_free(self) }
-        method set_stemmer(Stem $stemmer) { xapian_term_generator_set_stemmer(self, $stemmer) }
-        multi method set_stopper() { xapian_term_generator_set_stopper(self) }
-        multi method set_stopper(Stopper $stop) { xapian_term_generator_set_stopper2(self, $stop) }
-        method set_document(Document $doc) { xapian_term_generator_set_document(self, $doc) }
-        method get_document() returns Document { xapian_term_generator_get_document(self) }
-        method set_database(WritableDatabase $db) { xapian_term_generator_set_database(self, $db) }
-        multi method set_flags(Int $toggle) returns Int { xapian_term_generator_set_flags(self, $toggle) }
-        multi method set_flags(Int $toggle, Int $mask) returns Int { xapian_term_generator_set_flags2(self, $toggle, $mask) }
-        method set_stemming_strategy(Int $strategy) { xapian_term_generator_set_stemming_strategy(self, $strategy) }
-        method set_max_word_length(Int $max_word_length) { xapian_term_generator_set_max_word_length(self, $max_word_length) }
-        multi method index_text(Str $text) { xapian_term_generator_index_text(self, $text) }
-        multi method index_text(Str $text, Int $wdf_inc) { xapian_term_generator_index_text2(self, $text, $wdf_inc) }
-        multi method index_text(Str $text, Int $wdf_inc, Str $prefix) { xapian_term_generator_index_text3(self, $text, $wdf_inc, $prefix) }
-        multi method index_text_without_positions(Str $text) { xapian_term_generator_index_text_without_positions(self, $text) }
-        multi method index_text_without_positions(Str $text, Int $wdf_inc) { xapian_term_generator_index_text_without_positions2(self, $text, $wdf_inc) }
-        multi method index_text_without_positions(Str $text, Int $wdf_inc, Str $prefix) { xapian_term_generator_index_text_without_positions3(self, $text, $wdf_inc, $prefix) }
-        multi method increase_termpos() { xapian_term_generator_increase_termpos(self) }
-        multi method increase_termpos(Int $delta) { xapian_term_generator_increase_termpos2(self, $delta) }
-        method get_termpos() returns Int { xapian_term_generator_get_termpos(self) }
-        method set_termpos(Int $termpos) { xapian_term_generator_set_termpos(self, $termpos) }
-        method get_description() returns Str { xapian_term_generator_get_description(self) }
+
+        method set_stemmer(Stem $stemmer) {
+            my $ex;
+            my $result = xapian_term_generator_set_stemmer(self, $stemmer, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set-stemmer(Stem $stemmer) {
+            my $ex;
+            my $result = xapian_term_generator_set_stemmer(self, $stemmer, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method set_stopper() {
+            my $ex;
+            my $result = xapian_term_generator_set_stopper(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method set-stopper() {
+            my $ex;
+            my $result = xapian_term_generator_set_stopper(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method set_stopper(Stopper $stop) {
+            my $ex;
+            my $result = xapian_term_generator_set_stopper2(self, $stop, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method set-stopper(Stopper $stop) {
+            my $ex;
+            my $result = xapian_term_generator_set_stopper2(self, $stop, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set_document(Document $doc) {
+            my $ex;
+            my $result = xapian_term_generator_set_document(self, $doc, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set-document(Document $doc) {
+            my $ex;
+            my $result = xapian_term_generator_set_document(self, $doc, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_document() returns Document {
+            my $ex;
+            my $result = xapian_term_generator_get_document(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-document() returns Document {
+            my $ex;
+            my $result = xapian_term_generator_get_document(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set_database(WritableDatabase $db) {
+            my $ex;
+            my $result = xapian_term_generator_set_database(self, $db, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set-database(WritableDatabase $db) {
+            my $ex;
+            my $result = xapian_term_generator_set_database(self, $db, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method set_flags(Int $toggle) returns Int {
+            my $ex;
+            my $result = xapian_term_generator_set_flags(self, $toggle, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method set-flags(Int $toggle) returns Int {
+            my $ex;
+            my $result = xapian_term_generator_set_flags(self, $toggle, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method set_flags(Int $toggle, Int $mask) returns Int {
+            my $ex;
+            my $result = xapian_term_generator_set_flags2(self, $toggle, $mask, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method set-flags(Int $toggle, Int $mask) returns Int {
+            my $ex;
+            my $result = xapian_term_generator_set_flags2(self, $toggle, $mask, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set_stemming_strategy(Int $strategy) {
+            my $ex;
+            my $result = xapian_term_generator_set_stemming_strategy(self, $strategy, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set-stemming-strategy(Int $strategy) {
+            my $ex;
+            my $result = xapian_term_generator_set_stemming_strategy(self, $strategy, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set_max_word_length(Int $max_word_length) {
+            my $ex;
+            my $result = xapian_term_generator_set_max_word_length(self, $max_word_length, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set-max-word-length(Int $max_word_length) {
+            my $ex;
+            my $result = xapian_term_generator_set_max_word_length(self, $max_word_length, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method index_text(Str $text) {
+            my $ex;
+            my $result = xapian_term_generator_index_text(self, $text, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method index-text(Str $text) {
+            my $ex;
+            my $result = xapian_term_generator_index_text(self, $text, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method index_text(Str $text, Int $wdf_inc) {
+            my $ex;
+            my $result = xapian_term_generator_index_text2(self, $text, $wdf_inc, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method index-text(Str $text, Int $wdf_inc) {
+            my $ex;
+            my $result = xapian_term_generator_index_text2(self, $text, $wdf_inc, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method index_text(Str $text, Int $wdf_inc, Str $prefix) {
+            my $ex;
+            my $result = xapian_term_generator_index_text3(self, $text, $wdf_inc, $prefix, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method index-text(Str $text, Int $wdf_inc, Str $prefix) {
+            my $ex;
+            my $result = xapian_term_generator_index_text3(self, $text, $wdf_inc, $prefix, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method index_text_without_positions(Str $text) {
+            my $ex;
+            my $result = xapian_term_generator_index_text_without_positions(self, $text, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method index-text-without-positions(Str $text) {
+            my $ex;
+            my $result = xapian_term_generator_index_text_without_positions(self, $text, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method index_text_without_positions(Str $text, Int $wdf_inc) {
+            my $ex;
+            my $result = xapian_term_generator_index_text_without_positions2(self, $text, $wdf_inc, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method index-text-without-positions(Str $text, Int $wdf_inc) {
+            my $ex;
+            my $result = xapian_term_generator_index_text_without_positions2(self, $text, $wdf_inc, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method index_text_without_positions(Str $text, Int $wdf_inc, Str $prefix) {
+            my $ex;
+            my $result = xapian_term_generator_index_text_without_positions3(self, $text, $wdf_inc, $prefix, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method index-text-without-positions(Str $text, Int $wdf_inc, Str $prefix) {
+            my $ex;
+            my $result = xapian_term_generator_index_text_without_positions3(self, $text, $wdf_inc, $prefix, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method increase_termpos() {
+            my $ex;
+            my $result = xapian_term_generator_increase_termpos(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method increase-termpos() {
+            my $ex;
+            my $result = xapian_term_generator_increase_termpos(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method increase_termpos(Int $delta) {
+            my $ex;
+            my $result = xapian_term_generator_increase_termpos2(self, $delta, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method increase-termpos(Int $delta) {
+            my $ex;
+            my $result = xapian_term_generator_increase_termpos2(self, $delta, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_termpos() returns Int {
+            my $ex;
+            my $result = xapian_term_generator_get_termpos(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-termpos() returns Int {
+            my $ex;
+            my $result = xapian_term_generator_get_termpos(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set_termpos(Int $termpos) {
+            my $ex;
+            my $result = xapian_term_generator_set_termpos(self, $termpos, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set-termpos(Int $termpos) {
+            my $ex;
+            my $result = xapian_term_generator_set_termpos(self, $termpos, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_description() returns Str {
+            my $ex;
+            my $result = xapian_term_generator_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-description() returns Str {
+            my $ex;
+            my $result = xapian_term_generator_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method gist() returns Str {
+            my $ex;
+            my $result = xapian_term_generator_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
     }
 
     class Database is repr('CPointer') {
-        my sub xapian_database_add_database(Database $self, Database $database) is native('xapian-helper') { * }
-        my sub xapian_database_new() returns Database is native('xapian-helper') { * }
-        my sub xapian_database_new2(Str $path) returns Database is native('xapian-helper') { * }
+        my sub xapian_database_add_database(Database $self, Database $database, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_database_new(&handle-error (NativeError)) returns Database is native('xapian-helper') { * }
+        my sub xapian_database_new2(Str $path, &handle-error (NativeError)) returns Database is native('xapian-helper') { * }
         my sub xapian_database_free(Database $self) is native('xapian-helper') { * }
-        my sub xapian_database_reopen(Database $self) is native('xapian-helper') { * }
-        my sub xapian_database_close(Database $self) is native('xapian-helper') { * }
-        my sub xapian_database_get_description(Database $self) returns Str is native('xapian-helper') { * }
-        my sub xapian_database_postlist_begin(Database $self, Str $tname) returns PostingIterator is native('xapian-helper') { * }
-        my sub xapian_database_postlist_end(Database $self, Str $_anon_1) returns PostingIterator is native('xapian-helper') { * }
-        my sub xapian_database_termlist_begin(Database $self, uint $did) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_termlist_end(Database $self, uint $_anon_1) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_has_positions(Database $self) returns Bool is native('xapian-helper') { * }
-        my sub xapian_database_positionlist_begin(Database $self, uint $did, Str $tname) returns PositionIterator is native('xapian-helper') { * }
-        my sub xapian_database_positionlist_end(Database $self, uint $_anon_1, Str $_anon_2) returns PositionIterator is native('xapian-helper') { * }
-        my sub xapian_database_allterms_begin(Database $self) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_allterms_end(Database $self) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_allterms_begin2(Database $self, Str $prefix) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_allterms_end2(Database $self, Str $_anon_1) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_get_doccount(Database $self) returns uint is native('xapian-helper') { * }
-        my sub xapian_database_get_lastdocid(Database $self) returns uint is native('xapian-helper') { * }
-        my sub xapian_database_get_avlength(Database $self) returns uint is native('xapian-helper') { * }
-        my sub xapian_database_get_termfreq(Database $self, Str $tname) returns uint is native('xapian-helper') { * }
-        my sub xapian_database_term_exists(Database $self, Str $tname) returns Bool is native('xapian-helper') { * }
-        my sub xapian_database_get_collection_freq(Database $self, Str $tname) returns uint is native('xapian-helper') { * }
-        my sub xapian_database_get_value_freq(Database $self, uint $slot) returns uint is native('xapian-helper') { * }
-        my sub xapian_database_get_value_lower_bound(Database $self, uint $slot) returns Str is native('xapian-helper') { * }
-        my sub xapian_database_get_value_upper_bound(Database $self, uint $slot) returns Str is native('xapian-helper') { * }
-        my sub xapian_database_get_doclength_lower_bound(Database $self) returns uint is native('xapian-helper') { * }
-        my sub xapian_database_get_doclength_upper_bound(Database $self) returns uint is native('xapian-helper') { * }
-        my sub xapian_database_get_wdf_upper_bound(Database $self, Str $term) returns uint is native('xapian-helper') { * }
-        my sub xapian_database_valuestream_begin(Database $self, uint $slot) returns ValueIterator is native('xapian-helper') { * }
-        my sub xapian_database_valuestream_end(Database $self, uint $_anon_1) returns ValueIteratorEnd_ is native('xapian-helper') { * }
-        my sub xapian_database_get_doclength(Database $self, uint $did) returns uint is native('xapian-helper') { * }
-        my sub xapian_database_keep_alive(Database $self) is native('xapian-helper') { * }
-        my sub xapian_database_get_document(Database $self, uint $did) returns Document is native('xapian-helper') { * }
-        my sub xapian_database_get_spelling_suggestion(Database $self, Str $word) returns Str is native('xapian-helper') { * }
-        my sub xapian_database_get_spelling_suggestion2(Database $self, Str $word, uint $max_edit_distance) returns Str is native('xapian-helper') { * }
-        my sub xapian_database_spellings_begin(Database $self) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_spellings_end(Database $self) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_synonyms_begin(Database $self, Str $term) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_synonyms_end(Database $self, Str $_anon_1) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_synonym_keys_begin(Database $self) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_synonym_keys_begin2(Database $self, Str $prefix) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_synonym_keys_end(Database $self) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_synonym_keys_end2(Database $self, Str $_anon_1) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_get_metadata(Database $self, Str $key) returns Str is native('xapian-helper') { * }
-        my sub xapian_database_metadata_keys_begin(Database $self) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_metadata_keys_begin2(Database $self, Str $prefix) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_metadata_keys_end(Database $self) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_metadata_keys_end2(Database $self, Str $_anon_1) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_get_uuid(Database $self) returns Str is native('xapian-helper') { * }
+        my sub xapian_database_reopen(Database $self, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_database_close(Database $self, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_database_get_description(Database $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+        my sub xapian_database_postlist_begin(Database $self, Str $tname, &handle-error (NativeError)) returns PostingIterator is native('xapian-helper') { * }
+        my sub xapian_database_postlist_end(Database $self, Str $_anon_1, &handle-error (NativeError)) returns PostingIterator is native('xapian-helper') { * }
+        my sub xapian_database_termlist_begin(Database $self, uint $did, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_database_termlist_end(Database $self, uint $_anon_1, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_database_has_positions(Database $self, &handle-error (NativeError)) returns Bool is native('xapian-helper') { * }
+        my sub xapian_database_positionlist_begin(Database $self, uint $did, Str $tname, &handle-error (NativeError)) returns PositionIterator is native('xapian-helper') { * }
+        my sub xapian_database_positionlist_end(Database $self, uint $_anon_1, Str $_anon_2, &handle-error (NativeError)) returns PositionIterator is native('xapian-helper') { * }
+        my sub xapian_database_allterms_begin(Database $self, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_database_allterms_end(Database $self, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_database_allterms_begin2(Database $self, Str $prefix, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_database_allterms_end2(Database $self, Str $_anon_1, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_database_get_doccount(Database $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
+        my sub xapian_database_get_lastdocid(Database $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
+        my sub xapian_database_get_avlength(Database $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
+        my sub xapian_database_get_termfreq(Database $self, Str $tname, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
+        my sub xapian_database_term_exists(Database $self, Str $tname, &handle-error (NativeError)) returns Bool is native('xapian-helper') { * }
+        my sub xapian_database_get_collection_freq(Database $self, Str $tname, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
+        my sub xapian_database_get_value_freq(Database $self, uint $slot, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
+        my sub xapian_database_get_value_lower_bound(Database $self, uint $slot, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+        my sub xapian_database_get_value_upper_bound(Database $self, uint $slot, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+        my sub xapian_database_get_doclength_lower_bound(Database $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
+        my sub xapian_database_get_doclength_upper_bound(Database $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
+        my sub xapian_database_get_wdf_upper_bound(Database $self, Str $term, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
+        my sub xapian_database_valuestream_begin(Database $self, uint $slot, &handle-error (NativeError)) returns ValueIterator is native('xapian-helper') { * }
+        my sub xapian_database_valuestream_end(Database $self, uint $_anon_1, &handle-error (NativeError)) returns ValueIteratorEnd_ is native('xapian-helper') { * }
+        my sub xapian_database_get_doclength(Database $self, uint $did, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
+        my sub xapian_database_keep_alive(Database $self, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_database_get_document(Database $self, uint $did, &handle-error (NativeError)) returns Document is native('xapian-helper') { * }
+        my sub xapian_database_get_spelling_suggestion(Database $self, Str $word, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+        my sub xapian_database_get_spelling_suggestion2(Database $self, Str $word, uint $max_edit_distance, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+        my sub xapian_database_spellings_begin(Database $self, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_database_spellings_end(Database $self, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_database_synonyms_begin(Database $self, Str $term, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_database_synonyms_end(Database $self, Str $_anon_1, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_database_synonym_keys_begin(Database $self, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_database_synonym_keys_begin2(Database $self, Str $prefix, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_database_synonym_keys_end(Database $self, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_database_synonym_keys_end2(Database $self, Str $_anon_1, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_database_get_metadata(Database $self, Str $key, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+        my sub xapian_database_metadata_keys_begin(Database $self, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_database_metadata_keys_begin2(Database $self, Str $prefix, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_database_metadata_keys_end(Database $self, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_database_metadata_keys_end2(Database $self, Str $_anon_1, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_database_get_uuid(Database $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
 
-        method add_database(Database $database) { xapian_database_add_database(self, $database) }
-        multi method new() returns Database { xapian_database_new() }
-        multi method new(Str $path) returns Database { xapian_database_new2($path) }
+        method add_database(Database $database) {
+            my $ex;
+            my $result = xapian_database_add_database(self, $database, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method add-database(Database $database) {
+            my $ex;
+            my $result = xapian_database_add_database(self, $database, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method new() returns Database {
+            my $ex;
+            my $result = xapian_database_new(-> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method new(Str $path) returns Database {
+            my $ex;
+            my $result = xapian_database_new2($path, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
         submethod DESTROY() { xapian_database_free(self) }
-        method reopen() { xapian_database_reopen(self) }
-        method close() { xapian_database_close(self) }
-        method get_description() returns Str { xapian_database_get_description(self) }
-        method postlist_begin(Str $tname) returns PostingIterator { xapian_database_postlist_begin(self, $tname) }
-        method postlist_end(Str $_anon_1) returns PostingIterator { xapian_database_postlist_end(self, $_anon_1) }
-        method termlist_begin(Int $did) returns TermIterator { xapian_database_termlist_begin(self, $did) }
-        method termlist_end(Int $_anon_1) returns TermIterator { xapian_database_termlist_end(self, $_anon_1) }
-        method has_positions() returns Bool { xapian_database_has_positions(self) }
-        method positionlist_begin(Int $did, Str $tname) returns PositionIterator { xapian_database_positionlist_begin(self, $did, $tname) }
-        method positionlist_end(Int $_anon_1, Str $_anon_2) returns PositionIterator { xapian_database_positionlist_end(self, $_anon_1, $_anon_2) }
-        multi method allterms_begin() returns TermIterator { xapian_database_allterms_begin(self) }
-        multi method allterms_end() returns TermIterator { xapian_database_allterms_end(self) }
-        multi method allterms_begin(Str $prefix) returns TermIterator { xapian_database_allterms_begin2(self, $prefix) }
-        multi method allterms_end(Str $_anon_1) returns TermIterator { xapian_database_allterms_end2(self, $_anon_1) }
-        method get_doccount() returns Int { xapian_database_get_doccount(self) }
-        method get_lastdocid() returns Int { xapian_database_get_lastdocid(self) }
-        method get_avlength() returns Int { xapian_database_get_avlength(self) }
-        method get_termfreq(Str $tname) returns Int { xapian_database_get_termfreq(self, $tname) }
-        method term_exists(Str $tname) returns Bool { xapian_database_term_exists(self, $tname) }
-        method get_collection_freq(Str $tname) returns Int { xapian_database_get_collection_freq(self, $tname) }
-        method get_value_freq(Int $slot) returns Int { xapian_database_get_value_freq(self, $slot) }
-        method get_value_lower_bound(Int $slot) returns Str { xapian_database_get_value_lower_bound(self, $slot) }
-        method get_value_upper_bound(Int $slot) returns Str { xapian_database_get_value_upper_bound(self, $slot) }
-        method get_doclength_lower_bound() returns Int { xapian_database_get_doclength_lower_bound(self) }
-        method get_doclength_upper_bound() returns Int { xapian_database_get_doclength_upper_bound(self) }
-        method get_wdf_upper_bound(Str $term) returns Int { xapian_database_get_wdf_upper_bound(self, $term) }
-        method valuestream_begin(Int $slot) returns ValueIterator { xapian_database_valuestream_begin(self, $slot) }
-        method valuestream_end(Int $_anon_1) returns ValueIteratorEnd_ { xapian_database_valuestream_end(self, $_anon_1) }
-        method get_doclength(Int $did) returns Int { xapian_database_get_doclength(self, $did) }
-        method keep_alive() { xapian_database_keep_alive(self) }
-        method get_document(Int $did) returns Document { xapian_database_get_document(self, $did) }
-        multi method get_spelling_suggestion(Str $word) returns Str { xapian_database_get_spelling_suggestion(self, $word) }
-        multi method get_spelling_suggestion(Str $word, Int $max_edit_distance) returns Str { xapian_database_get_spelling_suggestion2(self, $word, $max_edit_distance) }
-        method spellings_begin() returns TermIterator { xapian_database_spellings_begin(self) }
-        method spellings_end() returns TermIterator { xapian_database_spellings_end(self) }
-        method synonyms_begin(Str $term) returns TermIterator { xapian_database_synonyms_begin(self, $term) }
-        method synonyms_end(Str $_anon_1) returns TermIterator { xapian_database_synonyms_end(self, $_anon_1) }
-        multi method synonym_keys_begin() returns TermIterator { xapian_database_synonym_keys_begin(self) }
-        multi method synonym_keys_begin(Str $prefix) returns TermIterator { xapian_database_synonym_keys_begin2(self, $prefix) }
-        multi method synonym_keys_end() returns TermIterator { xapian_database_synonym_keys_end(self) }
-        multi method synonym_keys_end(Str $_anon_1) returns TermIterator { xapian_database_synonym_keys_end2(self, $_anon_1) }
-        method get_metadata(Str $key) returns Str { xapian_database_get_metadata(self, $key) }
-        multi method metadata_keys_begin() returns TermIterator { xapian_database_metadata_keys_begin(self) }
-        multi method metadata_keys_begin(Str $prefix) returns TermIterator { xapian_database_metadata_keys_begin2(self, $prefix) }
-        multi method metadata_keys_end() returns TermIterator { xapian_database_metadata_keys_end(self) }
-        multi method metadata_keys_end(Str $_anon_1) returns TermIterator { xapian_database_metadata_keys_end2(self, $_anon_1) }
-        method get_uuid() returns Str { xapian_database_get_uuid(self) }
+
+        method reopen() {
+            my $ex;
+            my $result = xapian_database_reopen(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method close() {
+            my $ex;
+            my $result = xapian_database_close(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_description() returns Str {
+            my $ex;
+            my $result = xapian_database_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-description() returns Str {
+            my $ex;
+            my $result = xapian_database_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method gist() returns Str {
+            my $ex;
+            my $result = xapian_database_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method postlist_begin(Str $tname) returns PostingIterator {
+            my $ex;
+            my $result = xapian_database_postlist_begin(self, $tname, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method postlist-begin(Str $tname) returns PostingIterator {
+            my $ex;
+            my $result = xapian_database_postlist_begin(self, $tname, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method postlist_end(Str $_anon_1) returns PostingIterator {
+            my $ex;
+            my $result = xapian_database_postlist_end(self, $_anon_1, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method postlist-end(Str $_anon_1) returns PostingIterator {
+            my $ex;
+            my $result = xapian_database_postlist_end(self, $_anon_1, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method termlist_begin(Int $did) returns TermIterator {
+            my $ex;
+            my $result = xapian_database_termlist_begin(self, $did, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method termlist-begin(Int $did) returns TermIterator {
+            my $ex;
+            my $result = xapian_database_termlist_begin(self, $did, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method termlist_end(Int $_anon_1) returns TermIterator {
+            my $ex;
+            my $result = xapian_database_termlist_end(self, $_anon_1, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method termlist-end(Int $_anon_1) returns TermIterator {
+            my $ex;
+            my $result = xapian_database_termlist_end(self, $_anon_1, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method has_positions() returns Bool {
+            my $ex;
+            my $result = xapian_database_has_positions(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method has-positions() returns Bool {
+            my $ex;
+            my $result = xapian_database_has_positions(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method positionlist_begin(Int $did, Str $tname) returns PositionIterator {
+            my $ex;
+            my $result = xapian_database_positionlist_begin(self, $did, $tname, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method positionlist-begin(Int $did, Str $tname) returns PositionIterator {
+            my $ex;
+            my $result = xapian_database_positionlist_begin(self, $did, $tname, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method positionlist_end(Int $_anon_1, Str $_anon_2) returns PositionIterator {
+            my $ex;
+            my $result = xapian_database_positionlist_end(self, $_anon_1, $_anon_2, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method positionlist-end(Int $_anon_1, Str $_anon_2) returns PositionIterator {
+            my $ex;
+            my $result = xapian_database_positionlist_end(self, $_anon_1, $_anon_2, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method allterms_begin() returns TermIterator {
+            my $ex;
+            my $result = xapian_database_allterms_begin(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method allterms-begin() returns TermIterator {
+            my $ex;
+            my $result = xapian_database_allterms_begin(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method allterms_end() returns TermIterator {
+            my $ex;
+            my $result = xapian_database_allterms_end(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method allterms-end() returns TermIterator {
+            my $ex;
+            my $result = xapian_database_allterms_end(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method allterms_begin(Str $prefix) returns TermIterator {
+            my $ex;
+            my $result = xapian_database_allterms_begin2(self, $prefix, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method allterms-begin(Str $prefix) returns TermIterator {
+            my $ex;
+            my $result = xapian_database_allterms_begin2(self, $prefix, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method allterms_end(Str $_anon_1) returns TermIterator {
+            my $ex;
+            my $result = xapian_database_allterms_end2(self, $_anon_1, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method allterms-end(Str $_anon_1) returns TermIterator {
+            my $ex;
+            my $result = xapian_database_allterms_end2(self, $_anon_1, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_doccount() returns Int {
+            my $ex;
+            my $result = xapian_database_get_doccount(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-doccount() returns Int {
+            my $ex;
+            my $result = xapian_database_get_doccount(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_lastdocid() returns Int {
+            my $ex;
+            my $result = xapian_database_get_lastdocid(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-lastdocid() returns Int {
+            my $ex;
+            my $result = xapian_database_get_lastdocid(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_avlength() returns Int {
+            my $ex;
+            my $result = xapian_database_get_avlength(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-avlength() returns Int {
+            my $ex;
+            my $result = xapian_database_get_avlength(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_termfreq(Str $tname) returns Int {
+            my $ex;
+            my $result = xapian_database_get_termfreq(self, $tname, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-termfreq(Str $tname) returns Int {
+            my $ex;
+            my $result = xapian_database_get_termfreq(self, $tname, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method term_exists(Str $tname) returns Bool {
+            my $ex;
+            my $result = xapian_database_term_exists(self, $tname, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method term-exists(Str $tname) returns Bool {
+            my $ex;
+            my $result = xapian_database_term_exists(self, $tname, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_collection_freq(Str $tname) returns Int {
+            my $ex;
+            my $result = xapian_database_get_collection_freq(self, $tname, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-collection-freq(Str $tname) returns Int {
+            my $ex;
+            my $result = xapian_database_get_collection_freq(self, $tname, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_value_freq(Int $slot) returns Int {
+            my $ex;
+            my $result = xapian_database_get_value_freq(self, $slot, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-value-freq(Int $slot) returns Int {
+            my $ex;
+            my $result = xapian_database_get_value_freq(self, $slot, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_value_lower_bound(Int $slot) returns Str {
+            my $ex;
+            my $result = xapian_database_get_value_lower_bound(self, $slot, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-value-lower-bound(Int $slot) returns Str {
+            my $ex;
+            my $result = xapian_database_get_value_lower_bound(self, $slot, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_value_upper_bound(Int $slot) returns Str {
+            my $ex;
+            my $result = xapian_database_get_value_upper_bound(self, $slot, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-value-upper-bound(Int $slot) returns Str {
+            my $ex;
+            my $result = xapian_database_get_value_upper_bound(self, $slot, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_doclength_lower_bound() returns Int {
+            my $ex;
+            my $result = xapian_database_get_doclength_lower_bound(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-doclength-lower-bound() returns Int {
+            my $ex;
+            my $result = xapian_database_get_doclength_lower_bound(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_doclength_upper_bound() returns Int {
+            my $ex;
+            my $result = xapian_database_get_doclength_upper_bound(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-doclength-upper-bound() returns Int {
+            my $ex;
+            my $result = xapian_database_get_doclength_upper_bound(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_wdf_upper_bound(Str $term) returns Int {
+            my $ex;
+            my $result = xapian_database_get_wdf_upper_bound(self, $term, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-wdf-upper-bound(Str $term) returns Int {
+            my $ex;
+            my $result = xapian_database_get_wdf_upper_bound(self, $term, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method valuestream_begin(Int $slot) returns ValueIterator {
+            my $ex;
+            my $result = xapian_database_valuestream_begin(self, $slot, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method valuestream-begin(Int $slot) returns ValueIterator {
+            my $ex;
+            my $result = xapian_database_valuestream_begin(self, $slot, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method valuestream_end(Int $_anon_1) returns ValueIteratorEnd_ {
+            my $ex;
+            my $result = xapian_database_valuestream_end(self, $_anon_1, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method valuestream-end(Int $_anon_1) returns ValueIteratorEnd_ {
+            my $ex;
+            my $result = xapian_database_valuestream_end(self, $_anon_1, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_doclength(Int $did) returns Int {
+            my $ex;
+            my $result = xapian_database_get_doclength(self, $did, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-doclength(Int $did) returns Int {
+            my $ex;
+            my $result = xapian_database_get_doclength(self, $did, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method keep_alive() {
+            my $ex;
+            my $result = xapian_database_keep_alive(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method keep-alive() {
+            my $ex;
+            my $result = xapian_database_keep_alive(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_document(Int $did) returns Document {
+            my $ex;
+            my $result = xapian_database_get_document(self, $did, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-document(Int $did) returns Document {
+            my $ex;
+            my $result = xapian_database_get_document(self, $did, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method get_spelling_suggestion(Str $word) returns Str {
+            my $ex;
+            my $result = xapian_database_get_spelling_suggestion(self, $word, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method get-spelling-suggestion(Str $word) returns Str {
+            my $ex;
+            my $result = xapian_database_get_spelling_suggestion(self, $word, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method get_spelling_suggestion(Str $word, Int $max_edit_distance) returns Str {
+            my $ex;
+            my $result = xapian_database_get_spelling_suggestion2(self, $word, $max_edit_distance, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method get-spelling-suggestion(Str $word, Int $max_edit_distance) returns Str {
+            my $ex;
+            my $result = xapian_database_get_spelling_suggestion2(self, $word, $max_edit_distance, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method spellings_begin() returns TermIterator {
+            my $ex;
+            my $result = xapian_database_spellings_begin(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method spellings-begin() returns TermIterator {
+            my $ex;
+            my $result = xapian_database_spellings_begin(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method spellings_end() returns TermIterator {
+            my $ex;
+            my $result = xapian_database_spellings_end(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method spellings-end() returns TermIterator {
+            my $ex;
+            my $result = xapian_database_spellings_end(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method synonyms_begin(Str $term) returns TermIterator {
+            my $ex;
+            my $result = xapian_database_synonyms_begin(self, $term, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method synonyms-begin(Str $term) returns TermIterator {
+            my $ex;
+            my $result = xapian_database_synonyms_begin(self, $term, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method synonyms_end(Str $_anon_1) returns TermIterator {
+            my $ex;
+            my $result = xapian_database_synonyms_end(self, $_anon_1, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method synonyms-end(Str $_anon_1) returns TermIterator {
+            my $ex;
+            my $result = xapian_database_synonyms_end(self, $_anon_1, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method synonym_keys_begin() returns TermIterator {
+            my $ex;
+            my $result = xapian_database_synonym_keys_begin(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method synonym-keys-begin() returns TermIterator {
+            my $ex;
+            my $result = xapian_database_synonym_keys_begin(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method synonym_keys_begin(Str $prefix) returns TermIterator {
+            my $ex;
+            my $result = xapian_database_synonym_keys_begin2(self, $prefix, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method synonym-keys-begin(Str $prefix) returns TermIterator {
+            my $ex;
+            my $result = xapian_database_synonym_keys_begin2(self, $prefix, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method synonym_keys_end() returns TermIterator {
+            my $ex;
+            my $result = xapian_database_synonym_keys_end(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method synonym-keys-end() returns TermIterator {
+            my $ex;
+            my $result = xapian_database_synonym_keys_end(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method synonym_keys_end(Str $_anon_1) returns TermIterator {
+            my $ex;
+            my $result = xapian_database_synonym_keys_end2(self, $_anon_1, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method synonym-keys-end(Str $_anon_1) returns TermIterator {
+            my $ex;
+            my $result = xapian_database_synonym_keys_end2(self, $_anon_1, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_metadata(Str $key) returns Str {
+            my $ex;
+            my $result = xapian_database_get_metadata(self, $key, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-metadata(Str $key) returns Str {
+            my $ex;
+            my $result = xapian_database_get_metadata(self, $key, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method metadata_keys_begin() returns TermIterator {
+            my $ex;
+            my $result = xapian_database_metadata_keys_begin(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method metadata-keys-begin() returns TermIterator {
+            my $ex;
+            my $result = xapian_database_metadata_keys_begin(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method metadata_keys_begin(Str $prefix) returns TermIterator {
+            my $ex;
+            my $result = xapian_database_metadata_keys_begin2(self, $prefix, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method metadata-keys-begin(Str $prefix) returns TermIterator {
+            my $ex;
+            my $result = xapian_database_metadata_keys_begin2(self, $prefix, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method metadata_keys_end() returns TermIterator {
+            my $ex;
+            my $result = xapian_database_metadata_keys_end(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method metadata-keys-end() returns TermIterator {
+            my $ex;
+            my $result = xapian_database_metadata_keys_end(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method metadata_keys_end(Str $_anon_1) returns TermIterator {
+            my $ex;
+            my $result = xapian_database_metadata_keys_end2(self, $_anon_1, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method metadata-keys-end(Str $_anon_1) returns TermIterator {
+            my $ex;
+            my $result = xapian_database_metadata_keys_end2(self, $_anon_1, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_uuid() returns Str {
+            my $ex;
+            my $result = xapian_database_get_uuid(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-uuid() returns Str {
+            my $ex;
+            my $result = xapian_database_get_uuid(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
     }
 
     class WritableDatabase is Database {
         my sub xapian_writable_database_free(WritableDatabase $self) is native('xapian-helper') { * }
-        my sub xapian_writable_database_new() returns WritableDatabase is native('xapian-helper') { * }
-        my sub xapian_writable_database_new2(Str $path, int $action) returns WritableDatabase is native('xapian-helper') { * }
-        my sub xapian_writable_database_commit(WritableDatabase $self) is native('xapian-helper') { * }
-        my sub xapian_writable_database_flush(WritableDatabase $self) is native('xapian-helper') { * }
-        my sub xapian_writable_database_begin_transaction(WritableDatabase $self) is native('xapian-helper') { * }
-        my sub xapian_writable_database_begin_transaction2(WritableDatabase $self, Bool $flushed) is native('xapian-helper') { * }
-        my sub xapian_writable_database_commit_transaction(WritableDatabase $self) is native('xapian-helper') { * }
-        my sub xapian_writable_database_cancel_transaction(WritableDatabase $self) is native('xapian-helper') { * }
-        my sub xapian_writable_database_add_document(WritableDatabase $self, Document $document) returns uint is native('xapian-helper') { * }
-        my sub xapian_writable_database_delete_document(WritableDatabase $self, uint $did) is native('xapian-helper') { * }
-        my sub xapian_writable_database_delete_document2(WritableDatabase $self, Str $unique_term) is native('xapian-helper') { * }
-        my sub xapian_writable_database_replace_document(WritableDatabase $self, uint $did, Document $document) is native('xapian-helper') { * }
-        my sub xapian_writable_database_replace_document2(WritableDatabase $self, Str $unique_term, Document $document) returns uint is native('xapian-helper') { * }
-        my sub xapian_writable_database_add_spelling(WritableDatabase $self, Str $word) is native('xapian-helper') { * }
-        my sub xapian_writable_database_add_spelling2(WritableDatabase $self, Str $word, uint $freqinc) is native('xapian-helper') { * }
-        my sub xapian_writable_database_remove_spelling(WritableDatabase $self, Str $word) is native('xapian-helper') { * }
-        my sub xapian_writable_database_remove_spelling2(WritableDatabase $self, Str $word, uint $freqdec) is native('xapian-helper') { * }
-        my sub xapian_writable_database_add_synonym(WritableDatabase $self, Str $term, Str $synonym) is native('xapian-helper') { * }
-        my sub xapian_writable_database_remove_synonym(WritableDatabase $self, Str $term, Str $synonym) is native('xapian-helper') { * }
-        my sub xapian_writable_database_clear_synonyms(WritableDatabase $self, Str $term) is native('xapian-helper') { * }
-        my sub xapian_writable_database_set_metadata(WritableDatabase $self, Str $key, Str $value) is native('xapian-helper') { * }
-        my sub xapian_writable_database_get_description(WritableDatabase $self) returns Str is native('xapian-helper') { * }
+        my sub xapian_writable_database_new(&handle-error (NativeError)) returns WritableDatabase is native('xapian-helper') { * }
+        my sub xapian_writable_database_new2(Str $path, int $action, &handle-error (NativeError)) returns WritableDatabase is native('xapian-helper') { * }
+        my sub xapian_writable_database_commit(WritableDatabase $self, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_writable_database_flush(WritableDatabase $self, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_writable_database_begin_transaction(WritableDatabase $self, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_writable_database_begin_transaction2(WritableDatabase $self, Bool $flushed, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_writable_database_commit_transaction(WritableDatabase $self, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_writable_database_cancel_transaction(WritableDatabase $self, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_writable_database_add_document(WritableDatabase $self, Document $document, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
+        my sub xapian_writable_database_delete_document(WritableDatabase $self, uint $did, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_writable_database_delete_document2(WritableDatabase $self, Str $unique_term, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_writable_database_replace_document(WritableDatabase $self, uint $did, Document $document, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_writable_database_replace_document2(WritableDatabase $self, Str $unique_term, Document $document, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
+        my sub xapian_writable_database_add_spelling(WritableDatabase $self, Str $word, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_writable_database_add_spelling2(WritableDatabase $self, Str $word, uint $freqinc, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_writable_database_remove_spelling(WritableDatabase $self, Str $word, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_writable_database_remove_spelling2(WritableDatabase $self, Str $word, uint $freqdec, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_writable_database_add_synonym(WritableDatabase $self, Str $term, Str $synonym, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_writable_database_remove_synonym(WritableDatabase $self, Str $term, Str $synonym, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_writable_database_clear_synonyms(WritableDatabase $self, Str $term, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_writable_database_set_metadata(WritableDatabase $self, Str $key, Str $value, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_writable_database_get_description(WritableDatabase $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
 
         submethod DESTROY() { xapian_writable_database_free(self) }
-        proto method new(*@args) { * }
-        multi method new() returns WritableDatabase { xapian_writable_database_new() }
-        multi method new(Str $path, Int $action) returns WritableDatabase { xapian_writable_database_new2($path, $action) }
-        method commit() { xapian_writable_database_commit(self) }
-        method flush() { xapian_writable_database_flush(self) }
-        multi method begin_transaction() { xapian_writable_database_begin_transaction(self) }
-        multi method begin_transaction(Bool $flushed) { xapian_writable_database_begin_transaction2(self, $flushed) }
-        method commit_transaction() { xapian_writable_database_commit_transaction(self) }
-        method cancel_transaction() { xapian_writable_database_cancel_transaction(self) }
-        method add_document(Document $document) returns Int { xapian_writable_database_add_document(self, $document) }
-        multi method delete_document(Int $did) { xapian_writable_database_delete_document(self, $did) }
-        multi method delete_document(Str $unique_term) { xapian_writable_database_delete_document2(self, $unique_term) }
-        multi method replace_document(Int $did, Document $document) { xapian_writable_database_replace_document(self, $did, $document) }
-        multi method replace_document(Str $unique_term, Document $document) returns Int { xapian_writable_database_replace_document2(self, $unique_term, $document) }
-        multi method add_spelling(Str $word) { xapian_writable_database_add_spelling(self, $word) }
-        multi method add_spelling(Str $word, Int $freqinc) { xapian_writable_database_add_spelling2(self, $word, $freqinc) }
-        multi method remove_spelling(Str $word) { xapian_writable_database_remove_spelling(self, $word) }
-        multi method remove_spelling(Str $word, Int $freqdec) { xapian_writable_database_remove_spelling2(self, $word, $freqdec) }
-        method add_synonym(Str $term, Str $synonym) { xapian_writable_database_add_synonym(self, $term, $synonym) }
-        method remove_synonym(Str $term, Str $synonym) { xapian_writable_database_remove_synonym(self, $term, $synonym) }
-        method clear_synonyms(Str $term) { xapian_writable_database_clear_synonyms(self, $term) }
-        method set_metadata(Str $key, Str $value) { xapian_writable_database_set_metadata(self, $key, $value) }
-        method get_description() returns Str { xapian_writable_database_get_description(self) }
+
+        multi method new() returns WritableDatabase {
+            my $ex;
+            my $result = xapian_writable_database_new(-> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method new(Str $path, Int $action) returns WritableDatabase {
+            my $ex;
+            my $result = xapian_writable_database_new2($path, $action, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method commit() {
+            my $ex;
+            my $result = xapian_writable_database_commit(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method flush() {
+            my $ex;
+            my $result = xapian_writable_database_flush(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method begin_transaction() {
+            my $ex;
+            my $result = xapian_writable_database_begin_transaction(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method begin-transaction() {
+            my $ex;
+            my $result = xapian_writable_database_begin_transaction(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method begin_transaction(Bool $flushed) {
+            my $ex;
+            my $result = xapian_writable_database_begin_transaction2(self, $flushed, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method begin-transaction(Bool $flushed) {
+            my $ex;
+            my $result = xapian_writable_database_begin_transaction2(self, $flushed, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method commit_transaction() {
+            my $ex;
+            my $result = xapian_writable_database_commit_transaction(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method commit-transaction() {
+            my $ex;
+            my $result = xapian_writable_database_commit_transaction(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method cancel_transaction() {
+            my $ex;
+            my $result = xapian_writable_database_cancel_transaction(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method cancel-transaction() {
+            my $ex;
+            my $result = xapian_writable_database_cancel_transaction(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method add_document(Document $document) returns Int {
+            my $ex;
+            my $result = xapian_writable_database_add_document(self, $document, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method add-document(Document $document) returns Int {
+            my $ex;
+            my $result = xapian_writable_database_add_document(self, $document, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method delete_document(Int $did) {
+            my $ex;
+            my $result = xapian_writable_database_delete_document(self, $did, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method delete-document(Int $did) {
+            my $ex;
+            my $result = xapian_writable_database_delete_document(self, $did, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method delete_document(Str $unique_term) {
+            my $ex;
+            my $result = xapian_writable_database_delete_document2(self, $unique_term, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method delete-document(Str $unique_term) {
+            my $ex;
+            my $result = xapian_writable_database_delete_document2(self, $unique_term, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method replace_document(Int $did, Document $document) {
+            my $ex;
+            my $result = xapian_writable_database_replace_document(self, $did, $document, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method replace-document(Int $did, Document $document) {
+            my $ex;
+            my $result = xapian_writable_database_replace_document(self, $did, $document, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method replace_document(Str $unique_term, Document $document) returns Int {
+            my $ex;
+            my $result = xapian_writable_database_replace_document2(self, $unique_term, $document, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method replace-document(Str $unique_term, Document $document) returns Int {
+            my $ex;
+            my $result = xapian_writable_database_replace_document2(self, $unique_term, $document, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method add_spelling(Str $word) {
+            my $ex;
+            my $result = xapian_writable_database_add_spelling(self, $word, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method add-spelling(Str $word) {
+            my $ex;
+            my $result = xapian_writable_database_add_spelling(self, $word, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method add_spelling(Str $word, Int $freqinc) {
+            my $ex;
+            my $result = xapian_writable_database_add_spelling2(self, $word, $freqinc, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method add-spelling(Str $word, Int $freqinc) {
+            my $ex;
+            my $result = xapian_writable_database_add_spelling2(self, $word, $freqinc, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method remove_spelling(Str $word) {
+            my $ex;
+            my $result = xapian_writable_database_remove_spelling(self, $word, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method remove-spelling(Str $word) {
+            my $ex;
+            my $result = xapian_writable_database_remove_spelling(self, $word, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method remove_spelling(Str $word, Int $freqdec) {
+            my $ex;
+            my $result = xapian_writable_database_remove_spelling2(self, $word, $freqdec, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method remove-spelling(Str $word, Int $freqdec) {
+            my $ex;
+            my $result = xapian_writable_database_remove_spelling2(self, $word, $freqdec, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method add_synonym(Str $term, Str $synonym) {
+            my $ex;
+            my $result = xapian_writable_database_add_synonym(self, $term, $synonym, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method add-synonym(Str $term, Str $synonym) {
+            my $ex;
+            my $result = xapian_writable_database_add_synonym(self, $term, $synonym, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method remove_synonym(Str $term, Str $synonym) {
+            my $ex;
+            my $result = xapian_writable_database_remove_synonym(self, $term, $synonym, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method remove-synonym(Str $term, Str $synonym) {
+            my $ex;
+            my $result = xapian_writable_database_remove_synonym(self, $term, $synonym, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method clear_synonyms(Str $term) {
+            my $ex;
+            my $result = xapian_writable_database_clear_synonyms(self, $term, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method clear-synonyms(Str $term) {
+            my $ex;
+            my $result = xapian_writable_database_clear_synonyms(self, $term, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set_metadata(Str $key, Str $value) {
+            my $ex;
+            my $result = xapian_writable_database_set_metadata(self, $key, $value, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set-metadata(Str $key, Str $value) {
+            my $ex;
+            my $result = xapian_writable_database_set_metadata(self, $key, $value, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_description() returns Str {
+            my $ex;
+            my $result = xapian_writable_database_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-description() returns Str {
+            my $ex;
+            my $result = xapian_writable_database_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method gist() returns Str {
+            my $ex;
+            my $result = xapian_writable_database_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
     }
 }
 

@@ -1,5 +1,5 @@
 /*
- * Generate C wrapper and Perl 6 bindings for a C++ class
+ * Generated C wrapper for Xapian::WritableDatabase
  * Copyright (C) 2015 Rob Hoelz (rob AT hoelz.ro)
  *
  * This program is free software; you can redistribute it and/or
@@ -36,136 +36,266 @@ xapian_writable_database_free(xapian_writable_database self) throw ()
 }
 
 xapian_writable_database
-xapian_writable_database_new(void) throw ()
+xapian_writable_database_new(void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    return new Xapian::WritableDatabase();
+    try {
+        return new Xapian::WritableDatabase();
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        return NULL;
+    }
 }
 
 xapian_writable_database
-xapian_writable_database_new2(const char * path, int action) throw ()
+xapian_writable_database_new2(const char * path, int action, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    return new Xapian::WritableDatabase(std::string(path), action);
+    try {
+        return new Xapian::WritableDatabase(std::string(path), action);
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        return NULL;
+    }
 }
 
 void
-xapian_writable_database_commit(xapian_writable_database self) throw ()
+xapian_writable_database_commit(xapian_writable_database self, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    self->commit();
+    try {
+        self->commit();
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        
+    }
+
 }
 
 void
-xapian_writable_database_flush(xapian_writable_database self) throw ()
+xapian_writable_database_flush(xapian_writable_database self, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    self->flush();
+    try {
+        self->flush();
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        
+    }
+
 }
 
 void
-xapian_writable_database_begin_transaction(xapian_writable_database self) throw ()
+xapian_writable_database_begin_transaction(xapian_writable_database self, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    self->begin_transaction();
+    try {
+        self->begin_transaction();
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        
+    }
+
 }
 
 void
-xapian_writable_database_begin_transaction2(xapian_writable_database self, bool flushed) throw ()
+xapian_writable_database_begin_transaction2(xapian_writable_database self, bool flushed, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    self->begin_transaction(flushed);
+    try {
+        self->begin_transaction(flushed);
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        
+    }
+
 }
 
 void
-xapian_writable_database_commit_transaction(xapian_writable_database self) throw ()
+xapian_writable_database_commit_transaction(xapian_writable_database self, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    self->commit_transaction();
+    try {
+        self->commit_transaction();
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        
+    }
+
 }
 
 void
-xapian_writable_database_cancel_transaction(xapian_writable_database self) throw ()
+xapian_writable_database_cancel_transaction(xapian_writable_database self, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    self->cancel_transaction();
+    try {
+        self->cancel_transaction();
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        
+    }
+
 }
 
 unsigned int
-xapian_writable_database_add_document(xapian_writable_database self, xapian_document document) throw ()
+xapian_writable_database_add_document(xapian_writable_database self, xapian_document document, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    return self->add_document(*document);
+    try {
+        return self->add_document(*document);
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        return 0;
+    }
+
 }
 
 void
-xapian_writable_database_delete_document(xapian_writable_database self, unsigned int did) throw ()
+xapian_writable_database_delete_document(xapian_writable_database self, unsigned int did, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    self->delete_document(did);
+    try {
+        self->delete_document(did);
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        
+    }
+
 }
 
 void
-xapian_writable_database_delete_document2(xapian_writable_database self, const char * unique_term) throw ()
+xapian_writable_database_delete_document2(xapian_writable_database self, const char * unique_term, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    self->delete_document(std::string(unique_term));
+    try {
+        self->delete_document(std::string(unique_term));
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        
+    }
+
 }
 
 void
-xapian_writable_database_replace_document(xapian_writable_database self, unsigned int did, xapian_document document) throw ()
+xapian_writable_database_replace_document(xapian_writable_database self, unsigned int did, xapian_document document, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    self->replace_document(did, *document);
+    try {
+        self->replace_document(did, *document);
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        
+    }
+
 }
 
 unsigned int
-xapian_writable_database_replace_document2(xapian_writable_database self, const char * unique_term, xapian_document document) throw ()
+xapian_writable_database_replace_document2(xapian_writable_database self, const char * unique_term, xapian_document document, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    return self->replace_document(std::string(unique_term), *document);
+    try {
+        return self->replace_document(std::string(unique_term), *document);
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        return 0;
+    }
+
 }
 
 void
-xapian_writable_database_add_spelling(xapian_writable_database self, const char * word) throw ()
+xapian_writable_database_add_spelling(xapian_writable_database self, const char * word, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    self->add_spelling(std::string(word));
+    try {
+        self->add_spelling(std::string(word));
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        
+    }
+
 }
 
 void
-xapian_writable_database_add_spelling2(xapian_writable_database self, const char * word, unsigned int freqinc) throw ()
+xapian_writable_database_add_spelling2(xapian_writable_database self, const char * word, unsigned int freqinc, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    self->add_spelling(std::string(word), freqinc);
+    try {
+        self->add_spelling(std::string(word), freqinc);
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        
+    }
+
 }
 
 void
-xapian_writable_database_remove_spelling(xapian_writable_database self, const char * word) throw ()
+xapian_writable_database_remove_spelling(xapian_writable_database self, const char * word, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    self->remove_spelling(std::string(word));
+    try {
+        self->remove_spelling(std::string(word));
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        
+    }
+
 }
 
 void
-xapian_writable_database_remove_spelling2(xapian_writable_database self, const char * word, unsigned int freqdec) throw ()
+xapian_writable_database_remove_spelling2(xapian_writable_database self, const char * word, unsigned int freqdec, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    self->remove_spelling(std::string(word), freqdec);
+    try {
+        self->remove_spelling(std::string(word), freqdec);
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        
+    }
+
 }
 
 void
-xapian_writable_database_add_synonym(xapian_writable_database self, const char * term, const char * synonym) throw ()
+xapian_writable_database_add_synonym(xapian_writable_database self, const char * term, const char * synonym, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    self->add_synonym(std::string(term), std::string(synonym));
+    try {
+        self->add_synonym(std::string(term), std::string(synonym));
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        
+    }
+
 }
 
 void
-xapian_writable_database_remove_synonym(xapian_writable_database self, const char * term, const char * synonym) throw ()
+xapian_writable_database_remove_synonym(xapian_writable_database self, const char * term, const char * synonym, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    self->remove_synonym(std::string(term), std::string(synonym));
+    try {
+        self->remove_synonym(std::string(term), std::string(synonym));
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        
+    }
+
 }
 
 void
-xapian_writable_database_clear_synonyms(xapian_writable_database self, const char * term) throw ()
+xapian_writable_database_clear_synonyms(xapian_writable_database self, const char * term, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    self->clear_synonyms(std::string(term));
+    try {
+        self->clear_synonyms(std::string(term));
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        
+    }
+
 }
 
 void
-xapian_writable_database_set_metadata(xapian_writable_database self, const char * key, const char * value) throw ()
+xapian_writable_database_set_metadata(xapian_writable_database self, const char * key, const char * value, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    self->set_metadata(std::string(key), std::string(value));
+    try {
+        self->set_metadata(std::string(key), std::string(value));
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        
+    }
+
 }
 
 const char *
-xapian_writable_database_get_description(xapian_writable_database self) throw ()
+xapian_writable_database_get_description(xapian_writable_database self, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    std::string value = self->get_description();
-    return strdup(value.c_str());
+    try {
+        std::string value = self->get_description();
+        return strdup(value.c_str());
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        return NULL;
+    }
+
 }
 
 }

@@ -1,5 +1,5 @@
 /*
- * Generate C wrapper and Perl 6 bindings for a C++ class
+ * Generated C wrapper for Xapian::Error
  * Copyright (C) 2015 Rob Hoelz (rob AT hoelz.ro)
  *
  * This program is free software; you can redistribute it and/or
@@ -29,36 +29,66 @@ extern "C" {
 typedef Xapian::Error *xapian_error;
 
 const char *
-xapian_error_get_type(xapian_error self) throw ()
+xapian_error_get_type(xapian_error self, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    return self->get_type();
+    try {
+        return self->get_type();
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        return NULL;
+    }
+
 }
 
 const char *
-xapian_error_get_msg(xapian_error self) throw ()
+xapian_error_get_msg(xapian_error self, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    std::string value = self->get_msg();
-    return strdup(value.c_str());
+    try {
+        std::string value = self->get_msg();
+        return strdup(value.c_str());
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        return NULL;
+    }
+
 }
 
 const char *
-xapian_error_get_context(xapian_error self) throw ()
+xapian_error_get_context(xapian_error self, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    std::string value = self->get_context();
-    return strdup(value.c_str());
+    try {
+        std::string value = self->get_context();
+        return strdup(value.c_str());
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        return NULL;
+    }
+
 }
 
 const char *
-xapian_error_get_error_string(xapian_error self) throw ()
+xapian_error_get_error_string(xapian_error self, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    return self->get_error_string();
+    try {
+        return self->get_error_string();
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        return NULL;
+    }
+
 }
 
 const char *
-xapian_error_get_description(xapian_error self) throw ()
+xapian_error_get_description(xapian_error self, void (*handle_exception)(const Xapian::Error *)) throw ()
 {
-    std::string value = self->get_description();
-    return strdup(value.c_str());
+    try {
+        std::string value = self->get_description();
+        return strdup(value.c_str());
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        return NULL;
+    }
+
 }
 
 }
