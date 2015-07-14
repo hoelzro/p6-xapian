@@ -104,8 +104,28 @@ class CppType {
             !! $.Str.subst(/^ 'Xapian::'/, '')
     }
 
-    method is-pointer {
-        False
+    # this is awful
+    method empty {
+        given $.Str {
+            when /^'Xapian::' <[A..Z]>/ {
+                'NULL'
+            }
+            when 'std::string' {
+                'NULL'
+            }
+            when 'const char *' {
+                'NULL'
+            }
+            when 'bool' {
+                'false'
+            }
+            when /^'Xapian::'? <[a..z]>/ {
+                '0'
+            }
+            default {
+                die "shit: $.Str";
+            }
+        }
     }
 }
 
@@ -128,13 +148,11 @@ class CppArgument {
 multi infix:<eqv>(CppType $a, CppType $b) { $a.Str eq $b.Str }
 
 sub generate-arguments-declaration(@arguments is copy) {
-    if @arguments {
-        @arguments.map({
-            $^arg.type.c-type ~ ' ' ~ $^arg.name
-        }).join(', ')
-    } else {
-        'void'
-    }
+    my @c-arguments = @arguments.map({
+        $^arg.type.c-type ~ ' ' ~ $^arg.name
+    });
+    @c-arguments.push: 'void (*handle_exception)(const Xapian::Error *)';
+    @c-arguments.join(', ')
 }
 
 sub generate-arguments-call(@arguments is copy) {
@@ -151,16 +169,26 @@ sub generate-arguments-call(@arguments is copy) {
     }
 }
 
-sub generate-perl6-arguments(@arguments is copy, Bool :$native = True) {
-    @arguments.map({
+sub generate-perl6-arguments(@arguments is copy, Bool :$native = True, Bool :$error-handler = False) {
+    my @perl6-arguments = @arguments.map({
         $^arg.type.perl6-type(:$native) ~ ' $' ~ $^arg.name
-    }).join(', ')
+    });
+
+    if $error-handler {
+        @perl6-arguments.push: '&handle-error (NativeError)';
+    }
+
+    @perl6-arguments.join(', ')
 }
 
 sub generate-perl6-call(@arguments is copy) {
-    @arguments.map({
+    my @perl6-arguments = @arguments.map({
         ($^arg.name eq 'self' ?? '' !! '$') ~ $^arg.name
-    }).join(', ')
+    });
+
+    @perl6-arguments.push: '-> NativeError $error { $ex = Error.new($error) }';
+
+    @perl6-arguments.join(', ')
 }
 
 sub gather-typedefs($definition) {
@@ -238,7 +266,7 @@ class CppDestructor {
     method generate-perl6-methods {
         my $function-name = $*CPP-CLASS.c-type ~ '_free';
 
-        "submethod DESTROY() \{ {$function-name}(self) \}"
+        "    submethod DESTROY() \{ {$function-name}(self) \}\n"
     }
 }
 
@@ -274,7 +302,12 @@ class CppConstructor {
             $c-type
             {$c-type}_new{$suffix}({generate-arguments-declaration(@arguments)}) throw ()
             \{
-                return new {$*CPP-CLASS}({generate-arguments-call(@arguments)});
+                try \{
+                    return new {$*CPP-CLASS}({generate-arguments-call(@arguments)});
+                \} catch(const Xapian::Error &error) \{
+                    handle_exception(&error);
+                    return {$*CPP-CLASS.empty};
+                \}
             \}
             END_CPP
         }
@@ -282,7 +315,7 @@ class CppConstructor {
 
     method generate-perl6-stubs {
         gather for self.argument-slices() -> @arguments {
-            my $arguments     = generate-perl6-arguments(@arguments);
+            my $arguments     = generate-perl6-arguments(@arguments, :error-handler);
             my $suffix        = $*COUNTER == 0 ?? '' !! $*COUNTER + 1;
             my $function-name = $*CPP-CLASS.c-type ~ '_new' ~ $suffix;
 
@@ -298,7 +331,15 @@ class CppConstructor {
             my $suffix        = $*COUNTER == 0 ?? '' !! $*COUNTER + 1;
             my $function-name = $*CPP-CLASS.c-type ~ '_new' ~ $suffix;
 
-            take "{$*MULTI}method {$method-name}($arguments) returns $*PERL6-CLASS \{ {$function-name}($call) \}";
+            take qq:to/END_CPP/;
+                {$*MULTI}method {$method-name}($arguments) returns $*PERL6-CLASS \{
+                    my \$ex;
+                    my \$result = {$function-name}($call);
+                    \$ex.throw if \$ex;
+                    \$result
+                \}
+            END_CPP
+
         }
     }
 
@@ -403,9 +444,9 @@ class CppMethod {
             my $call-arguments = generate-arguments-call(@arguments);
             my $body =
                 do if $.return-type.Str eq 'std::string' {
-                    "std::string value = {self!generate-call($call-arguments)};\n    return strdup(value.c_str());"
+                    "std::string value = {self!generate-call($call-arguments)};\n        return strdup(value.c_str());"
                 } elsif $.return-type.Str ~~ /^ 'Xapian::' <[A..Z]> / {
-                    "$.return-type *value = new {$.return-type}();\n    *value = {self!generate-call($call-arguments)};\n    return value;"
+                    "$.return-type *value = new {$.return-type}();\n        *value = {self!generate-call($call-arguments)};\n        return value;"
                 } else {
                     "{$is-void ?? '' !! 'return '}{self!generate-call($call-arguments)};"
                 };
@@ -414,7 +455,13 @@ class CppMethod {
             $.return-type().c-type()
             {$.c-name}({generate-arguments-declaration(@arguments)}) throw ()
             \{
-                $body
+                try \{
+                    $body
+                \} catch(const Xapian::Error &error) \{
+                    handle_exception(&error);
+                    {$is-void ?? '' !! "return {$.return-type.empty};"}
+                \}
+
             \}
             END_CPP
         }
@@ -447,7 +494,7 @@ class CppMethod {
 
         gather for self.argument-slices() -> @arguments {
             my $suffix    = $*COUNTER == 0 ?? '' !! $*COUNTER + 1;
-            my $arguments = generate-perl6-arguments(@arguments);
+            my $arguments = generate-perl6-arguments(@arguments, :error-handler);
 
             take "my sub {$.c-name}($arguments)$returns is native('$*LIB-NAME') \{ * \}"
         }
@@ -463,14 +510,37 @@ class CppMethod {
                 my $arguments   = generate-perl6-arguments(@arguments[1..*], :!native);
                 my $call        = generate-perl6-call(@arguments);
 
-                my @methods = "{$*MULTI}method {$method-name}($arguments)$returns \{ {$.c-name}($call) \}";
+                my @methods;
+
+                @methods.push: qq:to/END_CPP/;
+                    {$*MULTI}method {$method-name}($arguments)$returns \{
+                        my \$ex;
+                        my \$result = {$.c-name}($call);
+                        \$ex.throw if \$ex;
+                        \$result
+                    \}
+                END_CPP
 
                 if $method-name ~~ /'_'/ {
-                    @methods.push: "{$*MULTI}method {snake-to-kebab-case($method-name)}($arguments)$returns \{ {$.c-name}($call) \}";
+                    @methods.push: qq:to/END_CPP/;
+                        {$*MULTI}method {snake-to-kebab-case($method-name)}($arguments)$returns \{
+                            my \$ex;
+                            my \$result = {$.c-name}($call);
+                            \$ex.throw if \$ex;
+                            \$result
+                        \}
+                    END_CPP
                 }
 
                 if $method-name eq 'get_description' {
-                    @methods.push: "method gist() returns Str \{ {$.c-name}(self) \}";
+                    @methods.push: qq:to/END_CPP/;
+                        method gist() returns Str \{
+                            my \$ex;
+                            my \$result = {$.c-name}($call);
+                            \$ex.throw if \$ex;
+                            \$result
+                        \}
+                    END_CPP
                 }
 
                 take @methods.item; # XXX without .item?
@@ -808,7 +878,7 @@ sub generate-perl6-binding($definition) {
         # XXX I expected to be able to use [ $stub, @methods ]
         for $method.generate-perl6-stubs Z $method.generate-perl6-methods -> ( $stub, $methods ) {
             @plumbing.push("    $stub");
-            @porcelain.push("    $_") for @($methods);
+            @porcelain.push($_) for @($methods);
             $*COUNTER++;
         }
     }
