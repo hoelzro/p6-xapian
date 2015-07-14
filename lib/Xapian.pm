@@ -845,6 +845,8 @@ module Xapian {
             $result
         }
 
+        enum flags (:Spelling(128));
+        enum stem_strategy <None Some All All-Z>;
     }
 
     class Database is repr('CPointer') {
@@ -1896,6 +1898,54 @@ module Xapian {
             $ex.throw if $ex;
             $result
         }
+    }
+
+    class QueryParser is repr('CPointer') {
+        enum feature_flag (
+            :Boolean(1),
+            :Phrase(2),
+            :Lovehate(4),
+            :Boolean-Any-Case(8),
+            :Wildcard(16),
+            :Pure-Not(32),
+            :Partial(64),
+            :Spelling-Correction(128),
+            :Synonym(256),
+            :Auto-Synonyms(512),
+            :Auto-Multiword-Synonyms(1536),
+            :Default(7),
+        );
+
+        enum stem_strategy <None Some All All-Z>;
+    }
+
+    class Weight is repr('CPointer') {
+        enum stat_flags (
+            :Collection-Size(1),
+            :Rset-Size(2),
+            :Average-Length(4),
+            :Termfreq(8),
+            :Reltermfreq(16),
+            :Query-Length(32),
+            :Wqf(64),
+            :Wdf(128),
+            :Doc-Length(256),
+            :Doc-Length-Min(512),
+            :Doc-Length-Max(1024),
+            :Wdf-Max(2048),
+        );
+    }
+
+    class Compactor is repr('CPointer') {
+        enum compaction_level <Standard Full Fuller>;
+    }
+
+    class Enquire is repr('CPointer') {
+        enum docid_order <Ascending Descending Dont-Care>;
+    }
+
+    class Query is repr('CPointer') {
+        enum op <And Or And-Not Xor And-Maybe Filter Near Phrase Value-Range Scale-Weight Elite-Set Value-Ge Value-Le Synonym>;
     }
 }
 
