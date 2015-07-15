@@ -27,6 +27,14 @@ sub snake-to-kebab-case(Str $name) {
     $name.subst(/'_'/, '-', :g)
 }
 
+sub is-xapian-class(Str $type-name) returns Bool {
+    ($type-name ~~ /^ 'Xapian::' <[A..Z]>/).Bool
+}
+
+sub is-xapian-inty(Str $type-name) returns Bool {
+    ($type-name ~~ /^ 'Xapian::'? <[a..z]>/).Bool
+}
+
 my %c-typemap = (
     'std::string'           => 'const char *',
     'Xapian::docid'         => 'unsigned int',
@@ -107,7 +115,7 @@ class CppType {
     # this is awful
     method empty {
         given $.Str {
-            when /^'Xapian::' <[A..Z]>/ {
+            when is-xapian-class($_) {
                 'NULL'
             }
             when 'std::string' {
@@ -119,7 +127,7 @@ class CppType {
             when 'bool' {
                 'false'
             }
-            when /^'Xapian::'? <[a..z]>/ {
+            when is-xapian-inty($_) {
                 '0'
             }
             default {
@@ -207,7 +215,7 @@ sub gather-typedefs($definition) {
         @types.push: $method.return-type if $method.can('return-type');
 
         for @types -> $type {
-            if $type.Str ~~ /^ 'Xapian::' <[A..Z]> / {
+            if is-xapian-class($type.Str) {
                 %types{$type.Str} = $type;
             }
         }
@@ -445,7 +453,7 @@ class CppMethod {
             my $body =
                 do if $.return-type.Str eq 'std::string' {
                     "std::string value = {self!generate-call($call-arguments)};\n        return strdup(value.c_str());"
-                } elsif $.return-type.Str ~~ /^ 'Xapian::' <[A..Z]> / {
+                } elsif is-xapian-class($.return-type.Str) {
                     "$.return-type *value = new {$.return-type}();\n        *value = {self!generate-call($call-arguments)};\n        return value;"
                 } else {
                     "{$is-void ?? '' !! 'return '}{self!generate-call($call-arguments)};"
