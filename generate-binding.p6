@@ -37,6 +37,7 @@ sub is-xapian-inty(Str $type-name) returns Bool {
 
 my %c-typemap = (
     'std::string'           => 'const char *',
+    'Xapian::Query::op'     => 'unsigned int',
     'Xapian::docid'         => 'unsigned int',
     'Xapian::doccount'      => 'unsigned int',
     'Xapian::doclength'     => 'unsigned int',
@@ -51,6 +52,7 @@ my %c-typemap = (
 my %native-typemap = (
     'std::string'           => 'Str',
     'bool'                  => 'Bool',
+    'Xapian::Query::op'     => 'uint',
     'Xapian::docid'         => 'uint',
     'Xapian::doccount'      => 'uint',
     'Xapian::doclength'     => 'uint',
@@ -66,6 +68,7 @@ my %native-typemap = (
 my %perl-typemap = (
     'std::string'           => 'Str',
     'bool'                  => 'Bool',
+    'Xapian::Query::op'     => 'Int',
     'Xapian::docid'         => 'Int',
     'Xapian::doccount'      => 'Int',
     'Xapian::doclength'     => 'Int',
