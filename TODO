@@ -1,3 +1,4 @@
+  - Handle using enums from Perl 6 in calls that use them
   - Add headers to revision control, and sanity check generated output?
   - Cast errors into proper error types
   - Docs (is there a way I can import them? improve generate c++? https://getting-started-with-xapian.readthedocs.org/en/latest?)
