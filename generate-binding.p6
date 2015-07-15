@@ -28,11 +28,11 @@ sub snake-to-kebab-case(Str $name) {
 }
 
 sub is-xapian-class(Str $type-name) returns Bool {
-    ($type-name ~~ /^ 'Xapian::' <[A..Z]>/).Bool
+    ($type-name ~~ /^ 'Xapian::' [ \w+ '::' ]*: <[A..Z]>/).Bool
 }
 
 sub is-xapian-inty(Str $type-name) returns Bool {
-    ($type-name ~~ /^ 'Xapian::'? <[a..z]>/).Bool
+    ($type-name ~~ /^ 'Xapian::'? [ \w+ '::']*: <[a..z]>/).Bool
 }
 
 my %c-typemap = (
