@@ -154,6 +154,7 @@ class CppArgument {
     has $.name;
     has $.has-default-value;
     has Bool $.is-reference;
+    has Bool $.is-pointer;
 }
 
 multi infix:<eqv>(CppType $a, CppType $b) { $a.Str eq $b.Str }
@@ -173,7 +174,7 @@ sub generate-arguments-call(@arguments is copy) {
         @arguments.map({
             $^arg.type.Str eq 'std::string'
                 ?? "std::string($^arg.name())"
-                !! ($^arg.is-reference ?? '*' !! '') ~ $^arg.name
+                !! ($^arg.is-reference || (is-xapian-class($^arg.type.Str) && !$^arg.is-pointer) ?? '*' !! '') ~ $^arg.name
         }).join(', ')
     } else {
         ''
@@ -718,10 +719,15 @@ class CppActions {
                 my $/ = OUTER::<$/>;
                 (~$<type><pointy> ~~ /'&'/).Bool
             };
+            my $is-pointer = do {
+                my $/ = OUTER::<$/>;
+                (~$<type><pointy> ~~ /'*'/).Bool
+            };
             take CppArgument.new(
                 :type($<type>.made),
                 :name($<name> ?? ~$<name> !! @anon_names.shift),
                 :$is-reference,
+                :$is-pointer,
                 :has-default-value($<default-value>.defined),
             );
         }
