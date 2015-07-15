@@ -63,6 +63,7 @@ my %native-typemap = (
     'Xapian::valueno'       => 'uint',
     'unsigned'              => 'uint',
     'const char *'          => 'Str',
+    'double'                => 'num',
 );
 
 my %perl-typemap = (
@@ -80,6 +81,7 @@ my %perl-typemap = (
     'unsigned'              => 'Int',
     'int'                   => 'Int',
     'const char *'          => 'Str',
+    'double'                => 'Num',
 );
 
 for (%c-typemap.item, %native-typemap.item, %perl-typemap.item) -> $typemap {
