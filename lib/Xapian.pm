@@ -1966,8 +1966,178 @@ module Xapian {
         enum docid_order <Ascending Descending Dont-Care>;
     }
 
+    class PostingSource is repr('CPointer') {
+    }
+
     class Query is repr('CPointer') {
         enum op <And Or And-Not Xor And-Maybe Filter Near Phrase Value-Range Scale-Weight Elite-Set Value-Ge Value-Le Synonym>;
+
+        my sub xapian_query_new(&handle-error (NativeError)) returns Query is native('xapian-helper') { * }
+        my sub xapian_query_free(Query $self) is native('xapian-helper') { * }
+        my sub xapian_query_new2(Str $tname_, &handle-error (NativeError)) returns Query is native('xapian-helper') { * }
+        my sub xapian_query_new3(Str $tname_, uint $wqf_, &handle-error (NativeError)) returns Query is native('xapian-helper') { * }
+        my sub xapian_query_new4(Str $tname_, uint $wqf_, uint $pos_, &handle-error (NativeError)) returns Query is native('xapian-helper') { * }
+        my sub xapian_query_new5(uint $op_, Query $left, Query $right, &handle-error (NativeError)) returns Query is native('xapian-helper') { * }
+        my sub xapian_query_new6(uint $op_, Str $left, Str $right, &handle-error (NativeError)) returns Query is native('xapian-helper') { * }
+        my sub xapian_query_new7(uint $op_, Query $q, num $parameter, &handle-error (NativeError)) returns Query is native('xapian-helper') { * }
+        my sub xapian_query_new8(uint $op_, uint $slot, Str $begin, Str $end, &handle-error (NativeError)) returns Query is native('xapian-helper') { * }
+        my sub xapian_query_new9(uint $op_, uint $slot, Str $value, &handle-error (NativeError)) returns Query is native('xapian-helper') { * }
+        my sub xapian_query_new10(PostingSource $external_source, &handle-error (NativeError)) returns Query is native('xapian-helper') { * }
+        my sub xapian_query_get_length(Query $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
+        my sub xapian_query_get_terms_begin(Query $self, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_query_get_terms_end(Query $self, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_query_empty(Query $self, &handle-error (NativeError)) returns Bool is native('xapian-helper') { * }
+        my sub xapian_query_serialise(Query $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+        my sub xapian_query_get_description(Query $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+
+        multi method new() returns Query {
+            my $ex;
+            my $result = xapian_query_new(-> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        submethod DESTROY() { xapian_query_free(self) }
+
+        multi method new(Str $tname_) returns Query {
+            my $ex;
+            my $result = xapian_query_new2($tname_, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method new(Str $tname_, Int $wqf_) returns Query {
+            my $ex;
+            my $result = xapian_query_new3($tname_, $wqf_, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method new(Str $tname_, Int $wqf_, Int $pos_) returns Query {
+            my $ex;
+            my $result = xapian_query_new4($tname_, $wqf_, $pos_, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method new(Int $op_, Query $left, Query $right) returns Query {
+            my $ex;
+            my $result = xapian_query_new5($op_, $left, $right, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method new(Int $op_, Str $left, Str $right) returns Query {
+            my $ex;
+            my $result = xapian_query_new6($op_, $left, $right, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method new(Int $op_, Query $q, Num $parameter) returns Query {
+            my $ex;
+            my $result = xapian_query_new7($op_, $q, $parameter, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method new(Int $op_, Int $slot, Str $begin, Str $end) returns Query {
+            my $ex;
+            my $result = xapian_query_new8($op_, $slot, $begin, $end, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method new(Int $op_, Int $slot, Str $value) returns Query {
+            my $ex;
+            my $result = xapian_query_new9($op_, $slot, $value, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method new(PostingSource $external_source) returns Query {
+            my $ex;
+            my $result = xapian_query_new10($external_source, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_length() returns Int {
+            my $ex;
+            my $result = xapian_query_get_length(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-length() returns Int {
+            my $ex;
+            my $result = xapian_query_get_length(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_terms_begin() returns TermIterator {
+            my $ex;
+            my $result = xapian_query_get_terms_begin(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-terms-begin() returns TermIterator {
+            my $ex;
+            my $result = xapian_query_get_terms_begin(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_terms_end() returns TermIterator {
+            my $ex;
+            my $result = xapian_query_get_terms_end(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-terms-end() returns TermIterator {
+            my $ex;
+            my $result = xapian_query_get_terms_end(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method empty() returns Bool {
+            my $ex;
+            my $result = xapian_query_empty(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method serialise() returns Str {
+            my $ex;
+            my $result = xapian_query_serialise(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_description() returns Str {
+            my $ex;
+            my $result = xapian_query_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-description() returns Str {
+            my $ex;
+            my $result = xapian_query_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method gist() returns Str {
+            my $ex;
+            my $result = xapian_query_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
     }
 }
 
