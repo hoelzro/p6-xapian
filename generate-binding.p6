@@ -664,6 +664,7 @@ grammar CppGrammar {
     token literal:null { 'NULL' }
     token literal:std_string { 'std::string()' }
     token literal:flags { 'flags(' <.ws> \d+ <.ws> ')' }
+    token literal:constant { <[A..Z]+[_]>+ }
 
     token type-modifier {
         'const'
