@@ -672,7 +672,7 @@ grammar CppGrammar {
     }
 
     token method-modifier {
-        'virtual' || 'explicit' || 'static' # XXX explicit is technically only for constructors...
+        'virtual' || 'explicit' || 'static' || 'inline' # XXX explicit is technically only for constructors...
     }
 
     token method-post-modifier {
