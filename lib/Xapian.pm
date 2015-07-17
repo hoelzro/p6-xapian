@@ -1941,12 +1941,6 @@ module Xapian {
         enum compaction_level <Standard Full Fuller>;
     }
 
-    class Enquire is repr('CPointer') {
-        constant INCLUDE_QUERY_TERMS = 1;
-        constant USE_EXACT_TERMFREQ  = 2;
-        enum docid_order <Ascending Descending Dont-Care>;
-    }
-
     class PostingSource is repr('CPointer') {
     }
 
@@ -2119,6 +2113,591 @@ module Xapian {
             $ex.throw if $ex;
             $result
         }
+    }
+
+    class ErrorHandler is repr('CPointer') {
+    }
+
+    class MatchSpy is repr('CPointer') {
+    }
+
+    class KeyMaker is repr('CPointer') {
+    }
+
+    class ESet is repr('CPointer') {
+    }
+
+    class MSet is repr('CPointer') {
+    }
+
+    class RSet is repr('CPointer') {
+    }
+
+    class MatchDecider is repr('CPointer') {
+    }
+
+    class ExpandDecider is repr('CPointer') {
+    }
+
+    class MSetIterator is repr('CPointer') {
+    }
+
+    class Enquire is repr('CPointer') {
+        my sub xapian_enquire_new(Database $database, &handle-error (NativeError)) returns Enquire is native('xapian-helper') { * }
+        my sub xapian_enquire_new2(Database $database, ErrorHandler $errorhandler_, &handle-error (NativeError)) returns Enquire is native('xapian-helper') { * }
+        my sub xapian_enquire_free(Enquire $self) is native('xapian-helper') { * }
+        my sub xapian_enquire_set_query(Enquire $self, Query $query, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_enquire_set_query2(Enquire $self, Query $query, uint $qlen, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_enquire_get_query(Enquire $self, &handle-error (NativeError)) returns Query is native('xapian-helper') { * }
+        my sub xapian_enquire_add_matchspy(Enquire $self, MatchSpy $spy, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_enquire_clear_matchspies(Enquire $self, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_enquire_set_weighting_scheme(Enquire $self, Weight $weight_, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_enquire_set_collapse_key(Enquire $self, uint $collapse_key, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_enquire_set_collapse_key2(Enquire $self, uint $collapse_key, uint $collapse_max, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_enquire_set_docid_order(Enquire $self, uint $order, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_enquire_set_cutoff(Enquire $self, int $percent_cutoff, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_enquire_set_cutoff2(Enquire $self, int $percent_cutoff, num $weight_cutoff, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_enquire_set_sort_by_relevance(Enquire $self, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_enquire_set_sort_by_value(Enquire $self, uint $sort_key, Bool $reverse, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_enquire_set_sort_by_key(Enquire $self, KeyMaker $sorter, Bool $reverse, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_enquire_set_sort_by_value_then_relevance(Enquire $self, uint $sort_key, Bool $reverse, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_enquire_set_sort_by_key_then_relevance(Enquire $self, KeyMaker $sorter, Bool $reverse, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_enquire_set_sort_by_relevance_then_value(Enquire $self, uint $sort_key, Bool $reverse, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_enquire_set_sort_by_relevance_then_key(Enquire $self, KeyMaker $sorter, Bool $reverse, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_enquire_get_mset(Enquire $self, uint $first, uint $maxitems, &handle-error (NativeError)) returns MSet is native('xapian-helper') { * }
+        my sub xapian_enquire_get_mset2(Enquire $self, uint $first, uint $maxitems, uint $checkatleast, &handle-error (NativeError)) returns MSet is native('xapian-helper') { * }
+        my sub xapian_enquire_get_mset3(Enquire $self, uint $first, uint $maxitems, uint $checkatleast, RSet $omrset, &handle-error (NativeError)) returns MSet is native('xapian-helper') { * }
+        my sub xapian_enquire_get_mset4(Enquire $self, uint $first, uint $maxitems, uint $checkatleast, RSet $omrset, MatchDecider $mdecider, &handle-error (NativeError)) returns MSet is native('xapian-helper') { * }
+        my sub xapian_enquire_get_mset5(Enquire $self, uint $first, uint $maxitems, RSet $omrset, &handle-error (NativeError)) returns MSet is native('xapian-helper') { * }
+        my sub xapian_enquire_get_mset6(Enquire $self, uint $first, uint $maxitems, RSet $omrset, MatchDecider $mdecider, &handle-error (NativeError)) returns MSet is native('xapian-helper') { * }
+        my sub xapian_enquire_get_eset(Enquire $self, uint $maxitems, RSet $omrset, &handle-error (NativeError)) returns ESet is native('xapian-helper') { * }
+        my sub xapian_enquire_get_eset2(Enquire $self, uint $maxitems, RSet $omrset, int $flags, &handle-error (NativeError)) returns ESet is native('xapian-helper') { * }
+        my sub xapian_enquire_get_eset3(Enquire $self, uint $maxitems, RSet $omrset, int $flags, num $k, &handle-error (NativeError)) returns ESet is native('xapian-helper') { * }
+        my sub xapian_enquire_get_eset4(Enquire $self, uint $maxitems, RSet $omrset, int $flags, num $k, ExpandDecider $edecider, &handle-error (NativeError)) returns ESet is native('xapian-helper') { * }
+        my sub xapian_enquire_get_eset5(Enquire $self, uint $maxitems, RSet $omrset, ExpandDecider $edecider, &handle-error (NativeError)) returns ESet is native('xapian-helper') { * }
+        my sub xapian_enquire_get_eset6(Enquire $self, uint $maxitems, RSet $omrset, int $flags, num $k, ExpandDecider $edecider, num $min_wt, &handle-error (NativeError)) returns ESet is native('xapian-helper') { * }
+        my sub xapian_enquire_get_matching_terms_begin(Enquire $self, uint $did, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_enquire_get_matching_terms_end(Enquire $self, uint $_anon_1, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_enquire_get_matching_terms_begin2(Enquire $self, MSetIterator $it, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_enquire_get_matching_terms_end2(Enquire $self, MSetIterator $_anon_1, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_enquire_get_description(Enquire $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+
+        multi method new(Database $database) returns Enquire {
+            my $ex;
+            my $result = xapian_enquire_new($database, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method new(Database $database, ErrorHandler $errorhandler_) returns Enquire {
+            my $ex;
+            my $result = xapian_enquire_new2($database, $errorhandler_, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        submethod DESTROY() { xapian_enquire_free(self) }
+
+        multi method set_query(Query $query) {
+            my $ex;
+            my $result = xapian_enquire_set_query(self, $query, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method set-query(Query $query) {
+            my $ex;
+            my $result = xapian_enquire_set_query(self, $query, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method set_query(Query $query, Int $qlen) {
+            my $ex;
+            my $result = xapian_enquire_set_query2(self, $query, $qlen, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method set-query(Query $query, Int $qlen) {
+            my $ex;
+            my $result = xapian_enquire_set_query2(self, $query, $qlen, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_query() returns Query {
+            my $ex;
+            my $result = xapian_enquire_get_query(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-query() returns Query {
+            my $ex;
+            my $result = xapian_enquire_get_query(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method add_matchspy(MatchSpy $spy) {
+            my $ex;
+            my $result = xapian_enquire_add_matchspy(self, $spy, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method add-matchspy(MatchSpy $spy) {
+            my $ex;
+            my $result = xapian_enquire_add_matchspy(self, $spy, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method clear_matchspies() {
+            my $ex;
+            my $result = xapian_enquire_clear_matchspies(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method clear-matchspies() {
+            my $ex;
+            my $result = xapian_enquire_clear_matchspies(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set_weighting_scheme(Weight $weight_) {
+            my $ex;
+            my $result = xapian_enquire_set_weighting_scheme(self, $weight_, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set-weighting-scheme(Weight $weight_) {
+            my $ex;
+            my $result = xapian_enquire_set_weighting_scheme(self, $weight_, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method set_collapse_key(Int $collapse_key) {
+            my $ex;
+            my $result = xapian_enquire_set_collapse_key(self, $collapse_key, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method set-collapse-key(Int $collapse_key) {
+            my $ex;
+            my $result = xapian_enquire_set_collapse_key(self, $collapse_key, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method set_collapse_key(Int $collapse_key, Int $collapse_max) {
+            my $ex;
+            my $result = xapian_enquire_set_collapse_key2(self, $collapse_key, $collapse_max, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method set-collapse-key(Int $collapse_key, Int $collapse_max) {
+            my $ex;
+            my $result = xapian_enquire_set_collapse_key2(self, $collapse_key, $collapse_max, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set_docid_order(Int $order) {
+            my $ex;
+            my $result = xapian_enquire_set_docid_order(self, $order, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set-docid-order(Int $order) {
+            my $ex;
+            my $result = xapian_enquire_set_docid_order(self, $order, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method set_cutoff(Int $percent_cutoff) {
+            my $ex;
+            my $result = xapian_enquire_set_cutoff(self, $percent_cutoff, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method set-cutoff(Int $percent_cutoff) {
+            my $ex;
+            my $result = xapian_enquire_set_cutoff(self, $percent_cutoff, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method set_cutoff(Int $percent_cutoff, Num $weight_cutoff) {
+            my $ex;
+            my $result = xapian_enquire_set_cutoff2(self, $percent_cutoff, $weight_cutoff, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method set-cutoff(Int $percent_cutoff, Num $weight_cutoff) {
+            my $ex;
+            my $result = xapian_enquire_set_cutoff2(self, $percent_cutoff, $weight_cutoff, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set_sort_by_relevance() {
+            my $ex;
+            my $result = xapian_enquire_set_sort_by_relevance(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set-sort-by-relevance() {
+            my $ex;
+            my $result = xapian_enquire_set_sort_by_relevance(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set_sort_by_value(Int $sort_key, Bool $reverse) {
+            my $ex;
+            my $result = xapian_enquire_set_sort_by_value(self, $sort_key, $reverse, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set-sort-by-value(Int $sort_key, Bool $reverse) {
+            my $ex;
+            my $result = xapian_enquire_set_sort_by_value(self, $sort_key, $reverse, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set_sort_by_key(KeyMaker $sorter, Bool $reverse) {
+            my $ex;
+            my $result = xapian_enquire_set_sort_by_key(self, $sorter, $reverse, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set-sort-by-key(KeyMaker $sorter, Bool $reverse) {
+            my $ex;
+            my $result = xapian_enquire_set_sort_by_key(self, $sorter, $reverse, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set_sort_by_value_then_relevance(Int $sort_key, Bool $reverse) {
+            my $ex;
+            my $result = xapian_enquire_set_sort_by_value_then_relevance(self, $sort_key, $reverse, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set-sort-by-value-then-relevance(Int $sort_key, Bool $reverse) {
+            my $ex;
+            my $result = xapian_enquire_set_sort_by_value_then_relevance(self, $sort_key, $reverse, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set_sort_by_key_then_relevance(KeyMaker $sorter, Bool $reverse) {
+            my $ex;
+            my $result = xapian_enquire_set_sort_by_key_then_relevance(self, $sorter, $reverse, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set-sort-by-key-then-relevance(KeyMaker $sorter, Bool $reverse) {
+            my $ex;
+            my $result = xapian_enquire_set_sort_by_key_then_relevance(self, $sorter, $reverse, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set_sort_by_relevance_then_value(Int $sort_key, Bool $reverse) {
+            my $ex;
+            my $result = xapian_enquire_set_sort_by_relevance_then_value(self, $sort_key, $reverse, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set-sort-by-relevance-then-value(Int $sort_key, Bool $reverse) {
+            my $ex;
+            my $result = xapian_enquire_set_sort_by_relevance_then_value(self, $sort_key, $reverse, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set_sort_by_relevance_then_key(KeyMaker $sorter, Bool $reverse) {
+            my $ex;
+            my $result = xapian_enquire_set_sort_by_relevance_then_key(self, $sorter, $reverse, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set-sort-by-relevance-then-key(KeyMaker $sorter, Bool $reverse) {
+            my $ex;
+            my $result = xapian_enquire_set_sort_by_relevance_then_key(self, $sorter, $reverse, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method get_mset(Int $first, Int $maxitems) returns MSet {
+            my $ex;
+            my $result = xapian_enquire_get_mset(self, $first, $maxitems, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method get-mset(Int $first, Int $maxitems) returns MSet {
+            my $ex;
+            my $result = xapian_enquire_get_mset(self, $first, $maxitems, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method get_mset(Int $first, Int $maxitems, Int $checkatleast) returns MSet {
+            my $ex;
+            my $result = xapian_enquire_get_mset2(self, $first, $maxitems, $checkatleast, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method get-mset(Int $first, Int $maxitems, Int $checkatleast) returns MSet {
+            my $ex;
+            my $result = xapian_enquire_get_mset2(self, $first, $maxitems, $checkatleast, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method get_mset(Int $first, Int $maxitems, Int $checkatleast, RSet $omrset) returns MSet {
+            my $ex;
+            my $result = xapian_enquire_get_mset3(self, $first, $maxitems, $checkatleast, $omrset, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method get-mset(Int $first, Int $maxitems, Int $checkatleast, RSet $omrset) returns MSet {
+            my $ex;
+            my $result = xapian_enquire_get_mset3(self, $first, $maxitems, $checkatleast, $omrset, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method get_mset(Int $first, Int $maxitems, Int $checkatleast, RSet $omrset, MatchDecider $mdecider) returns MSet {
+            my $ex;
+            my $result = xapian_enquire_get_mset4(self, $first, $maxitems, $checkatleast, $omrset, $mdecider, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method get-mset(Int $first, Int $maxitems, Int $checkatleast, RSet $omrset, MatchDecider $mdecider) returns MSet {
+            my $ex;
+            my $result = xapian_enquire_get_mset4(self, $first, $maxitems, $checkatleast, $omrset, $mdecider, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method get_mset(Int $first, Int $maxitems, RSet $omrset) returns MSet {
+            my $ex;
+            my $result = xapian_enquire_get_mset5(self, $first, $maxitems, $omrset, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method get-mset(Int $first, Int $maxitems, RSet $omrset) returns MSet {
+            my $ex;
+            my $result = xapian_enquire_get_mset5(self, $first, $maxitems, $omrset, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method get_mset(Int $first, Int $maxitems, RSet $omrset, MatchDecider $mdecider) returns MSet {
+            my $ex;
+            my $result = xapian_enquire_get_mset6(self, $first, $maxitems, $omrset, $mdecider, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method get-mset(Int $first, Int $maxitems, RSet $omrset, MatchDecider $mdecider) returns MSet {
+            my $ex;
+            my $result = xapian_enquire_get_mset6(self, $first, $maxitems, $omrset, $mdecider, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method get_eset(Int $maxitems, RSet $omrset) returns ESet {
+            my $ex;
+            my $result = xapian_enquire_get_eset(self, $maxitems, $omrset, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method get-eset(Int $maxitems, RSet $omrset) returns ESet {
+            my $ex;
+            my $result = xapian_enquire_get_eset(self, $maxitems, $omrset, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method get_eset(Int $maxitems, RSet $omrset, Int $flags) returns ESet {
+            my $ex;
+            my $result = xapian_enquire_get_eset2(self, $maxitems, $omrset, $flags, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method get-eset(Int $maxitems, RSet $omrset, Int $flags) returns ESet {
+            my $ex;
+            my $result = xapian_enquire_get_eset2(self, $maxitems, $omrset, $flags, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method get_eset(Int $maxitems, RSet $omrset, Int $flags, Num $k) returns ESet {
+            my $ex;
+            my $result = xapian_enquire_get_eset3(self, $maxitems, $omrset, $flags, $k, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method get-eset(Int $maxitems, RSet $omrset, Int $flags, Num $k) returns ESet {
+            my $ex;
+            my $result = xapian_enquire_get_eset3(self, $maxitems, $omrset, $flags, $k, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method get_eset(Int $maxitems, RSet $omrset, Int $flags, Num $k, ExpandDecider $edecider) returns ESet {
+            my $ex;
+            my $result = xapian_enquire_get_eset4(self, $maxitems, $omrset, $flags, $k, $edecider, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method get-eset(Int $maxitems, RSet $omrset, Int $flags, Num $k, ExpandDecider $edecider) returns ESet {
+            my $ex;
+            my $result = xapian_enquire_get_eset4(self, $maxitems, $omrset, $flags, $k, $edecider, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method get_eset(Int $maxitems, RSet $omrset, ExpandDecider $edecider) returns ESet {
+            my $ex;
+            my $result = xapian_enquire_get_eset5(self, $maxitems, $omrset, $edecider, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method get-eset(Int $maxitems, RSet $omrset, ExpandDecider $edecider) returns ESet {
+            my $ex;
+            my $result = xapian_enquire_get_eset5(self, $maxitems, $omrset, $edecider, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method get_eset(Int $maxitems, RSet $omrset, Int $flags, Num $k, ExpandDecider $edecider, Num $min_wt) returns ESet {
+            my $ex;
+            my $result = xapian_enquire_get_eset6(self, $maxitems, $omrset, $flags, $k, $edecider, $min_wt, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method get-eset(Int $maxitems, RSet $omrset, Int $flags, Num $k, ExpandDecider $edecider, Num $min_wt) returns ESet {
+            my $ex;
+            my $result = xapian_enquire_get_eset6(self, $maxitems, $omrset, $flags, $k, $edecider, $min_wt, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method get_matching_terms_begin(Int $did) returns TermIterator {
+            my $ex;
+            my $result = xapian_enquire_get_matching_terms_begin(self, $did, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method get-matching-terms-begin(Int $did) returns TermIterator {
+            my $ex;
+            my $result = xapian_enquire_get_matching_terms_begin(self, $did, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method get_matching_terms_end(Int $_anon_1) returns TermIterator {
+            my $ex;
+            my $result = xapian_enquire_get_matching_terms_end(self, $_anon_1, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method get-matching-terms-end(Int $_anon_1) returns TermIterator {
+            my $ex;
+            my $result = xapian_enquire_get_matching_terms_end(self, $_anon_1, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method get_matching_terms_begin(MSetIterator $it) returns TermIterator {
+            my $ex;
+            my $result = xapian_enquire_get_matching_terms_begin2(self, $it, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method get-matching-terms-begin(MSetIterator $it) returns TermIterator {
+            my $ex;
+            my $result = xapian_enquire_get_matching_terms_begin2(self, $it, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method get_matching_terms_end(MSetIterator $_anon_1) returns TermIterator {
+            my $ex;
+            my $result = xapian_enquire_get_matching_terms_end2(self, $_anon_1, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method get-matching-terms-end(MSetIterator $_anon_1) returns TermIterator {
+            my $ex;
+            my $result = xapian_enquire_get_matching_terms_end2(self, $_anon_1, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_description() returns Str {
+            my $ex;
+            my $result = xapian_enquire_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-description() returns Str {
+            my $ex;
+            my $result = xapian_enquire_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method gist() returns Str {
+            my $ex;
+            my $result = xapian_enquire_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        constant INCLUDE_QUERY_TERMS = 1;
+        constant USE_EXACT_TERMFREQ  = 2;
+        enum docid_order <Ascending Descending Dont-Care>;
     }
 
     class ValueRangeProcessor is repr('CPointer') { }

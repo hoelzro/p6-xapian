@@ -1,6 +1,7 @@
 XAPIAN_SOURCES = 		\
     xapian-database.cpp		\
     xapian-document.cpp 	\
+    xapian-enquire.cpp 		\
     xapian-error.cpp 		\
     xapian-query.cpp 		\
     xapian-queryparser.cpp 	\
@@ -11,6 +12,7 @@ XAPIAN_SOURCES = 		\
 XAPIAN_OBJECTS = 		\
     xapian-database%O% 		\
     xapian-document%O% 		\
+    xapian-enquire%O% 		\
     xapian-error%O% 		\
     xapian-query%O% 		\
     xapian-queryparser%O% 	\
