@@ -660,6 +660,7 @@ grammar CppGrammar {
     proto token literal { * }
 
     token literal:integer { \d+ }
+    token literal:float { \d+ '.' \d+ }
     token literal:boolean { 'true' || 'false' }
     token literal:null { 'NULL' }
     token literal:std_string { 'std::string()' }
