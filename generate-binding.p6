@@ -42,11 +42,14 @@ my %c-typemap = (
     'Xapian::doccount'      => 'unsigned int',
     'Xapian::doclength'     => 'unsigned int',
     'Xapian::flags'         => 'unsigned int',
+    'Xapian::percent'       => 'int',
     'Xapian::stem_strategy' => 'unsigned int',
     'Xapian::termcount'     => 'unsigned int',
     'Xapian::termpos'       => 'unsigned int',
     'Xapian::valueno'       => 'unsigned int',
+    'Xapian::weight'        => 'double',
     'unsigned'              => 'unsigned int',
+    'docid_order'           => 'unsigned int',
 );
 
 my %native-typemap = (
@@ -57,13 +60,16 @@ my %native-typemap = (
     'Xapian::doccount'      => 'uint',
     'Xapian::doclength'     => 'uint',
     'Xapian::flags'         => 'uint',
+    'Xapian::percent'       => 'int',
     'Xapian::stem_strategy' => 'uint',
     'Xapian::termcount'     => 'uint',
     'Xapian::termpos'       => 'uint',
     'Xapian::valueno'       => 'uint',
+    'Xapian::weight'        => 'num',
     'unsigned'              => 'uint',
     'const char *'          => 'Str',
     'double'                => 'num',
+    'docid_order'           => 'uint',
 );
 
 my %perl-typemap = (
@@ -74,14 +80,17 @@ my %perl-typemap = (
     'Xapian::doccount'      => 'Int',
     'Xapian::doclength'     => 'Int',
     'Xapian::flags'         => 'Int',
+    'Xapian::percent'       => 'Int',
     'Xapian::stem_strategy' => 'Int',
     'Xapian::termcount'     => 'Int',
     'Xapian::termpos'       => 'Int',
     'Xapian::valueno'       => 'Int',
+    'Xapian::weight'        => 'Num',
     'unsigned'              => 'Int',
     'int'                   => 'Int',
     'const char *'          => 'Str',
     'double'                => 'Num',
+    'docid_order'           => 'Int',
 );
 
 for (%c-typemap.item, %native-typemap.item, %perl-typemap.item) -> $typemap {
