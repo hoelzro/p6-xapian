@@ -1,3 +1,4 @@
+  - virtual methods - override these from Perl 6
   - xapian/dbfactory.h
   - Operator overloads (ex. == for MSetIterator)
   - Errors
