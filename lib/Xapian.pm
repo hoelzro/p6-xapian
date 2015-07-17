@@ -1920,25 +1920,6 @@ module Xapian {
         }
     }
 
-    class QueryParser is repr('CPointer') {
-        enum feature_flag (
-            :Boolean(1),
-            :Phrase(2),
-            :Lovehate(4),
-            :Boolean-Any-Case(8),
-            :Wildcard(16),
-            :Pure-Not(32),
-            :Partial(64),
-            :Spelling-Correction(128),
-            :Synonym(256),
-            :Auto-Synonyms(512),
-            :Auto-Multiword-Synonyms(1536),
-            :Default(7),
-        );
-
-        enum stem_strategy <None Some All All-Z>;
-    }
-
     class Weight is repr('CPointer') {
         enum stat_flags (
             :Collection-Size(1),
@@ -2138,6 +2119,361 @@ module Xapian {
             $ex.throw if $ex;
             $result
         }
+    }
+
+    class ValueRangeProcessor is repr('CPointer') { }
+
+    class QueryParser is repr('CPointer') {
+        my sub xapian_query_parser_new(&handle-error (NativeError)) returns QueryParser is native('xapian-helper') { * }
+        my sub xapian_query_parser_free(QueryParser $self) is native('xapian-helper') { * }
+        my sub xapian_query_parser_set_stemmer(QueryParser $self, Stem $stemmer, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_query_parser_set_stemming_strategy(QueryParser $self, uint $strategy, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_query_parser_set_stopper(QueryParser $self, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_query_parser_set_stopper2(QueryParser $self, Stopper $stop, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_query_parser_set_default_op(QueryParser $self, uint $default_op, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_query_parser_get_default_op(QueryParser $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
+        my sub xapian_query_parser_set_database(QueryParser $self, Database $db, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_query_parser_set_max_wildcard_expansion(QueryParser $self, uint $limit, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_query_parser_parse_query(QueryParser $self, Str $query_string, &handle-error (NativeError)) returns Query is native('xapian-helper') { * }
+        my sub xapian_query_parser_parse_query2(QueryParser $self, Str $query_string, uint $flags, &handle-error (NativeError)) returns Query is native('xapian-helper') { * }
+        my sub xapian_query_parser_parse_query3(QueryParser $self, Str $query_string, uint $flags, Str $default_prefix, &handle-error (NativeError)) returns Query is native('xapian-helper') { * }
+        my sub xapian_query_parser_add_prefix(QueryParser $self, Str $field, Str $prefix, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_query_parser_add_boolean_prefix(QueryParser $self, Str $field, Str $prefix, Bool $exclusive, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_query_parser_add_boolean_prefix2(QueryParser $self, Str $field, Str $prefix, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_query_parser_stoplist_begin(QueryParser $self, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_query_parser_stoplist_end(QueryParser $self, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_query_parser_unstem_begin(QueryParser $self, Str $term, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_query_parser_unstem_end(QueryParser $self, Str $_anon_1, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_query_parser_add_valuerangeprocessor(QueryParser $self, ValueRangeProcessor $vrproc, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_query_parser_get_corrected_query_string(QueryParser $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+        my sub xapian_query_parser_get_description(QueryParser $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+
+        method new() returns QueryParser {
+            my $ex;
+            my $result = xapian_query_parser_new(-> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        submethod DESTROY() { xapian_query_parser_free(self) }
+
+        method set_stemmer(Stem $stemmer) {
+            my $ex;
+            my $result = xapian_query_parser_set_stemmer(self, $stemmer, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set-stemmer(Stem $stemmer) {
+            my $ex;
+            my $result = xapian_query_parser_set_stemmer(self, $stemmer, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set_stemming_strategy(Int $strategy) {
+            my $ex;
+            my $result = xapian_query_parser_set_stemming_strategy(self, $strategy, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set-stemming-strategy(Int $strategy) {
+            my $ex;
+            my $result = xapian_query_parser_set_stemming_strategy(self, $strategy, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method set_stopper() {
+            my $ex;
+            my $result = xapian_query_parser_set_stopper(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method set-stopper() {
+            my $ex;
+            my $result = xapian_query_parser_set_stopper(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method set_stopper(Stopper $stop) {
+            my $ex;
+            my $result = xapian_query_parser_set_stopper2(self, $stop, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method set-stopper(Stopper $stop) {
+            my $ex;
+            my $result = xapian_query_parser_set_stopper2(self, $stop, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set_default_op(Int $default_op) {
+            my $ex;
+            my $result = xapian_query_parser_set_default_op(self, $default_op, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set-default-op(Int $default_op) {
+            my $ex;
+            my $result = xapian_query_parser_set_default_op(self, $default_op, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_default_op() returns Int {
+            my $ex;
+            my $result = xapian_query_parser_get_default_op(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-default-op() returns Int {
+            my $ex;
+            my $result = xapian_query_parser_get_default_op(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set_database(Database $db) {
+            my $ex;
+            my $result = xapian_query_parser_set_database(self, $db, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set-database(Database $db) {
+            my $ex;
+            my $result = xapian_query_parser_set_database(self, $db, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set_max_wildcard_expansion(Int $limit) {
+            my $ex;
+            my $result = xapian_query_parser_set_max_wildcard_expansion(self, $limit, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method set-max-wildcard-expansion(Int $limit) {
+            my $ex;
+            my $result = xapian_query_parser_set_max_wildcard_expansion(self, $limit, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method parse_query(Str $query_string) returns Query {
+            my $ex;
+            my $result = xapian_query_parser_parse_query(self, $query_string, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method parse-query(Str $query_string) returns Query {
+            my $ex;
+            my $result = xapian_query_parser_parse_query(self, $query_string, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method parse_query(Str $query_string, Int $flags) returns Query {
+            my $ex;
+            my $result = xapian_query_parser_parse_query2(self, $query_string, $flags, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method parse-query(Str $query_string, Int $flags) returns Query {
+            my $ex;
+            my $result = xapian_query_parser_parse_query2(self, $query_string, $flags, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method parse_query(Str $query_string, Int $flags, Str $default_prefix) returns Query {
+            my $ex;
+            my $result = xapian_query_parser_parse_query3(self, $query_string, $flags, $default_prefix, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method parse-query(Str $query_string, Int $flags, Str $default_prefix) returns Query {
+            my $ex;
+            my $result = xapian_query_parser_parse_query3(self, $query_string, $flags, $default_prefix, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method add_prefix(Str $field, Str $prefix) {
+            my $ex;
+            my $result = xapian_query_parser_add_prefix(self, $field, $prefix, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method add-prefix(Str $field, Str $prefix) {
+            my $ex;
+            my $result = xapian_query_parser_add_prefix(self, $field, $prefix, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method add_boolean_prefix(Str $field, Str $prefix, Bool $exclusive) {
+            my $ex;
+            my $result = xapian_query_parser_add_boolean_prefix(self, $field, $prefix, $exclusive, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method add-boolean-prefix(Str $field, Str $prefix, Bool $exclusive) {
+            my $ex;
+            my $result = xapian_query_parser_add_boolean_prefix(self, $field, $prefix, $exclusive, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method add_boolean_prefix(Str $field, Str $prefix) {
+            my $ex;
+            my $result = xapian_query_parser_add_boolean_prefix2(self, $field, $prefix, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method add-boolean-prefix(Str $field, Str $prefix) {
+            my $ex;
+            my $result = xapian_query_parser_add_boolean_prefix2(self, $field, $prefix, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method stoplist_begin() returns TermIterator {
+            my $ex;
+            my $result = xapian_query_parser_stoplist_begin(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method stoplist-begin() returns TermIterator {
+            my $ex;
+            my $result = xapian_query_parser_stoplist_begin(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method stoplist_end() returns TermIterator {
+            my $ex;
+            my $result = xapian_query_parser_stoplist_end(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method stoplist-end() returns TermIterator {
+            my $ex;
+            my $result = xapian_query_parser_stoplist_end(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method unstem_begin(Str $term) returns TermIterator {
+            my $ex;
+            my $result = xapian_query_parser_unstem_begin(self, $term, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method unstem-begin(Str $term) returns TermIterator {
+            my $ex;
+            my $result = xapian_query_parser_unstem_begin(self, $term, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method unstem_end(Str $_anon_1) returns TermIterator {
+            my $ex;
+            my $result = xapian_query_parser_unstem_end(self, $_anon_1, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method unstem-end(Str $_anon_1) returns TermIterator {
+            my $ex;
+            my $result = xapian_query_parser_unstem_end(self, $_anon_1, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method add_valuerangeprocessor(ValueRangeProcessor $vrproc) {
+            my $ex;
+            my $result = xapian_query_parser_add_valuerangeprocessor(self, $vrproc, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method add-valuerangeprocessor(ValueRangeProcessor $vrproc) {
+            my $ex;
+            my $result = xapian_query_parser_add_valuerangeprocessor(self, $vrproc, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_corrected_query_string() returns Str {
+            my $ex;
+            my $result = xapian_query_parser_get_corrected_query_string(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-corrected-query-string() returns Str {
+            my $ex;
+            my $result = xapian_query_parser_get_corrected_query_string(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_description() returns Str {
+            my $ex;
+            my $result = xapian_query_parser_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-description() returns Str {
+            my $ex;
+            my $result = xapian_query_parser_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method gist() returns Str {
+            my $ex;
+            my $result = xapian_query_parser_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        enum feature_flag (
+            :Boolean(1),
+            :Phrase(2),
+            :Lovehate(4),
+            :Boolean-Any-Case(8),
+            :Wildcard(16),
+            :Pure-Not(32),
+            :Partial(64),
+            :Spelling-Correction(128),
+            :Synonym(256),
+            :Auto-Synonyms(512),
+            :Auto-Multiword-Synonyms(1536),
+            :Default(7),
+        );
+
+        enum stem_strategy <None Some All All-Z>;
     }
 }
 
