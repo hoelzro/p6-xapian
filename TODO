@@ -1,13 +1,45 @@
-  - virtual methods - override these from Perl 6
+  - automatically show an NYI warning when using an empty Xapian class I haven't gotten around to yet
+  - Binding more classes
+    - [✓] database.h
+    - [✓] document.h
+    - [✓] enquire.h
+    - [✓] query.h
+    - [✓] queryparser.h
+    - [✓] stem.h
+    - [✓] termgenerator.h
+    - [✓] writable-database.h
+    - [ ] mset.h
+    - [ ] msetiterator.h
+    - [ ] positioniterator.h
+    - [ ] postingiterator.h
+    - [ ] termiterator.h
+    - [ ] valueiterator.h
+    - [ ] stopper.h
+    - [ ] weight.h
+    - [ ] compactor.h
+    - [ ] postingsource.h
+    - [ ] valuerangeprocessor.h
+    - [ ] errorhandler.h
+    - [ ] matchspy.h
+    - [ ] keymaker.h
+    - [ ] eset.h
+    - [ ] esetiterator.h
+    - [ ] rset.h
+    - [ ] matchdecider.h
+    - [ ] expanddecider.h
+    - [ ] error.h
+    - [ ] registry.h
+    - [ ] valuesetmatchdecider.h
   - xapian/dbfactory.h
-  - Operator overloads (ex. == for MSetIterator)
-  - Errors
   - Should I bind xapian/unicode.h?
+  - Bind error classes
+  - Operator overloads (ex. == for MSetIterator)
+  - virtual methods - override these from Perl 6
   - Handle using enums from Perl 6 in calls that use them
+  - Implement porcelain (nicer, Perl6-ier interface) over Plumbing
   - Add headers to revision control, and sanity check generated output?
   - Cast errors into proper error types
   - Docs (is there a way I can import them? improve generate c++? https://getting-started-with-xapian.readthedocs.org/en/latest?)
-  - Binding more classes
   - Tests (look at xapian-bindings)
     - generate these too?
   - Examples (see examples in Search::Xapian)
