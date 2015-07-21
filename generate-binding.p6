@@ -399,6 +399,10 @@ class CppMethod {
                         'call'
                     }
 
+                    when '[]' {
+                        'at_pos'
+                    }
+
                     default {
                         die "Don't know what to call operator $operator in C"
                     }
@@ -414,6 +418,10 @@ class CppMethod {
             given $operator {
                 when '()' {
                     'CALL-ME'
+                }
+
+                when '[]' {
+                    'AT-POS'
                 }
 
                 default {
@@ -447,6 +455,10 @@ class CppMethod {
             given $operator {
                 when '()' {
                     "(*self)($arguments)"
+                }
+
+                when '[]' {
+                    "(*self)[$arguments]"
                 }
 
                 default {
@@ -619,7 +631,7 @@ grammar CppGrammar {
         <method-modifier>*
         $<return-type>=<.type>
         $<name>=[
-            'operator' ['()' || .]
+            'operator' ['()' || '[]' || .]
             || <.identifier>
         ]
         '(' ~ ')' <arguments-declaration>
