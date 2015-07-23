@@ -8,7 +8,7 @@
     - [✓] stem.h
     - [✓] termgenerator.h
     - [✓] writable-database.h
-    - [ ] mset.h
+    - [✓] mset.h
     - [ ] msetiterator.h
     - [ ] positioniterator.h
     - [ ] postingiterator.h
