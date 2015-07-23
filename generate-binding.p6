@@ -403,6 +403,22 @@ class CppMethod {
                         'at_pos'
                     }
 
+                    when '++' {
+                        if @.arguments > 1 {
+                            'postfix_increment'
+                        } else {
+                            'prefix_increment'
+                        }
+                    }
+
+                    when '--' {
+                        if @.arguments > 1 {
+                            'postfix_decrement'
+                        } else {
+                            'prefix_decrement'
+                        }
+                    }
+
                     default {
                         die "Don't know what to call operator $operator in C"
                     }
@@ -459,6 +475,22 @@ class CppMethod {
 
                 when '[]' {
                     "(*self)[$arguments]"
+                }
+
+                when '++' {
+                    if $arguments {
+                        '(*self)++'
+                    } else {
+                        '++(*self)'
+                    }
+                }
+
+                when '--' {
+                    if $arguments {
+                        '(*self)--'
+                    } else {
+                        '--(*self)'
+                    }
                 }
 
                 default {
@@ -631,7 +663,7 @@ grammar CppGrammar {
         <method-modifier>*
         $<return-type>=<.type>
         $<name>=[
-            'operator' ['()' || '[]' || .]
+            'operator' ['()' || '[]' || '++' || '--' || .]
             || <.identifier>
         ]
         '(' ~ ')' <arguments-declaration>
