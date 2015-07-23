@@ -2127,7 +2127,334 @@ module Xapian {
     class ESet is repr('CPointer') {
     }
 
+    class MSetIterator is repr('CPointer') {
+    }
+
     class MSet is repr('CPointer') {
+        my sub xapian_mset_new(&handle-error (NativeError)) returns MSet is native('xapian-helper') { * }
+        my sub xapian_mset_free(MSet $self) is native('xapian-helper') { * }
+        my sub xapian_mset_fetch(MSet $self, MSetIterator $begin, MSetIterator $end, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_mset_fetch2(MSet $self, MSetIterator $item, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_mset_fetch3(MSet $self, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_mset_convert_to_percent(MSet $self, num $wt, &handle-error (NativeError)) returns int is native('xapian-helper') { * }
+        my sub xapian_mset_convert_to_percent2(MSet $self, MSetIterator $it, &handle-error (NativeError)) returns int is native('xapian-helper') { * }
+        my sub xapian_mset_get_termfreq(MSet $self, Str $tname, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
+        my sub xapian_mset_get_termweight(MSet $self, Str $tname, &handle-error (NativeError)) returns num is native('xapian-helper') { * }
+        my sub xapian_mset_get_firstitem(MSet $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
+        my sub xapian_mset_get_matches_lower_bound(MSet $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
+        my sub xapian_mset_get_matches_estimated(MSet $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
+        my sub xapian_mset_get_matches_upper_bound(MSet $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
+        my sub xapian_mset_get_uncollapsed_matches_lower_bound(MSet $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
+        my sub xapian_mset_get_uncollapsed_matches_estimated(MSet $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
+        my sub xapian_mset_get_uncollapsed_matches_upper_bound(MSet $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
+        my sub xapian_mset_get_max_possible(MSet $self, &handle-error (NativeError)) returns num is native('xapian-helper') { * }
+        my sub xapian_mset_get_max_attained(MSet $self, &handle-error (NativeError)) returns num is native('xapian-helper') { * }
+        my sub xapian_mset_size(MSet $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
+        my sub xapian_mset_max_size(MSet $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
+        my sub xapian_mset_empty(MSet $self, &handle-error (NativeError)) returns Bool is native('xapian-helper') { * }
+        my sub xapian_mset_swap(MSet $self, MSet $other, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_mset_begin(MSet $self, &handle-error (NativeError)) returns MSetIterator is native('xapian-helper') { * }
+        my sub xapian_mset_end(MSet $self, &handle-error (NativeError)) returns MSetIterator is native('xapian-helper') { * }
+        my sub xapian_mset_back(MSet $self, &handle-error (NativeError)) returns MSetIterator is native('xapian-helper') { * }
+        my sub xapian_mset_at_pos(MSet $self, uint $i, &handle-error (NativeError)) returns MSetIterator is native('xapian-helper') { * }
+        my sub xapian_mset_get_description(MSet $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+
+        method new() returns MSet {
+            my $ex;
+            my $result = xapian_mset_new(-> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        submethod DESTROY() { xapian_mset_free(self) }
+
+        multi method fetch(MSetIterator $begin, MSetIterator $end) {
+            my $ex;
+            my $result = xapian_mset_fetch(self, $begin, $end, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method fetch(MSetIterator $item) {
+            my $ex;
+            my $result = xapian_mset_fetch2(self, $item, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method fetch() {
+            my $ex;
+            my $result = xapian_mset_fetch3(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method convert_to_percent(Num $wt) returns Int {
+            my $ex;
+            my $result = xapian_mset_convert_to_percent(self, $wt, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method convert-to-percent(Num $wt) returns Int {
+            my $ex;
+            my $result = xapian_mset_convert_to_percent(self, $wt, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method convert_to_percent(MSetIterator $it) returns Int {
+            my $ex;
+            my $result = xapian_mset_convert_to_percent2(self, $it, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method convert-to-percent(MSetIterator $it) returns Int {
+            my $ex;
+            my $result = xapian_mset_convert_to_percent2(self, $it, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_termfreq(Str $tname) returns Int {
+            my $ex;
+            my $result = xapian_mset_get_termfreq(self, $tname, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-termfreq(Str $tname) returns Int {
+            my $ex;
+            my $result = xapian_mset_get_termfreq(self, $tname, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_termweight(Str $tname) returns Num {
+            my $ex;
+            my $result = xapian_mset_get_termweight(self, $tname, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-termweight(Str $tname) returns Num {
+            my $ex;
+            my $result = xapian_mset_get_termweight(self, $tname, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_firstitem() returns Int {
+            my $ex;
+            my $result = xapian_mset_get_firstitem(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-firstitem() returns Int {
+            my $ex;
+            my $result = xapian_mset_get_firstitem(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_matches_lower_bound() returns Int {
+            my $ex;
+            my $result = xapian_mset_get_matches_lower_bound(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-matches-lower-bound() returns Int {
+            my $ex;
+            my $result = xapian_mset_get_matches_lower_bound(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_matches_estimated() returns Int {
+            my $ex;
+            my $result = xapian_mset_get_matches_estimated(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-matches-estimated() returns Int {
+            my $ex;
+            my $result = xapian_mset_get_matches_estimated(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_matches_upper_bound() returns Int {
+            my $ex;
+            my $result = xapian_mset_get_matches_upper_bound(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-matches-upper-bound() returns Int {
+            my $ex;
+            my $result = xapian_mset_get_matches_upper_bound(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_uncollapsed_matches_lower_bound() returns Int {
+            my $ex;
+            my $result = xapian_mset_get_uncollapsed_matches_lower_bound(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-uncollapsed-matches-lower-bound() returns Int {
+            my $ex;
+            my $result = xapian_mset_get_uncollapsed_matches_lower_bound(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_uncollapsed_matches_estimated() returns Int {
+            my $ex;
+            my $result = xapian_mset_get_uncollapsed_matches_estimated(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-uncollapsed-matches-estimated() returns Int {
+            my $ex;
+            my $result = xapian_mset_get_uncollapsed_matches_estimated(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_uncollapsed_matches_upper_bound() returns Int {
+            my $ex;
+            my $result = xapian_mset_get_uncollapsed_matches_upper_bound(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-uncollapsed-matches-upper-bound() returns Int {
+            my $ex;
+            my $result = xapian_mset_get_uncollapsed_matches_upper_bound(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_max_possible() returns Num {
+            my $ex;
+            my $result = xapian_mset_get_max_possible(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-max-possible() returns Num {
+            my $ex;
+            my $result = xapian_mset_get_max_possible(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_max_attained() returns Num {
+            my $ex;
+            my $result = xapian_mset_get_max_attained(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-max-attained() returns Num {
+            my $ex;
+            my $result = xapian_mset_get_max_attained(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method size() returns Int {
+            my $ex;
+            my $result = xapian_mset_size(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method max_size() returns Int {
+            my $ex;
+            my $result = xapian_mset_max_size(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method max-size() returns Int {
+            my $ex;
+            my $result = xapian_mset_max_size(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method empty() returns Bool {
+            my $ex;
+            my $result = xapian_mset_empty(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method swap(MSet $other) {
+            my $ex;
+            my $result = xapian_mset_swap(self, $other, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method begin() returns MSetIterator {
+            my $ex;
+            my $result = xapian_mset_begin(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method end() returns MSetIterator {
+            my $ex;
+            my $result = xapian_mset_end(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method back() returns MSetIterator {
+            my $ex;
+            my $result = xapian_mset_back(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method AT-POS(Int $i) returns MSetIterator {
+            my $ex;
+            my $result = xapian_mset_at_pos(self, $i, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_description() returns Str {
+            my $ex;
+            my $result = xapian_mset_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-description() returns Str {
+            my $ex;
+            my $result = xapian_mset_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method gist() returns Str {
+            my $ex;
+            my $result = xapian_mset_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
     }
 
     class RSet is repr('CPointer') {
@@ -2137,9 +2464,6 @@ module Xapian {
     }
 
     class ExpandDecider is repr('CPointer') {
-    }
-
-    class MSetIterator is repr('CPointer') {
     }
 
     class Enquire is repr('CPointer') {
