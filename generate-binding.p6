@@ -432,6 +432,14 @@ class CppMethod {
                     'AT-POS'
                 }
 
+                when '++'  {
+                    'succ'
+                }
+
+                when '--'  {
+                    'pred'
+                }
+
                 default {
                     die "Don't know what to call operator $operator in Perl 6"
                 }
