@@ -404,19 +404,11 @@ class CppMethod {
                     }
 
                     when '++' {
-                        if @.arguments > 1 {
-                            'postfix_increment'
-                        } else {
-                            'prefix_increment'
-                        }
+                        'succ'
                     }
 
                     when '--' {
-                        if @.arguments > 1 {
-                            'postfix_decrement'
-                        } else {
-                            'prefix_decrement'
-                        }
+                        'pred'
                     }
 
                     default {
@@ -478,19 +470,11 @@ class CppMethod {
                 }
 
                 when '++' {
-                    if $arguments {
-                        '(*self)++'
-                    } else {
-                        '++(*self)'
-                    }
+                    '*self; value++'
                 }
 
                 when '--' {
-                    if $arguments {
-                        '(*self)--'
-                    } else {
-                        '--(*self)'
-                    }
+                    '*self; value--'
                 }
 
                 default {
@@ -538,6 +522,12 @@ class CppMethod {
         if $.name ~~ /^'operator='/ {
             # assignment operator overload, skip it
             return 'it is an assignment operator overload'
+        }
+
+        if $.name ~~ /^operator ['++' || '--']/ {
+            if @.arguments > 1 {
+                return 'Ignoring postfix variant of operator()'
+            }
         }
 
         if $.return-type.Str ~~ /'::Internal'/ {
