@@ -411,6 +411,10 @@ class CppMethod {
                         'pred'
                     }
 
+                    when '*' {
+                        'deref'
+                    }
+
                     default {
                         die "Don't know what to call operator $operator in C"
                     }
@@ -438,6 +442,10 @@ class CppMethod {
 
                 when '--'  {
                     'pred'
+                }
+
+                when '*'  {
+                    'deref'
                 }
 
                 default {
@@ -483,6 +491,10 @@ class CppMethod {
 
                 when '--' {
                     '*self; value--'
+                }
+
+                when '*' {
+                    '*(*self)'
                 }
 
                 default {
