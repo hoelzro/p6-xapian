@@ -4,6 +4,7 @@ XAPIAN_SOURCES = 		\
     xapian-enquire.cpp 		\
     xapian-error.cpp 		\
     xapian-mset.cpp 		\
+    xapian-msetiterator.cpp	\
     xapian-query.cpp 		\
     xapian-queryparser.cpp 	\
     xapian-stem.cpp 		\
@@ -16,6 +17,7 @@ XAPIAN_OBJECTS = 		\
     xapian-enquire%O% 		\
     xapian-error%O% 		\
     xapian-mset%O% 		\
+    xapian-msetiterator%O% 	\
     xapian-query%O% 		\
     xapian-queryparser%O% 	\
     xapian-stem%O% 		\

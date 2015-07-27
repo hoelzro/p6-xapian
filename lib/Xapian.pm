@@ -2128,6 +2128,151 @@ module Xapian {
     }
 
     class MSetIterator is repr('CPointer') {
+        my sub xapian_mset_iterator_new(&handle-error (NativeError)) returns MSetIterator is native('xapian-helper') { * }
+        my sub xapian_mset_iterator_succ(MSetIterator $self, &handle-error (NativeError)) returns MSetIterator is native('xapian-helper') { * }
+        my sub xapian_mset_iterator_pred(MSetIterator $self, &handle-error (NativeError)) returns MSetIterator is native('xapian-helper') { * }
+        my sub xapian_mset_iterator_deref(MSetIterator $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
+        my sub xapian_mset_iterator_get_document(MSetIterator $self, &handle-error (NativeError)) returns Document is native('xapian-helper') { * }
+        my sub xapian_mset_iterator_get_rank(MSetIterator $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
+        my sub xapian_mset_iterator_get_weight(MSetIterator $self, &handle-error (NativeError)) returns num is native('xapian-helper') { * }
+        my sub xapian_mset_iterator_get_collapse_key(MSetIterator $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+        my sub xapian_mset_iterator_get_collapse_count(MSetIterator $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
+        my sub xapian_mset_iterator_get_percent(MSetIterator $self, &handle-error (NativeError)) returns int is native('xapian-helper') { * }
+        my sub xapian_mset_iterator_get_description(MSetIterator $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+
+        method new() returns MSetIterator {
+            my $ex;
+            my $result = xapian_mset_iterator_new(-> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method succ() returns MSetIterator {
+            my $ex;
+            my $result = xapian_mset_iterator_succ(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method pred() returns MSetIterator {
+            my $ex;
+            my $result = xapian_mset_iterator_pred(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method deref() returns Int {
+            my $ex;
+            my $result = xapian_mset_iterator_deref(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_document() returns Document {
+            my $ex;
+            my $result = xapian_mset_iterator_get_document(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-document() returns Document {
+            my $ex;
+            my $result = xapian_mset_iterator_get_document(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_rank() returns Int {
+            my $ex;
+            my $result = xapian_mset_iterator_get_rank(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-rank() returns Int {
+            my $ex;
+            my $result = xapian_mset_iterator_get_rank(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_weight() returns Num {
+            my $ex;
+            my $result = xapian_mset_iterator_get_weight(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-weight() returns Num {
+            my $ex;
+            my $result = xapian_mset_iterator_get_weight(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_collapse_key() returns Str {
+            my $ex;
+            my $result = xapian_mset_iterator_get_collapse_key(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-collapse-key() returns Str {
+            my $ex;
+            my $result = xapian_mset_iterator_get_collapse_key(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_collapse_count() returns Int {
+            my $ex;
+            my $result = xapian_mset_iterator_get_collapse_count(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-collapse-count() returns Int {
+            my $ex;
+            my $result = xapian_mset_iterator_get_collapse_count(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_percent() returns Int {
+            my $ex;
+            my $result = xapian_mset_iterator_get_percent(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-percent() returns Int {
+            my $ex;
+            my $result = xapian_mset_iterator_get_percent(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_description() returns Str {
+            my $ex;
+            my $result = xapian_mset_iterator_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-description() returns Str {
+            my $ex;
+            my $result = xapian_mset_iterator_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method gist() returns Str {
+            my $ex;
+            my $result = xapian_mset_iterator_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
     }
 
     class MSet is repr('CPointer') {
