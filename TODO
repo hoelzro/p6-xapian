@@ -32,6 +32,7 @@
     - [ ] valuesetmatchdecider.h
   - xapian/dbfactory.h
   - Should I bind xapian/unicode.h?
+  - What happens when memory gets allocated for a pointer return and a routine throws an exception?
   - Bind error classes
   - Operator overloads (ex. == for MSetIterator)
   - virtual methods - override these from Perl 6
