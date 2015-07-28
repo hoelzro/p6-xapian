@@ -4,7 +4,7 @@ use Xapian;
 
 use Test;
 
-plan 1;
+plan 2;
 
 my $text = q:to/END_TEXT/;
 Зыд запиэнтэм дэмокритум ад. Шэа пробо эквюедым пожйдонёюм нэ. Ат пэр фюйзчыт
@@ -63,6 +63,7 @@ END_TEXT
 
 my $term = Xapian::TermGenerator.new;
 $term.set_stemmer(Xapian::Stem.new('ru'));
+my @matching-docs;
 do {
     my $db = Xapian::WritableDatabase.new('test.db', Xapian::DB_CREATE_OR_OPEN);
     LEAVE $db.close;
@@ -85,9 +86,11 @@ do {
     my $end = $mset.end;
 
     while $it !eqv $end {
-        say $it.deref;
+        @matching-docs.push: $it.deref;
         $it++;
     }
+
+    is-deeply @matching-docs, [1..10], 'All documents match empty query';
 }
 
 pass 'made it to the end';
