@@ -86,7 +86,6 @@ do {
 
     while $it !eqv $end {
         say $it.deref;
-        last;
         $it++;
     }
 }
