@@ -30,6 +30,9 @@
     - [ ] error.h
     - [ ] registry.h
     - [ ] valuesetmatchdecider.h
+  - multi method new should have a proto method new
+  - ++ and -- shouldn't increment the pointer, but rather the value
+  - gist should work for undefined objects (they might try to call the native sub)
   - xapian/dbfactory.h
   - Should I bind xapian/unicode.h?
   - What happens when memory gets allocated for a pointer return and a routine throws an exception?
@@ -44,3 +47,10 @@
   - Tests (look at xapian-bindings)
     - generate these too?
   - Examples (see examples in Search::Xapian)
+  - Differences between this and C++:
+    - deref
+    - succ and pred
+    - MatchAll
+    - Enums
+    - porcelain
+    - eqv vs == (?)
