@@ -45,7 +45,7 @@ xapian_mset_iterator_succ(xapian_mset_iterator self, void (*handle_exception)(co
 {
     try {
         Xapian::MSetIterator *value = new Xapian::MSetIterator();
-        *value = *self; value++;
+        *value = *self; (*value)++;
         return value;
     } catch(const Xapian::Error &error) {
         handle_exception(&error);
@@ -59,7 +59,7 @@ xapian_mset_iterator_pred(xapian_mset_iterator self, void (*handle_exception)(co
 {
     try {
         Xapian::MSetIterator *value = new Xapian::MSetIterator();
-        *value = *self; value--;
+        *value = *self; (*value)--;
         return value;
     } catch(const Xapian::Error &error) {
         handle_exception(&error);
