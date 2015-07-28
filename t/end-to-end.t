@@ -26,6 +26,20 @@ do {
         $term.index_text($paragraph);
         $db.add_document($doc);
     }
+
+    my $enq = Xapian::Enquire.new($db);
+    my $query = Xapian::Query.new('');
+    # XXX MatchAll
+    $enq.set-query: $query; # XXX I think that $enq's reference to the Xapian Query doesn't prevent GC
+    my $mset = $enq.get-mset(0, 10);
+    my $it = $mset.begin;
+    my $end = $mset.end;
+
+    while $it !eqv $end {
+        say $it.deref;
+        last;
+        $it++;
+    }
 }
 
 pass 'made it to the end';
