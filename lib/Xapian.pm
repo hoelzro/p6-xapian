@@ -2275,6 +2275,15 @@ module Xapian {
 
     }
 
+    my sub xapian_mset_iterator_equal(MSetIterator $a, MSetIterator $b, &handle-error (NativeError)) returns int is native('xapian-helper') { * }
+
+    multi sub infix:<eqv>(MSetIterator $a, MSetIterator $b) returns Bool is export {
+        my $ex;
+        my $result = xapian_mset_iterator_equal($a, $b, -> NativeError $error { $ex = Error.new($error) }) != 0;
+        $ex.throw if $ex;
+        $result
+    }
+
     class MSet is repr('CPointer') {
         my sub xapian_mset_new(&handle-error (NativeError)) returns MSet is native('xapian-helper') { * }
         my sub xapian_mset_free(MSet $self) is native('xapian-helper') { * }
