@@ -1,5 +1,16 @@
+  - Break apart into many Perl 6 files
+    - Including in Xapian.pm
+    - Include in META.info
   - automatically show an NYI warning when using an empty Xapian class I haven't gotten around to yet
   - C++ reference should prevent Perl 6 GC from collecting
+    - TermGenerator::set_stopper
+    - QueryParser::set_stopper
+    - QueryParser::add_valuerangeprocessor
+    - Enquire::Enquire(const Database &, ErrorHandler *)
+    - Enquire::add_matchspy
+    - Enquire::set_sort_by_key
+    - PostingSource::register_matcher_
+    - Query::add_subquery
   - Binding more classes
     - [✓] database.h
     - [✓] document.h
