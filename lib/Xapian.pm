@@ -474,6 +474,8 @@ module Xapian {
         my sub xapian_stem_get_description(Stem $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
         my sub xapian_stem_get_available_languages(&handle-error (NativeError)) returns Str is native('xapian-helper') { * }
 
+        proto method new(|) returns Stem { * }
+
         multi method new() returns Stem {
             my $ex;
             my $result = xapian_stem_new(-> NativeError $error { $ex = Error.new($error) });
@@ -935,6 +937,8 @@ module Xapian {
             $ex.throw if $ex;
             $result
         }
+
+        proto method new(|) returns Database { * }
 
         multi method new() returns Database {
             my $ex;
@@ -1632,6 +1636,8 @@ module Xapian {
 
         submethod DESTROY() { xapian_writable_database_free(self) }
 
+        proto method new(|) returns WritableDatabase { * }
+
         multi method new() returns WritableDatabase {
             my $ex;
             my $result = xapian_writable_database_new(-> NativeError $error { $ex = Error.new($error) });
@@ -1964,6 +1970,8 @@ module Xapian {
         my sub xapian_query_empty(Query $self, &handle-error (NativeError)) returns Bool is native('xapian-helper') { * }
         my sub xapian_query_serialise(Query $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
         my sub xapian_query_get_description(Query $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+
+        proto method new(|) returns Query { * }
 
         multi method new() returns Query {
             my $ex;
@@ -2659,6 +2667,8 @@ module Xapian {
         my sub xapian_enquire_get_matching_terms_begin2(Enquire $self, MSetIterator $it, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
         my sub xapian_enquire_get_matching_terms_end2(Enquire $self, MSetIterator $_anon_1, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
         my sub xapian_enquire_get_description(Enquire $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+
+        proto method new(|) returns Enquire { * }
 
         multi method new(Database $database) returns Enquire {
             my $ex;
