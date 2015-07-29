@@ -54,7 +54,7 @@ my %c-typemap = (
 
 my %native-typemap = (
     'std::string'           => 'Str',
-    'bool'                  => 'Bool',
+    'bool'                  => 'int',
     'Xapian::Query::op'     => 'uint',
     'Xapian::docid'         => 'uint',
     'Xapian::doccount'      => 'uint',
@@ -205,8 +205,16 @@ sub generate-perl6-arguments(@arguments is copy, Bool :$native = True, Bool :$er
 }
 
 sub generate-perl6-call(@arguments is copy) {
-    my @perl6-arguments = @arguments.map({
-        ($^arg.name eq 'self' ?? '' !! '$') ~ $^arg.name
+    my @perl6-arguments = @arguments.map(-> $arg {
+        if $arg.name eq 'self' {
+            'self'
+        } else {
+            if $arg.type eq 'bool' {
+                '+$' ~ $arg.name
+            } else {
+                '$' ~ $arg.name
+            }
+        }
     });
 
     @perl6-arguments.push: '-> NativeError $error { $ex = Error.new($error) }';
@@ -586,13 +594,14 @@ class CppMethod {
                 my $method-name = $.perl-name;
                 my $arguments   = generate-perl6-arguments(@arguments[1..*], :!native);
                 my $call        = generate-perl6-call(@arguments);
+                my $call-suffix = $.return-type.Str eq 'bool' ?? '.Bool' !! '';
 
                 my @methods;
 
                 @methods.push: qq:to/END_CPP/;
                     {$*MULTI}method {$method-name}($arguments)$returns \{
                         my \$ex;
-                        my \$result = {$.c-name}($call);
+                        my \$result = {$.c-name}($call)$call-suffix;
                         \$ex.throw if \$ex;
                         \$result
                     \}
@@ -602,7 +611,7 @@ class CppMethod {
                     @methods.push: qq:to/END_CPP/;
                         {$*MULTI}method {snake-to-kebab-case($method-name)}($arguments)$returns \{
                             my \$ex;
-                            my \$result = {$.c-name}($call);
+                            my \$result = {$.c-name}($call)$call-suffix;
                             \$ex.throw if \$ex;
                             \$result
                         \}
