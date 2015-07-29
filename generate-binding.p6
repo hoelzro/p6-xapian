@@ -956,6 +956,8 @@ sub generate-perl6-binding($definition) {
     my %method-counters;
     my %has-multi = gather-multis($definition);
 
+    @porcelain.push: "    proto method new(|) returns $*PERL6-CLASS \{ * \}\n";
+
     for $definition<methods>.list -> $method {
         my $skip-reason = $method.should-skip;
         if $skip-reason {
