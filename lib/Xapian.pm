@@ -43,7 +43,7 @@ module Xapian {
         method get-error-string() returns Str { xapian_error_get_error_string(self) }
         method get_description() returns Str { xapian_error_get_description(self) }
         method get-description() returns Str { xapian_error_get_description(self) }
-        method gist() returns Str { xapian_error_get_description(self) }
+        multi method gist(NativeError:D:) returns Str { xapian_error_get_description(self) }
     }
 
     class Error is Exception {
@@ -451,7 +451,7 @@ module Xapian {
             $result
         }
 
-        method gist() returns Str {
+        multi method gist(Document:D:) returns Str {
             my $ex;
             my $result = xapian_document_get_description(self, -> NativeError $error { $ex = Error.new($error) });
             $ex.throw if $ex;
@@ -513,7 +513,7 @@ module Xapian {
             $result
         }
 
-        method gist() returns Str {
+        multi method gist(Stem:D:) returns Str {
             my $ex;
             my $result = xapian_stem_get_description(self, -> NativeError $error { $ex = Error.new($error) });
             $ex.throw if $ex;
@@ -860,7 +860,7 @@ module Xapian {
             $result
         }
 
-        method gist() returns Str {
+        multi method gist(TermGenerator:D:) returns Str {
             my $ex;
             my $result = xapian_term_generator_get_description(self, -> NativeError $error { $ex = Error.new($error) });
             $ex.throw if $ex;
@@ -984,7 +984,7 @@ module Xapian {
             $result
         }
 
-        method gist() returns Str {
+        multi method gist(Database:D:) returns Str {
             my $ex;
             my $result = xapian_database_get_description(self, -> NativeError $error { $ex = Error.new($error) });
             $ex.throw if $ex;
@@ -1918,7 +1918,7 @@ module Xapian {
             $result
         }
 
-        method gist() returns Str {
+        multi method gist(WritableDatabase:D:) returns Str {
             my $ex;
             my $result = xapian_writable_database_get_description(self, -> NativeError $error { $ex = Error.new($error) });
             $ex.throw if $ex;
@@ -2115,7 +2115,7 @@ module Xapian {
             $result
         }
 
-        method gist() returns Str {
+        multi method gist(Query:D:) returns Str {
             my $ex;
             my $result = xapian_query_get_description(self, -> NativeError $error { $ex = Error.new($error) });
             $ex.throw if $ex;
@@ -2274,7 +2274,7 @@ module Xapian {
             $result
         }
 
-        method gist() returns Str {
+        multi method gist(MSetIterator:D:) returns Str {
             my $ex;
             my $result = xapian_mset_iterator_get_description(self, -> NativeError $error { $ex = Error.new($error) });
             $ex.throw if $ex;
@@ -2610,7 +2610,7 @@ module Xapian {
             $result
         }
 
-        method gist() returns Str {
+        multi method gist(MSet:D:) returns Str {
             my $ex;
             my $result = xapian_mset_get_description(self, -> NativeError $error { $ex = Error.new($error) });
             $ex.throw if $ex;
@@ -3176,7 +3176,7 @@ module Xapian {
             $result
         }
 
-        method gist() returns Str {
+        multi method gist(Enquire:D:) returns Str {
             my $ex;
             my $result = xapian_enquire_get_description(self, -> NativeError $error { $ex = Error.new($error) });
             $ex.throw if $ex;
@@ -3518,7 +3518,7 @@ module Xapian {
             $result
         }
 
-        method gist() returns Str {
+        multi method gist(QueryParser:D:) returns Str {
             my $ex;
             my $result = xapian_query_parser_get_description(self, -> NativeError $error { $ex = Error.new($error) });
             $ex.throw if $ex;
