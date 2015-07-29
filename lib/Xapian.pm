@@ -881,7 +881,7 @@ module Xapian {
         my sub xapian_database_postlist_end(Database $self, Str $_anon_1, &handle-error (NativeError)) returns PostingIterator is native('xapian-helper') { * }
         my sub xapian_database_termlist_begin(Database $self, uint $did, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
         my sub xapian_database_termlist_end(Database $self, uint $_anon_1, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_has_positions(Database $self, &handle-error (NativeError)) returns Bool is native('xapian-helper') { * }
+        my sub xapian_database_has_positions(Database $self, &handle-error (NativeError)) returns int is native('xapian-helper') { * }
         my sub xapian_database_positionlist_begin(Database $self, uint $did, Str $tname, &handle-error (NativeError)) returns PositionIterator is native('xapian-helper') { * }
         my sub xapian_database_positionlist_end(Database $self, uint $_anon_1, Str $_anon_2, &handle-error (NativeError)) returns PositionIterator is native('xapian-helper') { * }
         my sub xapian_database_allterms_begin(Database $self, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
@@ -892,7 +892,7 @@ module Xapian {
         my sub xapian_database_get_lastdocid(Database $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
         my sub xapian_database_get_avlength(Database $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
         my sub xapian_database_get_termfreq(Database $self, Str $tname, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_database_term_exists(Database $self, Str $tname, &handle-error (NativeError)) returns Bool is native('xapian-helper') { * }
+        my sub xapian_database_term_exists(Database $self, Str $tname, &handle-error (NativeError)) returns int is native('xapian-helper') { * }
         my sub xapian_database_get_collection_freq(Database $self, Str $tname, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
         my sub xapian_database_get_value_freq(Database $self, uint $slot, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
         my sub xapian_database_get_value_lower_bound(Database $self, uint $slot, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
@@ -1045,14 +1045,14 @@ module Xapian {
 
         method has_positions() returns Bool {
             my $ex;
-            my $result = xapian_database_has_positions(self, -> NativeError $error { $ex = Error.new($error) });
+            my $result = xapian_database_has_positions(self, -> NativeError $error { $ex = Error.new($error) }).Bool;
             $ex.throw if $ex;
             $result
         }
 
         method has-positions() returns Bool {
             my $ex;
-            my $result = xapian_database_has_positions(self, -> NativeError $error { $ex = Error.new($error) });
+            my $result = xapian_database_has_positions(self, -> NativeError $error { $ex = Error.new($error) }).Bool;
             $ex.throw if $ex;
             $result
         }
@@ -1199,14 +1199,14 @@ module Xapian {
 
         method term_exists(Str $tname) returns Bool {
             my $ex;
-            my $result = xapian_database_term_exists(self, $tname, -> NativeError $error { $ex = Error.new($error) });
+            my $result = xapian_database_term_exists(self, $tname, -> NativeError $error { $ex = Error.new($error) }).Bool;
             $ex.throw if $ex;
             $result
         }
 
         method term-exists(Str $tname) returns Bool {
             my $ex;
-            my $result = xapian_database_term_exists(self, $tname, -> NativeError $error { $ex = Error.new($error) });
+            my $result = xapian_database_term_exists(self, $tname, -> NativeError $error { $ex = Error.new($error) }).Bool;
             $ex.throw if $ex;
             $result
         }
@@ -1612,7 +1612,7 @@ module Xapian {
         my sub xapian_writable_database_commit(WritableDatabase $self, &handle-error (NativeError)) is native('xapian-helper') { * }
         my sub xapian_writable_database_flush(WritableDatabase $self, &handle-error (NativeError)) is native('xapian-helper') { * }
         my sub xapian_writable_database_begin_transaction(WritableDatabase $self, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_writable_database_begin_transaction2(WritableDatabase $self, Bool $flushed, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_writable_database_begin_transaction2(WritableDatabase $self, int $flushed, &handle-error (NativeError)) is native('xapian-helper') { * }
         my sub xapian_writable_database_commit_transaction(WritableDatabase $self, &handle-error (NativeError)) is native('xapian-helper') { * }
         my sub xapian_writable_database_cancel_transaction(WritableDatabase $self, &handle-error (NativeError)) is native('xapian-helper') { * }
         my sub xapian_writable_database_add_document(WritableDatabase $self, Document $document, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
@@ -1676,14 +1676,14 @@ module Xapian {
 
         multi method begin_transaction(Bool $flushed) {
             my $ex;
-            my $result = xapian_writable_database_begin_transaction2(self, $flushed, -> NativeError $error { $ex = Error.new($error) });
+            my $result = xapian_writable_database_begin_transaction2(self, +$flushed, -> NativeError $error { $ex = Error.new($error) });
             $ex.throw if $ex;
             $result
         }
 
         multi method begin-transaction(Bool $flushed) {
             my $ex;
-            my $result = xapian_writable_database_begin_transaction2(self, $flushed, -> NativeError $error { $ex = Error.new($error) });
+            my $result = xapian_writable_database_begin_transaction2(self, +$flushed, -> NativeError $error { $ex = Error.new($error) });
             $ex.throw if $ex;
             $result
         }
@@ -2081,7 +2081,7 @@ module Xapian {
 
         method empty() returns Bool {
             my $ex;
-            my $result = xapian_query_empty(self, -> NativeError $error { $ex = Error.new($error) });
+            my $result = xapian_query_empty(self, -> NativeError $error { $ex = Error.new($error) }).Bool;
             $ex.throw if $ex;
             $result
         }
@@ -2279,7 +2279,7 @@ module Xapian {
 
     multi sub infix:<eqv>(MSetIterator $a, MSetIterator $b) returns Bool is export {
         my $ex;
-        my $result = xapian_mset_iterator_equal($a, $b, -> NativeError $error { $ex = Error.new($error) }) != 0;
+        my $result = xapian_mset_iterator_equal($a, $b, -> NativeError $error { $ex = Error.new($error) }).Bool;
         $ex.throw if $ex;
         $result
     }
@@ -2305,7 +2305,7 @@ module Xapian {
         my sub xapian_mset_get_max_attained(MSet $self, &handle-error (NativeError)) returns num is native('xapian-helper') { * }
         my sub xapian_mset_size(MSet $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
         my sub xapian_mset_max_size(MSet $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_mset_empty(MSet $self, &handle-error (NativeError)) returns Bool is native('xapian-helper') { * }
+        my sub xapian_mset_empty(MSet $self, &handle-error (NativeError)) returns int is native('xapian-helper') { * }
         my sub xapian_mset_swap(MSet $self, MSet $other, &handle-error (NativeError)) is native('xapian-helper') { * }
         my sub xapian_mset_begin(MSet $self, &handle-error (NativeError)) returns MSetIterator is native('xapian-helper') { * }
         my sub xapian_mset_end(MSet $self, &handle-error (NativeError)) returns MSetIterator is native('xapian-helper') { * }
@@ -2548,7 +2548,7 @@ module Xapian {
 
         method empty() returns Bool {
             my $ex;
-            my $result = xapian_mset_empty(self, -> NativeError $error { $ex = Error.new($error) });
+            my $result = xapian_mset_empty(self, -> NativeError $error { $ex = Error.new($error) }).Bool;
             $ex.throw if $ex;
             $result
         }
@@ -2636,12 +2636,12 @@ module Xapian {
         my sub xapian_enquire_set_cutoff(Enquire $self, int $percent_cutoff, &handle-error (NativeError)) is native('xapian-helper') { * }
         my sub xapian_enquire_set_cutoff2(Enquire $self, int $percent_cutoff, num $weight_cutoff, &handle-error (NativeError)) is native('xapian-helper') { * }
         my sub xapian_enquire_set_sort_by_relevance(Enquire $self, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_enquire_set_sort_by_value(Enquire $self, uint $sort_key, Bool $reverse, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_enquire_set_sort_by_key(Enquire $self, KeyMaker $sorter, Bool $reverse, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_enquire_set_sort_by_value_then_relevance(Enquire $self, uint $sort_key, Bool $reverse, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_enquire_set_sort_by_key_then_relevance(Enquire $self, KeyMaker $sorter, Bool $reverse, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_enquire_set_sort_by_relevance_then_value(Enquire $self, uint $sort_key, Bool $reverse, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_enquire_set_sort_by_relevance_then_key(Enquire $self, KeyMaker $sorter, Bool $reverse, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_enquire_set_sort_by_value(Enquire $self, uint $sort_key, int $reverse, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_enquire_set_sort_by_key(Enquire $self, KeyMaker $sorter, int $reverse, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_enquire_set_sort_by_value_then_relevance(Enquire $self, uint $sort_key, int $reverse, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_enquire_set_sort_by_key_then_relevance(Enquire $self, KeyMaker $sorter, int $reverse, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_enquire_set_sort_by_relevance_then_value(Enquire $self, uint $sort_key, int $reverse, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_enquire_set_sort_by_relevance_then_key(Enquire $self, KeyMaker $sorter, int $reverse, &handle-error (NativeError)) is native('xapian-helper') { * }
         my sub xapian_enquire_get_mset(Enquire $self, uint $first, uint $maxitems, &handle-error (NativeError)) returns MSet is native('xapian-helper') { * }
         my sub xapian_enquire_get_mset2(Enquire $self, uint $first, uint $maxitems, uint $checkatleast, &handle-error (NativeError)) returns MSet is native('xapian-helper') { * }
         my sub xapian_enquire_get_mset3(Enquire $self, uint $first, uint $maxitems, uint $checkatleast, RSet $omrset, &handle-error (NativeError)) returns MSet is native('xapian-helper') { * }
@@ -2846,84 +2846,84 @@ module Xapian {
 
         method set_sort_by_value(Int $sort_key, Bool $reverse) {
             my $ex;
-            my $result = xapian_enquire_set_sort_by_value(self, $sort_key, $reverse, -> NativeError $error { $ex = Error.new($error) });
+            my $result = xapian_enquire_set_sort_by_value(self, $sort_key, +$reverse, -> NativeError $error { $ex = Error.new($error) });
             $ex.throw if $ex;
             $result
         }
 
         method set-sort-by-value(Int $sort_key, Bool $reverse) {
             my $ex;
-            my $result = xapian_enquire_set_sort_by_value(self, $sort_key, $reverse, -> NativeError $error { $ex = Error.new($error) });
+            my $result = xapian_enquire_set_sort_by_value(self, $sort_key, +$reverse, -> NativeError $error { $ex = Error.new($error) });
             $ex.throw if $ex;
             $result
         }
 
         method set_sort_by_key(KeyMaker $sorter, Bool $reverse) {
             my $ex;
-            my $result = xapian_enquire_set_sort_by_key(self, $sorter, $reverse, -> NativeError $error { $ex = Error.new($error) });
+            my $result = xapian_enquire_set_sort_by_key(self, $sorter, +$reverse, -> NativeError $error { $ex = Error.new($error) });
             $ex.throw if $ex;
             $result
         }
 
         method set-sort-by-key(KeyMaker $sorter, Bool $reverse) {
             my $ex;
-            my $result = xapian_enquire_set_sort_by_key(self, $sorter, $reverse, -> NativeError $error { $ex = Error.new($error) });
+            my $result = xapian_enquire_set_sort_by_key(self, $sorter, +$reverse, -> NativeError $error { $ex = Error.new($error) });
             $ex.throw if $ex;
             $result
         }
 
         method set_sort_by_value_then_relevance(Int $sort_key, Bool $reverse) {
             my $ex;
-            my $result = xapian_enquire_set_sort_by_value_then_relevance(self, $sort_key, $reverse, -> NativeError $error { $ex = Error.new($error) });
+            my $result = xapian_enquire_set_sort_by_value_then_relevance(self, $sort_key, +$reverse, -> NativeError $error { $ex = Error.new($error) });
             $ex.throw if $ex;
             $result
         }
 
         method set-sort-by-value-then-relevance(Int $sort_key, Bool $reverse) {
             my $ex;
-            my $result = xapian_enquire_set_sort_by_value_then_relevance(self, $sort_key, $reverse, -> NativeError $error { $ex = Error.new($error) });
+            my $result = xapian_enquire_set_sort_by_value_then_relevance(self, $sort_key, +$reverse, -> NativeError $error { $ex = Error.new($error) });
             $ex.throw if $ex;
             $result
         }
 
         method set_sort_by_key_then_relevance(KeyMaker $sorter, Bool $reverse) {
             my $ex;
-            my $result = xapian_enquire_set_sort_by_key_then_relevance(self, $sorter, $reverse, -> NativeError $error { $ex = Error.new($error) });
+            my $result = xapian_enquire_set_sort_by_key_then_relevance(self, $sorter, +$reverse, -> NativeError $error { $ex = Error.new($error) });
             $ex.throw if $ex;
             $result
         }
 
         method set-sort-by-key-then-relevance(KeyMaker $sorter, Bool $reverse) {
             my $ex;
-            my $result = xapian_enquire_set_sort_by_key_then_relevance(self, $sorter, $reverse, -> NativeError $error { $ex = Error.new($error) });
+            my $result = xapian_enquire_set_sort_by_key_then_relevance(self, $sorter, +$reverse, -> NativeError $error { $ex = Error.new($error) });
             $ex.throw if $ex;
             $result
         }
 
         method set_sort_by_relevance_then_value(Int $sort_key, Bool $reverse) {
             my $ex;
-            my $result = xapian_enquire_set_sort_by_relevance_then_value(self, $sort_key, $reverse, -> NativeError $error { $ex = Error.new($error) });
+            my $result = xapian_enquire_set_sort_by_relevance_then_value(self, $sort_key, +$reverse, -> NativeError $error { $ex = Error.new($error) });
             $ex.throw if $ex;
             $result
         }
 
         method set-sort-by-relevance-then-value(Int $sort_key, Bool $reverse) {
             my $ex;
-            my $result = xapian_enquire_set_sort_by_relevance_then_value(self, $sort_key, $reverse, -> NativeError $error { $ex = Error.new($error) });
+            my $result = xapian_enquire_set_sort_by_relevance_then_value(self, $sort_key, +$reverse, -> NativeError $error { $ex = Error.new($error) });
             $ex.throw if $ex;
             $result
         }
 
         method set_sort_by_relevance_then_key(KeyMaker $sorter, Bool $reverse) {
             my $ex;
-            my $result = xapian_enquire_set_sort_by_relevance_then_key(self, $sorter, $reverse, -> NativeError $error { $ex = Error.new($error) });
+            my $result = xapian_enquire_set_sort_by_relevance_then_key(self, $sorter, +$reverse, -> NativeError $error { $ex = Error.new($error) });
             $ex.throw if $ex;
             $result
         }
 
         method set-sort-by-relevance-then-key(KeyMaker $sorter, Bool $reverse) {
             my $ex;
-            my $result = xapian_enquire_set_sort_by_relevance_then_key(self, $sorter, $reverse, -> NativeError $error { $ex = Error.new($error) });
+            my $result = xapian_enquire_set_sort_by_relevance_then_key(self, $sorter, +$reverse, -> NativeError $error { $ex = Error.new($error) });
             $ex.throw if $ex;
             $result
         }
@@ -3195,7 +3195,7 @@ module Xapian {
         my sub xapian_query_parser_parse_query2(QueryParser $self, Str $query_string, uint $flags, &handle-error (NativeError)) returns Query is native('xapian-helper') { * }
         my sub xapian_query_parser_parse_query3(QueryParser $self, Str $query_string, uint $flags, Str $default_prefix, &handle-error (NativeError)) returns Query is native('xapian-helper') { * }
         my sub xapian_query_parser_add_prefix(QueryParser $self, Str $field, Str $prefix, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_query_parser_add_boolean_prefix(QueryParser $self, Str $field, Str $prefix, Bool $exclusive, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_query_parser_add_boolean_prefix(QueryParser $self, Str $field, Str $prefix, int $exclusive, &handle-error (NativeError)) is native('xapian-helper') { * }
         my sub xapian_query_parser_add_boolean_prefix2(QueryParser $self, Str $field, Str $prefix, &handle-error (NativeError)) is native('xapian-helper') { * }
         my sub xapian_query_parser_stoplist_begin(QueryParser $self, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
         my sub xapian_query_parser_stoplist_end(QueryParser $self, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
@@ -3384,14 +3384,14 @@ module Xapian {
 
         multi method add_boolean_prefix(Str $field, Str $prefix, Bool $exclusive) {
             my $ex;
-            my $result = xapian_query_parser_add_boolean_prefix(self, $field, $prefix, $exclusive, -> NativeError $error { $ex = Error.new($error) });
+            my $result = xapian_query_parser_add_boolean_prefix(self, $field, $prefix, +$exclusive, -> NativeError $error { $ex = Error.new($error) });
             $ex.throw if $ex;
             $result
         }
 
         multi method add-boolean-prefix(Str $field, Str $prefix, Bool $exclusive) {
             my $ex;
-            my $result = xapian_query_parser_add_boolean_prefix(self, $field, $prefix, $exclusive, -> NativeError $error { $ex = Error.new($error) });
+            my $result = xapian_query_parser_add_boolean_prefix(self, $field, $prefix, +$exclusive, -> NativeError $error { $ex = Error.new($error) });
             $ex.throw if $ex;
             $result
         }
