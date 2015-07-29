@@ -620,7 +620,7 @@ class CppMethod {
 
                 if $method-name eq 'get_description' {
                     @methods.push: qq:to/END_CPP/;
-                        method gist() returns Str \{
+                        multi method gist({$*PERL6-CLASS}:D:) returns Str \{
                             my \$ex;
                             my \$result = {$.c-name}($call);
                             \$ex.throw if \$ex;
