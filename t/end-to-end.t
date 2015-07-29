@@ -78,9 +78,7 @@ do {
     }
 
     my $enq = Xapian::Enquire.new($db);
-    my $query = Xapian::Query.new('');
-    # XXX MatchAll
-    $enq.set-query: $query; # XXX I think that $enq's reference to the Xapian Query doesn't prevent GC
+    $enq.set-query: Xapian::Query::MatchAll;
     my $mset = $enq.get-mset(0, 10);
     my $it = $mset.begin;
     my $end = $mset.end;
