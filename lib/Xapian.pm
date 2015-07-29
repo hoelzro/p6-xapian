@@ -2121,6 +2121,18 @@ module Xapian {
             $ex.throw if $ex;
             $result
         }
+
+        our sub MatchAll {
+            state $query = Xapian::Query.new('');
+
+            $query
+        }
+
+        our sub MatchNothing {
+            state $query = Xapian::Query.new;
+
+            $query
+        }
     }
 
     class ErrorHandler is repr('CPointer') {
