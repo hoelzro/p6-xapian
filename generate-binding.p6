@@ -494,11 +494,11 @@ class CppMethod {
                 }
 
                 when '++' {
-                    '*self; value++'
+                    '*self; (*value)++'
                 }
 
                 when '--' {
-                    '*self; value--'
+                    '*self; (*value)--'
                 }
 
                 when '*' {
