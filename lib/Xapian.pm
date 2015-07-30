@@ -232,6 +232,27 @@ module Xapian {
         my sub xapian_stopper_free(Stopper $self) is native('xapian-helper') { * }
         my sub xapian_stopper_get_description(Stopper $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
 
+        my sub xapian_stopper_new_subclass(&CALL-ME (Str --> int), &get-description (--> Str), &handle-error (NativeError)) returns Stopper is native('xapian-helper') { * };
+
+        method new() {
+            if self =:= $?CLASS {
+                die "Can't create an instance of $?CLASS.^name(); it's an abstract class";
+            } else {
+                my $ex;
+
+                # XXX use NULL if a method isn't available
+                # XXX get_description vs get-description
+                my $call-me                 = self.can('CALL-ME')[0];
+                my $call-me-wrapper         = -> Str $term --> int { +$call-me(self, $term) };
+                my $get-description         = self.can('get-description')[0];
+                my $get-description-wrapper = -> --> Str { $get-description(self) };
+
+                my $result = xapian_stopper_new_subclass($call-me-wrapper, $get-description-wrapper, -> NativeError $error { $ex = Error.new($error) });
+                $ex.throw if $ex;
+                return $result;
+            }
+        }
+
         method CALL-ME(Str $term) returns Bool {
             my $ex;
             my $result = xapian_stopper_call(self, $term, -> NativeError $error { $ex = Error.new($error) }).Bool;

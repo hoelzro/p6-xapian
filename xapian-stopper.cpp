@@ -24,6 +24,35 @@
 
 #include "version-check.h"
 
+class Perl6Subclass : public Xapian::Stopper {
+    public:
+        Perl6Subclass(bool (*override_call_me)(const char *), const char *(*override_get_description)(void))
+            :override_call_me(override_call_me),
+             override_get_description(override_get_description)
+        {}
+
+        virtual bool operator()(const std::string &term) const
+        {
+            return override_call_me(term.c_str());
+        }
+
+        // XXX we have no guarantee that the GC won't free
+        //     the returned char * before we have a chance
+        //     to make a copy of it...
+        virtual std::string get_description() const
+        {
+            if(override_get_description) {
+                return std::string(override_get_description());
+            } else {
+                return Xapian::Stopper::get_description();
+            }
+        }
+
+    private:
+        bool (*override_call_me)(const char *);
+        const char *(*override_get_description)(void);
+};
+
 extern "C" {
 
 typedef Xapian::Stopper *xapian_stopper;
@@ -57,6 +86,17 @@ xapian_stopper_get_description(xapian_stopper self, void (*handle_exception)(con
         return NULL;
     }
 
+}
+
+xapian_stopper
+xapian_stopper_new_subclass(bool (*override_call_me)(const char *), const char *(*override_get_description)(void), void (*handle_exception)(const Xapian::Error *)) throw ()
+{
+    try {
+        return new Perl6Subclass(override_call_me, override_get_description);
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        return NULL;
+    }
 }
 
 }
