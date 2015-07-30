@@ -24,12 +24,12 @@
     - [✓] termgenerator.h
     - [✓] writable-database.h
     - [✓] mset.h
+    - [✓] termiterator.h
+    - [✓] stopper.h
     - [ ] msetiterator.h
     - [ ] positioniterator.h
     - [ ] postingiterator.h
-    - [ ] termiterator.h
     - [ ] valueiterator.h
-    - [ ] stopper.h
     - [ ] weight.h
     - [ ] compactor.h
     - [ ] postingsource.h
