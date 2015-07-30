@@ -1,3 +1,6 @@
+  - It would be nice if 'is repr' were implied when subclassing Xapian::*
+  - callsame should work on virtual method overrides
+  - SimpleStopper iterator constructor
   - Break apart into many Perl 6 files
     - Including in Xapian.pm
     - Include in META.info
