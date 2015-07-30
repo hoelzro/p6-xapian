@@ -162,4 +162,15 @@ xapian_term_iterator_get_description(xapian_term_iterator self, void (*handle_ex
 
 }
 
+int
+xapian_term_iterator_equal(xapian_term_iterator a, xapian_term_iterator b, void (*handle_exception)(const Xapian::Error *)) throw ()
+{
+    try {
+        return (*a) == (*b);
+    } catch(const Xapian::Error &error) {
+        handle_exception(&error);
+        return 0;
+    }
+}
+
 }

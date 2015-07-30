@@ -210,7 +210,15 @@ module Xapian {
             $ex.throw if $ex;
             $result
         }
+    }
 
+    my sub xapian_term_iterator_equal(TermIterator $a, TermIterator $b, &handle-error (NativeError)) returns int is native('xapian-helper') { * }
+
+    multi sub infix:<eqv>(TermIterator $a, TermIterator $b) returns Bool is export {
+        my $ex;
+        my $result = xapian_term_iterator_equal($a, $b, -> NativeError $error { $ex = Error.new($error) }).Bool;
+        $ex.throw if $ex;
+        $result
     }
 
     class ValueIterator is repr('CPointer') {
