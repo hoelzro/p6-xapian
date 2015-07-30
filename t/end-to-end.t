@@ -65,6 +65,7 @@ my $term = Xapian::TermGenerator.new;
 $term.set_stemmer(Xapian::Stem.new('ru'));
 my @matching-docs;
 do {
+    shell('rm -rf test.db');
     my $db = Xapian::WritableDatabase.new('test.db', Xapian::DB_CREATE_OR_OPEN);
     LEAVE $db.close;
 
