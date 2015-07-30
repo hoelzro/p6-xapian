@@ -71,6 +71,146 @@ module Xapian {
     }
 
     class TermIterator is repr('CPointer') {
+        my sub xapian_term_iterator_new(&handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_term_iterator_free(TermIterator $self) is native('xapian-helper') { * }
+        my sub xapian_term_iterator_deref(TermIterator $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+        my sub xapian_term_iterator_succ(TermIterator $self, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
+        my sub xapian_term_iterator_skip_to(TermIterator $self, Str $tname, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_term_iterator_get_wdf(TermIterator $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
+        my sub xapian_term_iterator_get_termfreq(TermIterator $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
+        my sub xapian_term_iterator_positionlist_count(TermIterator $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
+        my sub xapian_term_iterator_positionlist_begin(TermIterator $self, &handle-error (NativeError)) returns PositionIterator is native('xapian-helper') { * }
+        my sub xapian_term_iterator_positionlist_end(TermIterator $self, &handle-error (NativeError)) returns PositionIterator is native('xapian-helper') { * }
+        my sub xapian_term_iterator_get_description(TermIterator $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+
+        method new() returns TermIterator {
+            my $ex;
+            my $result = xapian_term_iterator_new(-> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        submethod DESTROY() { xapian_term_iterator_free(self) }
+
+        method deref() returns Str {
+            my $ex;
+            my $result = xapian_term_iterator_deref(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method succ() returns TermIterator {
+            my $ex;
+            my $result = xapian_term_iterator_succ(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method skip_to(Str $tname) {
+            my $ex;
+            my $result = xapian_term_iterator_skip_to(self, $tname, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method skip-to(Str $tname) {
+            my $ex;
+            my $result = xapian_term_iterator_skip_to(self, $tname, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_wdf() returns Int {
+            my $ex;
+            my $result = xapian_term_iterator_get_wdf(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-wdf() returns Int {
+            my $ex;
+            my $result = xapian_term_iterator_get_wdf(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_termfreq() returns Int {
+            my $ex;
+            my $result = xapian_term_iterator_get_termfreq(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-termfreq() returns Int {
+            my $ex;
+            my $result = xapian_term_iterator_get_termfreq(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method positionlist_count() returns Int {
+            my $ex;
+            my $result = xapian_term_iterator_positionlist_count(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method positionlist-count() returns Int {
+            my $ex;
+            my $result = xapian_term_iterator_positionlist_count(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method positionlist_begin() returns PositionIterator {
+            my $ex;
+            my $result = xapian_term_iterator_positionlist_begin(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method positionlist-begin() returns PositionIterator {
+            my $ex;
+            my $result = xapian_term_iterator_positionlist_begin(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method positionlist_end() returns PositionIterator {
+            my $ex;
+            my $result = xapian_term_iterator_positionlist_end(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method positionlist-end() returns PositionIterator {
+            my $ex;
+            my $result = xapian_term_iterator_positionlist_end(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_description() returns Str {
+            my $ex;
+            my $result = xapian_term_iterator_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-description() returns Str {
+            my $ex;
+            my $result = xapian_term_iterator_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method gist(TermIterator:D:) returns Str {
+            my $ex;
+            my $result = xapian_term_iterator_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
     }
 
     class ValueIterator is repr('CPointer') {
