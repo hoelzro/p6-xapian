@@ -8,6 +8,7 @@ XAPIAN_SOURCES = 		\
     xapian-query.cpp 		\
     xapian-queryparser.cpp 	\
     xapian-stem.cpp 		\
+    xapian-stopper.cpp 		\
     xapian-termgenerator.cpp	\
     xapian-termiterator.cpp	\
     xapian-writable-database.cpp
@@ -22,6 +23,7 @@ XAPIAN_OBJECTS = 		\
     xapian-query%O% 		\
     xapian-queryparser%O% 	\
     xapian-stem%O% 		\
+    xapian-stopper%O% 		\
     xapian-termgenerator%O%	\
     xapian-termiterator%O%	\
     xapian-writable-database%O%

@@ -220,6 +220,40 @@ module Xapian {
     }
 
     class Stopper is repr('CPointer') {
+        my sub xapian_stopper_call(Stopper $self, Str $term, &handle-error (NativeError)) returns int is native('xapian-helper') { * }
+        my sub xapian_stopper_free(Stopper $self) is native('xapian-helper') { * }
+        my sub xapian_stopper_get_description(Stopper $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+
+        method CALL-ME(Str $term) returns Bool {
+            my $ex;
+            my $result = xapian_stopper_call(self, $term, -> NativeError $error { $ex = Error.new($error) }).Bool;
+            $ex.throw if $ex;
+            $result
+        }
+
+        submethod DESTROY() { xapian_stopper_free(self) }
+
+        method get_description() returns Str {
+            my $ex;
+            my $result = xapian_stopper_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-description() returns Str {
+            my $ex;
+            my $result = xapian_stopper_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method gist(Stopper:D:) returns Str {
+            my $ex;
+            my $result = xapian_stopper_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
     }
 
     class WritableDatabase is repr('CPointer') { ... }
