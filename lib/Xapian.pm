@@ -256,6 +256,56 @@ module Xapian {
 
     }
 
+    class SimpleStopper is repr('CPointer') is Stopper {
+        my sub xapian_simple_stopper_new(&handle-error (NativeError)) returns SimpleStopper is native('xapian-helper') { * }
+        my sub xapian_simple_stopper_add(SimpleStopper $self, Str $word, &handle-error (NativeError)) is native('xapian-helper') { * }
+        my sub xapian_simple_stopper_call(SimpleStopper $self, Str $term, &handle-error (NativeError)) returns int is native('xapian-helper') { * }
+        my sub xapian_simple_stopper_get_description(SimpleStopper $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+
+        method new() returns SimpleStopper {
+            my $ex;
+            my $result = xapian_simple_stopper_new(-> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method add(Str $word) {
+            my $ex;
+            my $result = xapian_simple_stopper_add(self, $word, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method CALL-ME(Str $term) returns Bool {
+            my $ex;
+            my $result = xapian_simple_stopper_call(self, $term, -> NativeError $error { $ex = Error.new($error) }).Bool;
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get_description() returns Str {
+            my $ex;
+            my $result = xapian_simple_stopper_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        method get-description() returns Str {
+            my $ex;
+            my $result = xapian_simple_stopper_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+
+        multi method gist(SimpleStopper:D:) returns Str {
+            my $ex;
+            my $result = xapian_simple_stopper_get_description(self, -> NativeError $error { $ex = Error.new($error) });
+            $ex.throw if $ex;
+            $result
+        }
+    }
+
+
     class WritableDatabase is repr('CPointer') { ... }
 
     class Document is repr('CPointer') {

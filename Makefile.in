@@ -7,6 +7,7 @@ XAPIAN_SOURCES = 		\
     xapian-msetiterator.cpp	\
     xapian-query.cpp 		\
     xapian-queryparser.cpp 	\
+    xapian-simplestopper.cpp 	\
     xapian-stem.cpp 		\
     xapian-stopper.cpp 		\
     xapian-termgenerator.cpp	\
@@ -22,6 +23,7 @@ XAPIAN_OBJECTS = 		\
     xapian-msetiterator%O% 	\
     xapian-query%O% 		\
     xapian-queryparser%O% 	\
+    xapian-simplestopper%O% 	\
     xapian-stem%O% 		\
     xapian-stopper%O% 		\
     xapian-termgenerator%O%	\
