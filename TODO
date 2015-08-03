@@ -1,10 +1,6 @@
-  - It would be nice if 'is repr' were implied when subclassing Xapian::*
-  - callsame should work on virtual method overrides
-  - SimpleStopper iterator constructor
-  - Break apart into many Perl 6 files
-    - Including in Xapian.pm
-    - Include in META.info
-  - automatically show an NYI warning when using an empty Xapian class I haven't gotten around to yet
+  - test for references
+    - force_gc to force collection
+    - use MALLOC_PERTURB_/MALLOC_OPTIONS to make sure it fails
   - C++ reference should prevent Perl 6 GC from collecting
     - TermGenerator::set_stopper
     - QueryParser::set_stopper
@@ -14,6 +10,22 @@
     - Enquire::set_sort_by_key
     - PostingSource::register_matcher_
     - Query::add_subquery
+  - test non-overriden virtual methods
+  - A subclass that has its own DESTROY will probably have its destructor
+    called twice. (each DESTROY in a class chain gets called, and if each of them
+    runs delete self...)
+  - get-document and other routines that return a pointer may DESTROY something they
+    shouldn't
+  - Documentation
+  - Tests (more porting from other bindings?)
+  - It would be nice if 'is repr' were implied when subclassing Xapian::*
+  - callsame should work on virtual method overrides
+  - SimpleStopper iterator constructor
+  - Break apart into many Perl 6 files
+    - Including in Xapian.pm
+    - Include in META.info
+    - How to re-export multi candidates for operator overloads?
+  - automatically show an NYI warning when using an empty Xapian class I haven't gotten around to yet
   - Binding more classes
     - [✓] database.h
     - [✓] document.h
