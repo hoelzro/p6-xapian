@@ -291,7 +291,7 @@ class CppDestructor {
     method generate-perl6-stubs {
         my $function-name = $*CPP-CLASS.c-type ~ '_free';
 
-        "my sub {$function-name}($*PERL6-CLASS \$self) is native('$*LIB-NAME') \{ * \}"
+        "my sub {$function-name}($*PERL6-CLASS \$self) is native(resource-lib('$*LIB-NAME')) \{ * \}"
     }
 
     method generate-perl6-methods {

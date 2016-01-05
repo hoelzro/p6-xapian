@@ -26,12 +26,16 @@ module Xapian {
 
     constant BAD_VALUENO = -1;
 
+    my sub resource-lib(Str $libname) {
+        %?RESOURCES{'lib/' ~ $libname ~ '.so'}.Str
+    }
+
     class NativeError is repr('CPointer') {
-        my sub xapian_error_get_type(NativeError $self) returns Str is native('xapian-helper') { * }
-        my sub xapian_error_get_msg(NativeError $self) returns Str is native('xapian-helper') { * }
-        my sub xapian_error_get_context(NativeError $self) returns Str is native('xapian-helper') { * }
-        my sub xapian_error_get_error_string(NativeError $self) returns Str is native('xapian-helper') { * }
-        my sub xapian_error_get_description(NativeError $self) returns Str is native('xapian-helper') { * }
+        my sub xapian_error_get_type(NativeError $self) returns Str is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_error_get_msg(NativeError $self) returns Str is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_error_get_context(NativeError $self) returns Str is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_error_get_error_string(NativeError $self) returns Str is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_error_get_description(NativeError $self) returns Str is native(resource-lib('xapian-helper')) { * }
 
         method get_type() returns Str { xapian_error_get_type(self) }
         method get-type() returns Str { xapian_error_get_type(self) }
@@ -71,17 +75,17 @@ module Xapian {
     }
 
     class TermIterator is repr('CPointer') {
-        my sub xapian_term_iterator_new(&handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_term_iterator_free(TermIterator $self) is native('xapian-helper') { * }
-        my sub xapian_term_iterator_deref(TermIterator $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
-        my sub xapian_term_iterator_succ(TermIterator $self, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_term_iterator_skip_to(TermIterator $self, Str $tname, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_term_iterator_get_wdf(TermIterator $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_term_iterator_get_termfreq(TermIterator $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_term_iterator_positionlist_count(TermIterator $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_term_iterator_positionlist_begin(TermIterator $self, &handle-error (NativeError)) returns PositionIterator is native('xapian-helper') { * }
-        my sub xapian_term_iterator_positionlist_end(TermIterator $self, &handle-error (NativeError)) returns PositionIterator is native('xapian-helper') { * }
-        my sub xapian_term_iterator_get_description(TermIterator $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+        my sub xapian_term_iterator_new(&handle-error (NativeError)) returns TermIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_term_iterator_free(TermIterator $self) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_term_iterator_deref(TermIterator $self, &handle-error (NativeError)) returns Str is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_term_iterator_succ(TermIterator $self, &handle-error (NativeError)) returns TermIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_term_iterator_skip_to(TermIterator $self, Str $tname, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_term_iterator_get_wdf(TermIterator $self, &handle-error (NativeError)) returns uint is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_term_iterator_get_termfreq(TermIterator $self, &handle-error (NativeError)) returns uint is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_term_iterator_positionlist_count(TermIterator $self, &handle-error (NativeError)) returns uint is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_term_iterator_positionlist_begin(TermIterator $self, &handle-error (NativeError)) returns PositionIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_term_iterator_positionlist_end(TermIterator $self, &handle-error (NativeError)) returns PositionIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_term_iterator_get_description(TermIterator $self, &handle-error (NativeError)) returns Str is native(resource-lib('xapian-helper')) { * }
 
         method new() returns TermIterator {
             my $ex;
@@ -212,7 +216,7 @@ module Xapian {
         }
     }
 
-    my sub xapian_term_iterator_equal(TermIterator $a, TermIterator $b, &handle-error (NativeError)) returns int is native('xapian-helper') { * }
+    my sub xapian_term_iterator_equal(TermIterator $a, TermIterator $b, &handle-error (NativeError)) returns int is native(resource-lib('xapian-helper')) { * }
 
     multi sub infix:<eqv>(TermIterator $a, TermIterator $b) returns Bool is export {
         my $ex;
@@ -228,11 +232,11 @@ module Xapian {
     }
 
     class Stopper is repr('CPointer') {
-        my sub xapian_stopper_call(Stopper $self, Str $term, &handle-error (NativeError)) returns int is native('xapian-helper') { * }
-        my sub xapian_stopper_free(Stopper $self) is native('xapian-helper') { * }
-        my sub xapian_stopper_get_description(Stopper $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+        my sub xapian_stopper_call(Stopper $self, Str $term, &handle-error (NativeError)) returns int is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_stopper_free(Stopper $self) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_stopper_get_description(Stopper $self, &handle-error (NativeError)) returns Str is native(resource-lib('xapian-helper')) { * }
 
-        my sub xapian_stopper_new_subclass(&CALL-ME (Str --> int), &get-description (--> Str), &handle-error (NativeError)) returns Stopper is native('xapian-helper') { * };
+        my sub xapian_stopper_new_subclass(&CALL-ME (Str --> int), &get-description (--> Str), &handle-error (NativeError)) returns Stopper is native(resource-lib('xapian-helper')) { * };
 
         method new() {
             if self =:= $?CLASS {
@@ -286,10 +290,10 @@ module Xapian {
     }
 
     class SimpleStopper is repr('CPointer') is Stopper {
-        my sub xapian_simple_stopper_new(&handle-error (NativeError)) returns SimpleStopper is native('xapian-helper') { * }
-        my sub xapian_simple_stopper_add(SimpleStopper $self, Str $word, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_simple_stopper_call(SimpleStopper $self, Str $term, &handle-error (NativeError)) returns int is native('xapian-helper') { * }
-        my sub xapian_simple_stopper_get_description(SimpleStopper $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+        my sub xapian_simple_stopper_new(&handle-error (NativeError)) returns SimpleStopper is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_simple_stopper_add(SimpleStopper $self, Str $word, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_simple_stopper_call(SimpleStopper $self, Str $term, &handle-error (NativeError)) returns int is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_simple_stopper_get_description(SimpleStopper $self, &handle-error (NativeError)) returns Str is native(resource-lib('xapian-helper')) { * }
 
         method new() returns SimpleStopper {
             my $ex;
@@ -338,33 +342,33 @@ module Xapian {
     class WritableDatabase is repr('CPointer') { ... }
 
     class Document is repr('CPointer') {
-        my sub xapian_document_new(&handle-error (NativeError)) returns Document is native('xapian-helper') { * }
-        my sub xapian_document_free(Document $self) is native('xapian-helper') { * }
-        my sub xapian_document_get_value(Document $self, uint $slot, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
-        my sub xapian_document_add_value(Document $self, uint $slot, Str $value, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_document_remove_value(Document $self, uint $slot, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_document_clear_values(Document $self, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_document_get_data(Document $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
-        my sub xapian_document_set_data(Document $self, Str $data, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_document_add_posting(Document $self, Str $tname, uint $tpos, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_document_add_posting2(Document $self, Str $tname, uint $tpos, uint $wdfinc, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_document_add_term(Document $self, Str $tname, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_document_add_term2(Document $self, Str $tname, uint $wdfinc, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_document_add_boolean_term(Document $self, Str $term, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_document_remove_posting(Document $self, Str $tname, uint $tpos, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_document_remove_posting2(Document $self, Str $tname, uint $tpos, uint $wdfdec, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_document_remove_term(Document $self, Str $tname, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_document_clear_terms(Document $self, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_document_termlist_count(Document $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_document_termlist_begin(Document $self, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_document_termlist_end(Document $self, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_document_values_count(Document $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_document_values_begin(Document $self, &handle-error (NativeError)) returns ValueIterator is native('xapian-helper') { * }
-        my sub xapian_document_values_end(Document $self, &handle-error (NativeError)) returns ValueIteratorEnd_ is native('xapian-helper') { * }
-        my sub xapian_document_get_docid(Document $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_document_serialise(Document $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
-        my sub xapian_document_get_description(Document $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
-        my sub xapian_document_unserialise(Str $s, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+        my sub xapian_document_new(&handle-error (NativeError)) returns Document is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_document_free(Document $self) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_document_get_value(Document $self, uint $slot, &handle-error (NativeError)) returns Str is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_document_add_value(Document $self, uint $slot, Str $value, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_document_remove_value(Document $self, uint $slot, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_document_clear_values(Document $self, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_document_get_data(Document $self, &handle-error (NativeError)) returns Str is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_document_set_data(Document $self, Str $data, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_document_add_posting(Document $self, Str $tname, uint $tpos, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_document_add_posting2(Document $self, Str $tname, uint $tpos, uint $wdfinc, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_document_add_term(Document $self, Str $tname, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_document_add_term2(Document $self, Str $tname, uint $wdfinc, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_document_add_boolean_term(Document $self, Str $term, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_document_remove_posting(Document $self, Str $tname, uint $tpos, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_document_remove_posting2(Document $self, Str $tname, uint $tpos, uint $wdfdec, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_document_remove_term(Document $self, Str $tname, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_document_clear_terms(Document $self, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_document_termlist_count(Document $self, &handle-error (NativeError)) returns uint is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_document_termlist_begin(Document $self, &handle-error (NativeError)) returns TermIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_document_termlist_end(Document $self, &handle-error (NativeError)) returns TermIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_document_values_count(Document $self, &handle-error (NativeError)) returns uint is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_document_values_begin(Document $self, &handle-error (NativeError)) returns ValueIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_document_values_end(Document $self, &handle-error (NativeError)) returns ValueIteratorEnd_ is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_document_get_docid(Document $self, &handle-error (NativeError)) returns uint is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_document_serialise(Document $self, &handle-error (NativeError)) returns Str is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_document_get_description(Document $self, &handle-error (NativeError)) returns Str is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_document_unserialise(Str $s, &handle-error (NativeError)) returns Str is native(resource-lib('xapian-helper')) { * }
 
         method new() returns Document {
             my $ex;
@@ -720,12 +724,12 @@ module Xapian {
     }
 
     class Stem is repr('CPointer') {
-        my sub xapian_stem_new(&handle-error (NativeError)) returns Stem is native('xapian-helper') { * }
-        my sub xapian_stem_new2(Str $language, &handle-error (NativeError)) returns Stem is native('xapian-helper') { * }
-        my sub xapian_stem_free(Stem $self) is native('xapian-helper') { * }
-        my sub xapian_stem_call(Stem $self, Str $word, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
-        my sub xapian_stem_get_description(Stem $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
-        my sub xapian_stem_get_available_languages(&handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+        my sub xapian_stem_new(&handle-error (NativeError)) returns Stem is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_stem_new2(Str $language, &handle-error (NativeError)) returns Stem is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_stem_free(Stem $self) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_stem_call(Stem $self, Str $word, &handle-error (NativeError)) returns Str is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_stem_get_description(Stem $self, &handle-error (NativeError)) returns Str is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_stem_get_available_languages(&handle-error (NativeError)) returns Str is native(resource-lib('xapian-helper')) { * }
 
         proto method new(|) returns Stem { * }
 
@@ -786,29 +790,29 @@ module Xapian {
     }
 
     class TermGenerator is repr('CPointer') {
-        my sub xapian_term_generator_new(&handle-error (NativeError)) returns TermGenerator is native('xapian-helper') { * }
-        my sub xapian_term_generator_free(TermGenerator $self) is native('xapian-helper') { * }
-        my sub xapian_term_generator_set_stemmer(TermGenerator $self, Stem $stemmer, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_term_generator_set_stopper(TermGenerator $self, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_term_generator_set_stopper2(TermGenerator $self, Stopper $stop, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_term_generator_set_document(TermGenerator $self, Document $doc, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_term_generator_get_document(TermGenerator $self, &handle-error (NativeError)) returns Document is native('xapian-helper') { * }
-        my sub xapian_term_generator_set_database(TermGenerator $self, WritableDatabase $db, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_term_generator_set_flags(TermGenerator $self, uint $toggle, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_term_generator_set_flags2(TermGenerator $self, uint $toggle, uint $mask, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_term_generator_set_stemming_strategy(TermGenerator $self, uint $strategy, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_term_generator_set_max_word_length(TermGenerator $self, uint $max_word_length, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_term_generator_index_text(TermGenerator $self, Str $text, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_term_generator_index_text2(TermGenerator $self, Str $text, uint $wdf_inc, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_term_generator_index_text3(TermGenerator $self, Str $text, uint $wdf_inc, Str $prefix, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_term_generator_index_text_without_positions(TermGenerator $self, Str $text, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_term_generator_index_text_without_positions2(TermGenerator $self, Str $text, uint $wdf_inc, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_term_generator_index_text_without_positions3(TermGenerator $self, Str $text, uint $wdf_inc, Str $prefix, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_term_generator_increase_termpos(TermGenerator $self, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_term_generator_increase_termpos2(TermGenerator $self, uint $delta, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_term_generator_get_termpos(TermGenerator $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_term_generator_set_termpos(TermGenerator $self, uint $termpos, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_term_generator_get_description(TermGenerator $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+        my sub xapian_term_generator_new(&handle-error (NativeError)) returns TermGenerator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_term_generator_free(TermGenerator $self) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_term_generator_set_stemmer(TermGenerator $self, Stem $stemmer, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_term_generator_set_stopper(TermGenerator $self, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_term_generator_set_stopper2(TermGenerator $self, Stopper $stop, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_term_generator_set_document(TermGenerator $self, Document $doc, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_term_generator_get_document(TermGenerator $self, &handle-error (NativeError)) returns Document is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_term_generator_set_database(TermGenerator $self, WritableDatabase $db, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_term_generator_set_flags(TermGenerator $self, uint $toggle, &handle-error (NativeError)) returns uint is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_term_generator_set_flags2(TermGenerator $self, uint $toggle, uint $mask, &handle-error (NativeError)) returns uint is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_term_generator_set_stemming_strategy(TermGenerator $self, uint $strategy, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_term_generator_set_max_word_length(TermGenerator $self, uint $max_word_length, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_term_generator_index_text(TermGenerator $self, Str $text, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_term_generator_index_text2(TermGenerator $self, Str $text, uint $wdf_inc, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_term_generator_index_text3(TermGenerator $self, Str $text, uint $wdf_inc, Str $prefix, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_term_generator_index_text_without_positions(TermGenerator $self, Str $text, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_term_generator_index_text_without_positions2(TermGenerator $self, Str $text, uint $wdf_inc, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_term_generator_index_text_without_positions3(TermGenerator $self, Str $text, uint $wdf_inc, Str $prefix, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_term_generator_increase_termpos(TermGenerator $self, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_term_generator_increase_termpos2(TermGenerator $self, uint $delta, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_term_generator_get_termpos(TermGenerator $self, &handle-error (NativeError)) returns uint is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_term_generator_set_termpos(TermGenerator $self, uint $termpos, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_term_generator_get_description(TermGenerator $self, &handle-error (NativeError)) returns Str is native(resource-lib('xapian-helper')) { * }
 
         method new() returns TermGenerator {
             my $ex;
@@ -1125,57 +1129,57 @@ module Xapian {
     }
 
     class Database is repr('CPointer') {
-        my sub xapian_database_add_database(Database $self, Database $database, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_database_new(&handle-error (NativeError)) returns Database is native('xapian-helper') { * }
-        my sub xapian_database_new2(Str $path, &handle-error (NativeError)) returns Database is native('xapian-helper') { * }
-        my sub xapian_database_free(Database $self) is native('xapian-helper') { * }
-        my sub xapian_database_reopen(Database $self, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_database_close(Database $self, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_database_get_description(Database $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
-        my sub xapian_database_postlist_begin(Database $self, Str $tname, &handle-error (NativeError)) returns PostingIterator is native('xapian-helper') { * }
-        my sub xapian_database_postlist_end(Database $self, Str $_anon_1, &handle-error (NativeError)) returns PostingIterator is native('xapian-helper') { * }
-        my sub xapian_database_termlist_begin(Database $self, uint $did, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_termlist_end(Database $self, uint $_anon_1, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_has_positions(Database $self, &handle-error (NativeError)) returns int is native('xapian-helper') { * }
-        my sub xapian_database_positionlist_begin(Database $self, uint $did, Str $tname, &handle-error (NativeError)) returns PositionIterator is native('xapian-helper') { * }
-        my sub xapian_database_positionlist_end(Database $self, uint $_anon_1, Str $_anon_2, &handle-error (NativeError)) returns PositionIterator is native('xapian-helper') { * }
-        my sub xapian_database_allterms_begin(Database $self, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_allterms_end(Database $self, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_allterms_begin2(Database $self, Str $prefix, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_allterms_end2(Database $self, Str $_anon_1, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_get_doccount(Database $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_database_get_lastdocid(Database $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_database_get_avlength(Database $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_database_get_termfreq(Database $self, Str $tname, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_database_term_exists(Database $self, Str $tname, &handle-error (NativeError)) returns int is native('xapian-helper') { * }
-        my sub xapian_database_get_collection_freq(Database $self, Str $tname, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_database_get_value_freq(Database $self, uint $slot, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_database_get_value_lower_bound(Database $self, uint $slot, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
-        my sub xapian_database_get_value_upper_bound(Database $self, uint $slot, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
-        my sub xapian_database_get_doclength_lower_bound(Database $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_database_get_doclength_upper_bound(Database $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_database_get_wdf_upper_bound(Database $self, Str $term, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_database_valuestream_begin(Database $self, uint $slot, &handle-error (NativeError)) returns ValueIterator is native('xapian-helper') { * }
-        my sub xapian_database_valuestream_end(Database $self, uint $_anon_1, &handle-error (NativeError)) returns ValueIteratorEnd_ is native('xapian-helper') { * }
-        my sub xapian_database_get_doclength(Database $self, uint $did, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_database_keep_alive(Database $self, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_database_get_document(Database $self, uint $did, &handle-error (NativeError)) returns Document is native('xapian-helper') { * }
-        my sub xapian_database_get_spelling_suggestion(Database $self, Str $word, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
-        my sub xapian_database_get_spelling_suggestion2(Database $self, Str $word, uint $max_edit_distance, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
-        my sub xapian_database_spellings_begin(Database $self, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_spellings_end(Database $self, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_synonyms_begin(Database $self, Str $term, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_synonyms_end(Database $self, Str $_anon_1, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_synonym_keys_begin(Database $self, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_synonym_keys_begin2(Database $self, Str $prefix, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_synonym_keys_end(Database $self, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_synonym_keys_end2(Database $self, Str $_anon_1, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_get_metadata(Database $self, Str $key, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
-        my sub xapian_database_metadata_keys_begin(Database $self, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_metadata_keys_begin2(Database $self, Str $prefix, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_metadata_keys_end(Database $self, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_metadata_keys_end2(Database $self, Str $_anon_1, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_database_get_uuid(Database $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+        my sub xapian_database_add_database(Database $self, Database $database, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_new(&handle-error (NativeError)) returns Database is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_new2(Str $path, &handle-error (NativeError)) returns Database is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_free(Database $self) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_reopen(Database $self, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_close(Database $self, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_get_description(Database $self, &handle-error (NativeError)) returns Str is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_postlist_begin(Database $self, Str $tname, &handle-error (NativeError)) returns PostingIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_postlist_end(Database $self, Str $_anon_1, &handle-error (NativeError)) returns PostingIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_termlist_begin(Database $self, uint $did, &handle-error (NativeError)) returns TermIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_termlist_end(Database $self, uint $_anon_1, &handle-error (NativeError)) returns TermIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_has_positions(Database $self, &handle-error (NativeError)) returns int is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_positionlist_begin(Database $self, uint $did, Str $tname, &handle-error (NativeError)) returns PositionIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_positionlist_end(Database $self, uint $_anon_1, Str $_anon_2, &handle-error (NativeError)) returns PositionIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_allterms_begin(Database $self, &handle-error (NativeError)) returns TermIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_allterms_end(Database $self, &handle-error (NativeError)) returns TermIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_allterms_begin2(Database $self, Str $prefix, &handle-error (NativeError)) returns TermIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_allterms_end2(Database $self, Str $_anon_1, &handle-error (NativeError)) returns TermIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_get_doccount(Database $self, &handle-error (NativeError)) returns uint is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_get_lastdocid(Database $self, &handle-error (NativeError)) returns uint is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_get_avlength(Database $self, &handle-error (NativeError)) returns uint is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_get_termfreq(Database $self, Str $tname, &handle-error (NativeError)) returns uint is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_term_exists(Database $self, Str $tname, &handle-error (NativeError)) returns int is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_get_collection_freq(Database $self, Str $tname, &handle-error (NativeError)) returns uint is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_get_value_freq(Database $self, uint $slot, &handle-error (NativeError)) returns uint is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_get_value_lower_bound(Database $self, uint $slot, &handle-error (NativeError)) returns Str is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_get_value_upper_bound(Database $self, uint $slot, &handle-error (NativeError)) returns Str is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_get_doclength_lower_bound(Database $self, &handle-error (NativeError)) returns uint is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_get_doclength_upper_bound(Database $self, &handle-error (NativeError)) returns uint is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_get_wdf_upper_bound(Database $self, Str $term, &handle-error (NativeError)) returns uint is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_valuestream_begin(Database $self, uint $slot, &handle-error (NativeError)) returns ValueIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_valuestream_end(Database $self, uint $_anon_1, &handle-error (NativeError)) returns ValueIteratorEnd_ is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_get_doclength(Database $self, uint $did, &handle-error (NativeError)) returns uint is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_keep_alive(Database $self, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_get_document(Database $self, uint $did, &handle-error (NativeError)) returns Document is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_get_spelling_suggestion(Database $self, Str $word, &handle-error (NativeError)) returns Str is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_get_spelling_suggestion2(Database $self, Str $word, uint $max_edit_distance, &handle-error (NativeError)) returns Str is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_spellings_begin(Database $self, &handle-error (NativeError)) returns TermIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_spellings_end(Database $self, &handle-error (NativeError)) returns TermIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_synonyms_begin(Database $self, Str $term, &handle-error (NativeError)) returns TermIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_synonyms_end(Database $self, Str $_anon_1, &handle-error (NativeError)) returns TermIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_synonym_keys_begin(Database $self, &handle-error (NativeError)) returns TermIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_synonym_keys_begin2(Database $self, Str $prefix, &handle-error (NativeError)) returns TermIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_synonym_keys_end(Database $self, &handle-error (NativeError)) returns TermIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_synonym_keys_end2(Database $self, Str $_anon_1, &handle-error (NativeError)) returns TermIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_get_metadata(Database $self, Str $key, &handle-error (NativeError)) returns Str is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_metadata_keys_begin(Database $self, &handle-error (NativeError)) returns TermIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_metadata_keys_begin2(Database $self, Str $prefix, &handle-error (NativeError)) returns TermIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_metadata_keys_end(Database $self, &handle-error (NativeError)) returns TermIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_metadata_keys_end2(Database $self, Str $_anon_1, &handle-error (NativeError)) returns TermIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_database_get_uuid(Database $self, &handle-error (NativeError)) returns Str is native(resource-lib('xapian-helper')) { * }
 
         method add_database(Database $database) {
             my $ex;
@@ -1863,29 +1867,29 @@ module Xapian {
     }
 
     class WritableDatabase is Database {
-        my sub xapian_writable_database_free(WritableDatabase $self) is native('xapian-helper') { * }
-        my sub xapian_writable_database_new(&handle-error (NativeError)) returns WritableDatabase is native('xapian-helper') { * }
-        my sub xapian_writable_database_new2(Str $path, int $action, &handle-error (NativeError)) returns WritableDatabase is native('xapian-helper') { * }
-        my sub xapian_writable_database_commit(WritableDatabase $self, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_writable_database_flush(WritableDatabase $self, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_writable_database_begin_transaction(WritableDatabase $self, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_writable_database_begin_transaction2(WritableDatabase $self, int $flushed, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_writable_database_commit_transaction(WritableDatabase $self, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_writable_database_cancel_transaction(WritableDatabase $self, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_writable_database_add_document(WritableDatabase $self, Document $document, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_writable_database_delete_document(WritableDatabase $self, uint $did, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_writable_database_delete_document2(WritableDatabase $self, Str $unique_term, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_writable_database_replace_document(WritableDatabase $self, uint $did, Document $document, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_writable_database_replace_document2(WritableDatabase $self, Str $unique_term, Document $document, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_writable_database_add_spelling(WritableDatabase $self, Str $word, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_writable_database_add_spelling2(WritableDatabase $self, Str $word, uint $freqinc, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_writable_database_remove_spelling(WritableDatabase $self, Str $word, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_writable_database_remove_spelling2(WritableDatabase $self, Str $word, uint $freqdec, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_writable_database_add_synonym(WritableDatabase $self, Str $term, Str $synonym, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_writable_database_remove_synonym(WritableDatabase $self, Str $term, Str $synonym, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_writable_database_clear_synonyms(WritableDatabase $self, Str $term, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_writable_database_set_metadata(WritableDatabase $self, Str $key, Str $value, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_writable_database_get_description(WritableDatabase $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+        my sub xapian_writable_database_free(WritableDatabase $self) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_writable_database_new(&handle-error (NativeError)) returns WritableDatabase is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_writable_database_new2(Str $path, int $action, &handle-error (NativeError)) returns WritableDatabase is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_writable_database_commit(WritableDatabase $self, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_writable_database_flush(WritableDatabase $self, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_writable_database_begin_transaction(WritableDatabase $self, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_writable_database_begin_transaction2(WritableDatabase $self, int $flushed, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_writable_database_commit_transaction(WritableDatabase $self, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_writable_database_cancel_transaction(WritableDatabase $self, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_writable_database_add_document(WritableDatabase $self, Document $document, &handle-error (NativeError)) returns uint is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_writable_database_delete_document(WritableDatabase $self, uint $did, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_writable_database_delete_document2(WritableDatabase $self, Str $unique_term, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_writable_database_replace_document(WritableDatabase $self, uint $did, Document $document, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_writable_database_replace_document2(WritableDatabase $self, Str $unique_term, Document $document, &handle-error (NativeError)) returns uint is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_writable_database_add_spelling(WritableDatabase $self, Str $word, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_writable_database_add_spelling2(WritableDatabase $self, Str $word, uint $freqinc, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_writable_database_remove_spelling(WritableDatabase $self, Str $word, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_writable_database_remove_spelling2(WritableDatabase $self, Str $word, uint $freqdec, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_writable_database_add_synonym(WritableDatabase $self, Str $term, Str $synonym, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_writable_database_remove_synonym(WritableDatabase $self, Str $term, Str $synonym, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_writable_database_clear_synonyms(WritableDatabase $self, Str $term, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_writable_database_set_metadata(WritableDatabase $self, Str $key, Str $value, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_writable_database_get_description(WritableDatabase $self, &handle-error (NativeError)) returns Str is native(resource-lib('xapian-helper')) { * }
 
         submethod DESTROY() { xapian_writable_database_free(self) }
 
@@ -2206,23 +2210,23 @@ module Xapian {
     class Query is repr('CPointer') {
         enum op <And Or And-Not Xor And-Maybe Filter Near Phrase Value-Range Scale-Weight Elite-Set Value-Ge Value-Le Synonym>;
 
-        my sub xapian_query_new(&handle-error (NativeError)) returns Query is native('xapian-helper') { * }
-        my sub xapian_query_free(Query $self) is native('xapian-helper') { * }
-        my sub xapian_query_new2(Str $tname_, &handle-error (NativeError)) returns Query is native('xapian-helper') { * }
-        my sub xapian_query_new3(Str $tname_, uint $wqf_, &handle-error (NativeError)) returns Query is native('xapian-helper') { * }
-        my sub xapian_query_new4(Str $tname_, uint $wqf_, uint $pos_, &handle-error (NativeError)) returns Query is native('xapian-helper') { * }
-        my sub xapian_query_new5(uint $op_, Query $left, Query $right, &handle-error (NativeError)) returns Query is native('xapian-helper') { * }
-        my sub xapian_query_new6(uint $op_, Str $left, Str $right, &handle-error (NativeError)) returns Query is native('xapian-helper') { * }
-        my sub xapian_query_new7(uint $op_, Query $q, num $parameter, &handle-error (NativeError)) returns Query is native('xapian-helper') { * }
-        my sub xapian_query_new8(uint $op_, uint $slot, Str $begin, Str $end, &handle-error (NativeError)) returns Query is native('xapian-helper') { * }
-        my sub xapian_query_new9(uint $op_, uint $slot, Str $value, &handle-error (NativeError)) returns Query is native('xapian-helper') { * }
-        my sub xapian_query_new10(PostingSource $external_source, &handle-error (NativeError)) returns Query is native('xapian-helper') { * }
-        my sub xapian_query_get_length(Query $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_query_get_terms_begin(Query $self, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_query_get_terms_end(Query $self, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_query_empty(Query $self, &handle-error (NativeError)) returns Bool is native('xapian-helper') { * }
-        my sub xapian_query_serialise(Query $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
-        my sub xapian_query_get_description(Query $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+        my sub xapian_query_new(&handle-error (NativeError)) returns Query is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_free(Query $self) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_new2(Str $tname_, &handle-error (NativeError)) returns Query is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_new3(Str $tname_, uint $wqf_, &handle-error (NativeError)) returns Query is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_new4(Str $tname_, uint $wqf_, uint $pos_, &handle-error (NativeError)) returns Query is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_new5(uint $op_, Query $left, Query $right, &handle-error (NativeError)) returns Query is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_new6(uint $op_, Str $left, Str $right, &handle-error (NativeError)) returns Query is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_new7(uint $op_, Query $q, num $parameter, &handle-error (NativeError)) returns Query is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_new8(uint $op_, uint $slot, Str $begin, Str $end, &handle-error (NativeError)) returns Query is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_new9(uint $op_, uint $slot, Str $value, &handle-error (NativeError)) returns Query is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_new10(PostingSource $external_source, &handle-error (NativeError)) returns Query is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_get_length(Query $self, &handle-error (NativeError)) returns uint is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_get_terms_begin(Query $self, &handle-error (NativeError)) returns TermIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_get_terms_end(Query $self, &handle-error (NativeError)) returns TermIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_empty(Query $self, &handle-error (NativeError)) returns Bool is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_serialise(Query $self, &handle-error (NativeError)) returns Str is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_get_description(Query $self, &handle-error (NativeError)) returns Str is native(resource-lib('xapian-helper')) { * }
 
         proto method new(|) returns Query { * }
 
@@ -2401,17 +2405,17 @@ module Xapian {
     }
 
     class MSetIterator is repr('CPointer') {
-        my sub xapian_mset_iterator_new(&handle-error (NativeError)) returns MSetIterator is native('xapian-helper') { * }
-        my sub xapian_mset_iterator_succ(MSetIterator $self, &handle-error (NativeError)) returns MSetIterator is native('xapian-helper') { * }
-        my sub xapian_mset_iterator_pred(MSetIterator $self, &handle-error (NativeError)) returns MSetIterator is native('xapian-helper') { * }
-        my sub xapian_mset_iterator_deref(MSetIterator $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_mset_iterator_get_document(MSetIterator $self, &handle-error (NativeError)) returns Document is native('xapian-helper') { * }
-        my sub xapian_mset_iterator_get_rank(MSetIterator $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_mset_iterator_get_weight(MSetIterator $self, &handle-error (NativeError)) returns num is native('xapian-helper') { * }
-        my sub xapian_mset_iterator_get_collapse_key(MSetIterator $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
-        my sub xapian_mset_iterator_get_collapse_count(MSetIterator $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_mset_iterator_get_percent(MSetIterator $self, &handle-error (NativeError)) returns int is native('xapian-helper') { * }
-        my sub xapian_mset_iterator_get_description(MSetIterator $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+        my sub xapian_mset_iterator_new(&handle-error (NativeError)) returns MSetIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_mset_iterator_succ(MSetIterator $self, &handle-error (NativeError)) returns MSetIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_mset_iterator_pred(MSetIterator $self, &handle-error (NativeError)) returns MSetIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_mset_iterator_deref(MSetIterator $self, &handle-error (NativeError)) returns uint is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_mset_iterator_get_document(MSetIterator $self, &handle-error (NativeError)) returns Document is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_mset_iterator_get_rank(MSetIterator $self, &handle-error (NativeError)) returns uint is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_mset_iterator_get_weight(MSetIterator $self, &handle-error (NativeError)) returns num is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_mset_iterator_get_collapse_key(MSetIterator $self, &handle-error (NativeError)) returns Str is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_mset_iterator_get_collapse_count(MSetIterator $self, &handle-error (NativeError)) returns uint is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_mset_iterator_get_percent(MSetIterator $self, &handle-error (NativeError)) returns int is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_mset_iterator_get_description(MSetIterator $self, &handle-error (NativeError)) returns Str is native(resource-lib('xapian-helper')) { * }
 
         method new() returns MSetIterator {
             my $ex;
@@ -2548,7 +2552,7 @@ module Xapian {
 
     }
 
-    my sub xapian_mset_iterator_equal(MSetIterator $a, MSetIterator $b, &handle-error (NativeError)) returns int is native('xapian-helper') { * }
+    my sub xapian_mset_iterator_equal(MSetIterator $a, MSetIterator $b, &handle-error (NativeError)) returns int is native(resource-lib('xapian-helper')) { * }
 
     multi sub infix:<eqv>(MSetIterator $a, MSetIterator $b) returns Bool is export {
         my $ex;
@@ -2558,33 +2562,33 @@ module Xapian {
     }
 
     class MSet is repr('CPointer') {
-        my sub xapian_mset_new(&handle-error (NativeError)) returns MSet is native('xapian-helper') { * }
-        my sub xapian_mset_free(MSet $self) is native('xapian-helper') { * }
-        my sub xapian_mset_fetch(MSet $self, MSetIterator $begin, MSetIterator $end, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_mset_fetch2(MSet $self, MSetIterator $item, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_mset_fetch3(MSet $self, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_mset_convert_to_percent(MSet $self, num $wt, &handle-error (NativeError)) returns int is native('xapian-helper') { * }
-        my sub xapian_mset_convert_to_percent2(MSet $self, MSetIterator $it, &handle-error (NativeError)) returns int is native('xapian-helper') { * }
-        my sub xapian_mset_get_termfreq(MSet $self, Str $tname, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_mset_get_termweight(MSet $self, Str $tname, &handle-error (NativeError)) returns num is native('xapian-helper') { * }
-        my sub xapian_mset_get_firstitem(MSet $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_mset_get_matches_lower_bound(MSet $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_mset_get_matches_estimated(MSet $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_mset_get_matches_upper_bound(MSet $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_mset_get_uncollapsed_matches_lower_bound(MSet $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_mset_get_uncollapsed_matches_estimated(MSet $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_mset_get_uncollapsed_matches_upper_bound(MSet $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_mset_get_max_possible(MSet $self, &handle-error (NativeError)) returns num is native('xapian-helper') { * }
-        my sub xapian_mset_get_max_attained(MSet $self, &handle-error (NativeError)) returns num is native('xapian-helper') { * }
-        my sub xapian_mset_size(MSet $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_mset_max_size(MSet $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_mset_empty(MSet $self, &handle-error (NativeError)) returns int is native('xapian-helper') { * }
-        my sub xapian_mset_swap(MSet $self, MSet $other, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_mset_begin(MSet $self, &handle-error (NativeError)) returns MSetIterator is native('xapian-helper') { * }
-        my sub xapian_mset_end(MSet $self, &handle-error (NativeError)) returns MSetIterator is native('xapian-helper') { * }
-        my sub xapian_mset_back(MSet $self, &handle-error (NativeError)) returns MSetIterator is native('xapian-helper') { * }
-        my sub xapian_mset_at_pos(MSet $self, uint $i, &handle-error (NativeError)) returns MSetIterator is native('xapian-helper') { * }
-        my sub xapian_mset_get_description(MSet $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+        my sub xapian_mset_new(&handle-error (NativeError)) returns MSet is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_mset_free(MSet $self) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_mset_fetch(MSet $self, MSetIterator $begin, MSetIterator $end, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_mset_fetch2(MSet $self, MSetIterator $item, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_mset_fetch3(MSet $self, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_mset_convert_to_percent(MSet $self, num $wt, &handle-error (NativeError)) returns int is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_mset_convert_to_percent2(MSet $self, MSetIterator $it, &handle-error (NativeError)) returns int is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_mset_get_termfreq(MSet $self, Str $tname, &handle-error (NativeError)) returns uint is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_mset_get_termweight(MSet $self, Str $tname, &handle-error (NativeError)) returns num is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_mset_get_firstitem(MSet $self, &handle-error (NativeError)) returns uint is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_mset_get_matches_lower_bound(MSet $self, &handle-error (NativeError)) returns uint is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_mset_get_matches_estimated(MSet $self, &handle-error (NativeError)) returns uint is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_mset_get_matches_upper_bound(MSet $self, &handle-error (NativeError)) returns uint is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_mset_get_uncollapsed_matches_lower_bound(MSet $self, &handle-error (NativeError)) returns uint is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_mset_get_uncollapsed_matches_estimated(MSet $self, &handle-error (NativeError)) returns uint is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_mset_get_uncollapsed_matches_upper_bound(MSet $self, &handle-error (NativeError)) returns uint is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_mset_get_max_possible(MSet $self, &handle-error (NativeError)) returns num is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_mset_get_max_attained(MSet $self, &handle-error (NativeError)) returns num is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_mset_size(MSet $self, &handle-error (NativeError)) returns uint is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_mset_max_size(MSet $self, &handle-error (NativeError)) returns uint is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_mset_empty(MSet $self, &handle-error (NativeError)) returns int is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_mset_swap(MSet $self, MSet $other, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_mset_begin(MSet $self, &handle-error (NativeError)) returns MSetIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_mset_end(MSet $self, &handle-error (NativeError)) returns MSetIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_mset_back(MSet $self, &handle-error (NativeError)) returns MSetIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_mset_at_pos(MSet $self, uint $i, &handle-error (NativeError)) returns MSetIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_mset_get_description(MSet $self, &handle-error (NativeError)) returns Str is native(resource-lib('xapian-helper')) { * }
 
         method new() returns MSet {
             my $ex;
@@ -2894,44 +2898,44 @@ module Xapian {
     }
 
     class Enquire is repr('CPointer') {
-        my sub xapian_enquire_new(Database $database, &handle-error (NativeError)) returns Enquire is native('xapian-helper') { * }
-        my sub xapian_enquire_new2(Database $database, ErrorHandler $errorhandler_, &handle-error (NativeError)) returns Enquire is native('xapian-helper') { * }
-        my sub xapian_enquire_free(Enquire $self) is native('xapian-helper') { * }
-        my sub xapian_enquire_set_query(Enquire $self, Query $query, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_enquire_set_query2(Enquire $self, Query $query, uint $qlen, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_enquire_get_query(Enquire $self, &handle-error (NativeError)) returns Query is native('xapian-helper') { * }
-        my sub xapian_enquire_add_matchspy(Enquire $self, MatchSpy $spy, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_enquire_clear_matchspies(Enquire $self, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_enquire_set_weighting_scheme(Enquire $self, Weight $weight_, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_enquire_set_collapse_key(Enquire $self, uint $collapse_key, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_enquire_set_collapse_key2(Enquire $self, uint $collapse_key, uint $collapse_max, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_enquire_set_docid_order(Enquire $self, uint $order, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_enquire_set_cutoff(Enquire $self, int $percent_cutoff, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_enquire_set_cutoff2(Enquire $self, int $percent_cutoff, num $weight_cutoff, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_enquire_set_sort_by_relevance(Enquire $self, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_enquire_set_sort_by_value(Enquire $self, uint $sort_key, int $reverse, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_enquire_set_sort_by_key(Enquire $self, KeyMaker $sorter, int $reverse, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_enquire_set_sort_by_value_then_relevance(Enquire $self, uint $sort_key, int $reverse, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_enquire_set_sort_by_key_then_relevance(Enquire $self, KeyMaker $sorter, int $reverse, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_enquire_set_sort_by_relevance_then_value(Enquire $self, uint $sort_key, int $reverse, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_enquire_set_sort_by_relevance_then_key(Enquire $self, KeyMaker $sorter, int $reverse, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_enquire_get_mset(Enquire $self, uint $first, uint $maxitems, &handle-error (NativeError)) returns MSet is native('xapian-helper') { * }
-        my sub xapian_enquire_get_mset2(Enquire $self, uint $first, uint $maxitems, uint $checkatleast, &handle-error (NativeError)) returns MSet is native('xapian-helper') { * }
-        my sub xapian_enquire_get_mset3(Enquire $self, uint $first, uint $maxitems, uint $checkatleast, RSet $omrset, &handle-error (NativeError)) returns MSet is native('xapian-helper') { * }
-        my sub xapian_enquire_get_mset4(Enquire $self, uint $first, uint $maxitems, uint $checkatleast, RSet $omrset, MatchDecider $mdecider, &handle-error (NativeError)) returns MSet is native('xapian-helper') { * }
-        my sub xapian_enquire_get_mset5(Enquire $self, uint $first, uint $maxitems, RSet $omrset, &handle-error (NativeError)) returns MSet is native('xapian-helper') { * }
-        my sub xapian_enquire_get_mset6(Enquire $self, uint $first, uint $maxitems, RSet $omrset, MatchDecider $mdecider, &handle-error (NativeError)) returns MSet is native('xapian-helper') { * }
-        my sub xapian_enquire_get_eset(Enquire $self, uint $maxitems, RSet $omrset, &handle-error (NativeError)) returns ESet is native('xapian-helper') { * }
-        my sub xapian_enquire_get_eset2(Enquire $self, uint $maxitems, RSet $omrset, int $flags, &handle-error (NativeError)) returns ESet is native('xapian-helper') { * }
-        my sub xapian_enquire_get_eset3(Enquire $self, uint $maxitems, RSet $omrset, int $flags, num $k, &handle-error (NativeError)) returns ESet is native('xapian-helper') { * }
-        my sub xapian_enquire_get_eset4(Enquire $self, uint $maxitems, RSet $omrset, int $flags, num $k, ExpandDecider $edecider, &handle-error (NativeError)) returns ESet is native('xapian-helper') { * }
-        my sub xapian_enquire_get_eset5(Enquire $self, uint $maxitems, RSet $omrset, ExpandDecider $edecider, &handle-error (NativeError)) returns ESet is native('xapian-helper') { * }
-        my sub xapian_enquire_get_eset6(Enquire $self, uint $maxitems, RSet $omrset, int $flags, num $k, ExpandDecider $edecider, num $min_wt, &handle-error (NativeError)) returns ESet is native('xapian-helper') { * }
-        my sub xapian_enquire_get_matching_terms_begin(Enquire $self, uint $did, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_enquire_get_matching_terms_end(Enquire $self, uint $_anon_1, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_enquire_get_matching_terms_begin2(Enquire $self, MSetIterator $it, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_enquire_get_matching_terms_end2(Enquire $self, MSetIterator $_anon_1, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_enquire_get_description(Enquire $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+        my sub xapian_enquire_new(Database $database, &handle-error (NativeError)) returns Enquire is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_new2(Database $database, ErrorHandler $errorhandler_, &handle-error (NativeError)) returns Enquire is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_free(Enquire $self) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_set_query(Enquire $self, Query $query, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_set_query2(Enquire $self, Query $query, uint $qlen, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_get_query(Enquire $self, &handle-error (NativeError)) returns Query is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_add_matchspy(Enquire $self, MatchSpy $spy, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_clear_matchspies(Enquire $self, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_set_weighting_scheme(Enquire $self, Weight $weight_, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_set_collapse_key(Enquire $self, uint $collapse_key, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_set_collapse_key2(Enquire $self, uint $collapse_key, uint $collapse_max, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_set_docid_order(Enquire $self, uint $order, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_set_cutoff(Enquire $self, int $percent_cutoff, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_set_cutoff2(Enquire $self, int $percent_cutoff, num $weight_cutoff, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_set_sort_by_relevance(Enquire $self, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_set_sort_by_value(Enquire $self, uint $sort_key, int $reverse, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_set_sort_by_key(Enquire $self, KeyMaker $sorter, int $reverse, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_set_sort_by_value_then_relevance(Enquire $self, uint $sort_key, int $reverse, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_set_sort_by_key_then_relevance(Enquire $self, KeyMaker $sorter, int $reverse, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_set_sort_by_relevance_then_value(Enquire $self, uint $sort_key, int $reverse, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_set_sort_by_relevance_then_key(Enquire $self, KeyMaker $sorter, int $reverse, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_get_mset(Enquire $self, uint $first, uint $maxitems, &handle-error (NativeError)) returns MSet is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_get_mset2(Enquire $self, uint $first, uint $maxitems, uint $checkatleast, &handle-error (NativeError)) returns MSet is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_get_mset3(Enquire $self, uint $first, uint $maxitems, uint $checkatleast, RSet $omrset, &handle-error (NativeError)) returns MSet is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_get_mset4(Enquire $self, uint $first, uint $maxitems, uint $checkatleast, RSet $omrset, MatchDecider $mdecider, &handle-error (NativeError)) returns MSet is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_get_mset5(Enquire $self, uint $first, uint $maxitems, RSet $omrset, &handle-error (NativeError)) returns MSet is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_get_mset6(Enquire $self, uint $first, uint $maxitems, RSet $omrset, MatchDecider $mdecider, &handle-error (NativeError)) returns MSet is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_get_eset(Enquire $self, uint $maxitems, RSet $omrset, &handle-error (NativeError)) returns ESet is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_get_eset2(Enquire $self, uint $maxitems, RSet $omrset, int $flags, &handle-error (NativeError)) returns ESet is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_get_eset3(Enquire $self, uint $maxitems, RSet $omrset, int $flags, num $k, &handle-error (NativeError)) returns ESet is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_get_eset4(Enquire $self, uint $maxitems, RSet $omrset, int $flags, num $k, ExpandDecider $edecider, &handle-error (NativeError)) returns ESet is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_get_eset5(Enquire $self, uint $maxitems, RSet $omrset, ExpandDecider $edecider, &handle-error (NativeError)) returns ESet is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_get_eset6(Enquire $self, uint $maxitems, RSet $omrset, int $flags, num $k, ExpandDecider $edecider, num $min_wt, &handle-error (NativeError)) returns ESet is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_get_matching_terms_begin(Enquire $self, uint $did, &handle-error (NativeError)) returns TermIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_get_matching_terms_end(Enquire $self, uint $_anon_1, &handle-error (NativeError)) returns TermIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_get_matching_terms_begin2(Enquire $self, MSetIterator $it, &handle-error (NativeError)) returns TermIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_get_matching_terms_end2(Enquire $self, MSetIterator $_anon_1, &handle-error (NativeError)) returns TermIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_enquire_get_description(Enquire $self, &handle-error (NativeError)) returns Str is native(resource-lib('xapian-helper')) { * }
 
         proto method new(|) returns Enquire { * }
 
@@ -3456,29 +3460,29 @@ module Xapian {
     class ValueRangeProcessor is repr('CPointer') { }
 
     class QueryParser is repr('CPointer') {
-        my sub xapian_query_parser_new(&handle-error (NativeError)) returns QueryParser is native('xapian-helper') { * }
-        my sub xapian_query_parser_free(QueryParser $self) is native('xapian-helper') { * }
-        my sub xapian_query_parser_set_stemmer(QueryParser $self, Stem $stemmer, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_query_parser_set_stemming_strategy(QueryParser $self, uint $strategy, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_query_parser_set_stopper(QueryParser $self, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_query_parser_set_stopper2(QueryParser $self, Stopper $stop, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_query_parser_set_default_op(QueryParser $self, uint $default_op, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_query_parser_get_default_op(QueryParser $self, &handle-error (NativeError)) returns uint is native('xapian-helper') { * }
-        my sub xapian_query_parser_set_database(QueryParser $self, Database $db, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_query_parser_set_max_wildcard_expansion(QueryParser $self, uint $limit, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_query_parser_parse_query(QueryParser $self, Str $query_string, &handle-error (NativeError)) returns Query is native('xapian-helper') { * }
-        my sub xapian_query_parser_parse_query2(QueryParser $self, Str $query_string, uint $flags, &handle-error (NativeError)) returns Query is native('xapian-helper') { * }
-        my sub xapian_query_parser_parse_query3(QueryParser $self, Str $query_string, uint $flags, Str $default_prefix, &handle-error (NativeError)) returns Query is native('xapian-helper') { * }
-        my sub xapian_query_parser_add_prefix(QueryParser $self, Str $field, Str $prefix, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_query_parser_add_boolean_prefix(QueryParser $self, Str $field, Str $prefix, int $exclusive, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_query_parser_add_boolean_prefix2(QueryParser $self, Str $field, Str $prefix, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_query_parser_stoplist_begin(QueryParser $self, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_query_parser_stoplist_end(QueryParser $self, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_query_parser_unstem_begin(QueryParser $self, Str $term, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_query_parser_unstem_end(QueryParser $self, Str $_anon_1, &handle-error (NativeError)) returns TermIterator is native('xapian-helper') { * }
-        my sub xapian_query_parser_add_valuerangeprocessor(QueryParser $self, ValueRangeProcessor $vrproc, &handle-error (NativeError)) is native('xapian-helper') { * }
-        my sub xapian_query_parser_get_corrected_query_string(QueryParser $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
-        my sub xapian_query_parser_get_description(QueryParser $self, &handle-error (NativeError)) returns Str is native('xapian-helper') { * }
+        my sub xapian_query_parser_new(&handle-error (NativeError)) returns QueryParser is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_parser_free(QueryParser $self) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_parser_set_stemmer(QueryParser $self, Stem $stemmer, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_parser_set_stemming_strategy(QueryParser $self, uint $strategy, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_parser_set_stopper(QueryParser $self, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_parser_set_stopper2(QueryParser $self, Stopper $stop, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_parser_set_default_op(QueryParser $self, uint $default_op, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_parser_get_default_op(QueryParser $self, &handle-error (NativeError)) returns uint is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_parser_set_database(QueryParser $self, Database $db, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_parser_set_max_wildcard_expansion(QueryParser $self, uint $limit, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_parser_parse_query(QueryParser $self, Str $query_string, &handle-error (NativeError)) returns Query is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_parser_parse_query2(QueryParser $self, Str $query_string, uint $flags, &handle-error (NativeError)) returns Query is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_parser_parse_query3(QueryParser $self, Str $query_string, uint $flags, Str $default_prefix, &handle-error (NativeError)) returns Query is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_parser_add_prefix(QueryParser $self, Str $field, Str $prefix, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_parser_add_boolean_prefix(QueryParser $self, Str $field, Str $prefix, int $exclusive, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_parser_add_boolean_prefix2(QueryParser $self, Str $field, Str $prefix, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_parser_stoplist_begin(QueryParser $self, &handle-error (NativeError)) returns TermIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_parser_stoplist_end(QueryParser $self, &handle-error (NativeError)) returns TermIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_parser_unstem_begin(QueryParser $self, Str $term, &handle-error (NativeError)) returns TermIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_parser_unstem_end(QueryParser $self, Str $_anon_1, &handle-error (NativeError)) returns TermIterator is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_parser_add_valuerangeprocessor(QueryParser $self, ValueRangeProcessor $vrproc, &handle-error (NativeError)) is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_parser_get_corrected_query_string(QueryParser $self, &handle-error (NativeError)) returns Str is native(resource-lib('xapian-helper')) { * }
+        my sub xapian_query_parser_get_description(QueryParser $self, &handle-error (NativeError)) returns Str is native(resource-lib('xapian-helper')) { * }
 
         method new() returns QueryParser {
             my $ex;
