@@ -13,7 +13,7 @@
         "source": "https://github.com/hoelzro/p6-xapian"
     },
     "resources": {
-      "lib/xapian-helper.so": "resources/lib/xapian-helper.so",
+      "lib/xapian-helper.so": "resources/lib/xapian-helper.so"
     },
     "license": "https://www.gnu.org/licenses/gpl-2.0.html",
     "tags": ["xapian", "text", "search"]
