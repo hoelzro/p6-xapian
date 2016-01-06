@@ -18,7 +18,7 @@
 use v6;
 use NativeCall;
 
-module Xapian {
+module Xapian:auth<github:hoelzro>:ver<0.1.0> {
     constant DB_CREATE_OR_OPEN      = 1;
     constant DB_CREATE              = 2;
     constant DB_CREATE_OR_OVERWRITE = 3;
