@@ -4,7 +4,7 @@
     "description": "Bindings to Xapian search library",
     "authors": ["Rob Hoelz"],
     "depends": ["LibraryMake"],
-    "source-url": "git://github.com/hoelzro/p6-xapian",
+    "source-url": "https://github.com/hoelzro/p6-xapian",
     "provides": {
         "Xapian": "lib/Xapian.pm"
     },
