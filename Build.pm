@@ -1,10 +1,10 @@
 use v6;
 
 use Panda::Builder;
-use LibraryMake;
+use Native::Resources::Build;
 
 class Build is Panda::Builder {
     method build($workdir) {
-        make($workdir, $workdir);
+        make($workdir, "$workdir/resources/lib", :libname<xapian-helper>);
     }
 }
