@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "description": "Bindings to Xapian search library",
     "authors": ["Rob Hoelz"],
-    "depends": ["Native::Resources"],
+    "depends": ["LibraryMake", "Shell::Command"],
     "source-url": "https://github.com/hoelzro/p6-xapian.git",
     "provides": {
         "Xapian": "lib/Xapian.pm"
@@ -12,11 +12,9 @@
         "bugtracker": "https://github.com/hoelzro/p6-xapian/issues",
         "source": "https://github.com/hoelzro/p6-xapian"
     },
-    "resources": {
-      "lib/libxapian-helper.so": "resources/lib/libxapian-helper.so",
-      "lib/libxapian-helper.dll": "resources/lib/libxapian-helper.dll",
-      "lib/libxapian-helper.dylib": "resources/lib/libxapian-helper.dylib"
-    },
+    "resources": [
+       "libraries/xapian-helper"
+    ],
     "license": "https://www.gnu.org/licenses/gpl-2.0.html",
     "tags": ["xapian", "text", "search"]
 }

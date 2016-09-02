@@ -30,11 +30,11 @@ XAPIAN_OBJECTS = 		\
     xapian-termiterator%O%	\
     xapian-writable-database%O%
 
-all: resources/lib/libxapian-helper%SO% %FAKESO%
+all: %helper%
 
-resources/lib/libxapian-helper%SO%: $(XAPIAN_OBJECTS)
-	perl6 -e 'mkdir "resources"; mkdir "resources/lib"'
-	$(CXX) %LDSHARED% %LDFLAGS% %LDOUT%resources/lib/libxapian-helper%SO% $(XAPIAN_OBJECTS) %LIBS% %LDUSR%xapian
+%helper%: $(XAPIAN_OBJECTS)
+	perl6 -e 'mkdir "resources"; mkdir "resources/libraries"'
+	$(CXX) %LDSHARED% %LDFLAGS% %LDOUT%%helper% $(XAPIAN_OBJECTS) %LIBS% %LDUSR%xapian
 
 %%O%: %.cpp
 	$(CXX) -c %CCSHARED% %CCFLAGS% $^
